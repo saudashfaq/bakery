@@ -154,7 +154,7 @@ class ProductionController extends Controller
 
 
 //dd();
-//            var_dump("used".$used_quantity); in use vardump
+//            var_dump("used".$used_quantity); useto
 //
 //            $stockis = Stock::get('quantity');
 ////
@@ -164,13 +164,16 @@ class ProductionController extends Controller
             foreach ($stocks as $stock){
                 $extra_quntiy = $stock->quantity - $used_quantity;
 
+                /*stock qty kam hai > used qty*/
                 $check = $stock->quantity < $used_quantity;
-               /*stock qty kam hai > used qty*/
+//                var_dump('extrastock'.$extra_quntiy); useto
+//                var_dump($check);
+//                dd('stop');
                 if ($check){
-                    return 'quantity is Less that entered';
-//                    dump('sorry');
-//                    echo 'sorry';
-                    break;
+//                    return route('show.products')->with('error' ,'quantity is Less that entered');
+                    return redirect()->route('show.products')->with('error', ' quantity is Less that entered, Please Manage your raw material ');
+//
+//                    break;
                 }
                 else{
                     $inventory->product_id = $products->id;
@@ -179,7 +182,7 @@ class ProductionController extends Controller
                     return "produce Succesfully ";
                 }
 
-//                var_dump('extrastock'.$extra_quntiy); in use vardump
+                var_dump('extrastock'.$extra_quntiy);
 
                 /*stock qty zyda hai > used qty*/
                /* if ($stock->quantity > $used_quantity){

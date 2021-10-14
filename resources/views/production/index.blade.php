@@ -4,36 +4,15 @@
     @include('inc.sidebar')
     <div class="main">
 {{--<h1> this is products index page</h1>--}}
-
+{{--for successs and error messages --}}
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
 
         @foreach($products as $product )
 
-{{--            <pre></pre>--}}
-{{--            {{gettype($product['recipe'])}}--}}
-{{--            {{$count = !empty($product['recipe']) ? count($product['recipe']): 0}}--}}
-{{--            {{dump([123, 34])}}--}}
-{{--            {{dump($product['recipe'])}}--}}
-{{--        <br>--}}
-{{--        <br>--}}
-{{--        <br>--}}
-{{--        @for($i = $count-1; $i > 0; $i--)--}}
-{{--            {{var_dump($product['recipe'][$i]['item'])}}--}}
-{{--            {{$product['recipe'][$i]['item']}}--}}
-{{--            <br>--}}
-{{--            {{$product['recipe'][$i]['quantity']}}--}}
-{{--            <br>--}}
-{{--                {{$product['recipe'][$i]['unit']}}--}}
-
-
-{{--                @endfor--}}
-{{--            {{dump($product['recipe'])}}--}}
-{{--            @foreach($product['recipe'] as $p)--}}
-{{--                {{var_dump($p)}}--}}
-{{--            @endforeach--}}
-{{--                 @continue(1);--}}
-
-{{--            {{dd($product->recipe)}}--}}
-{{--            <div class="container bootdey">--}}
                 <div class="col-md-13">
                     <section class="panel">
                         <div class="panel-body">

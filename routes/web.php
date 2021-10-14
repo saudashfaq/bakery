@@ -40,7 +40,7 @@ Route::get('/update' , function (){
         Route::get('/history' ,'App\Http\Controllers\HistoryController@showHistory' );
 
         //route for product create.....
-        Route::get('/showproduct' ,'App\Http\Controllers\ProductionController@index');
+        Route::get('/showproduct' ,'App\Http\Controllers\ProductionController@index')->name('show.products');
         Route::get('/createproduct' ,'App\Http\Controllers\ProductionController@createProduct');
         Route::post('/storeProduct' ,'App\Http\Controllers\ProductionController@storeProduct')->name('storeProduct.product');
         Route::get('/showrecipe/{id}' ,'App\Http\Controllers\ProductionController@show')->name('show.recipe');
