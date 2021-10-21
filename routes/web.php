@@ -47,8 +47,14 @@ Route::get('/update' , function (){
         /*rout for inventory*/
         Route::get('produceproduct/{id}' ,'App\Http\Controllers\ProductionController@produce' )->name('produce.product');
         Route::post('/storeProducedProduct/{id}' ,'App\Http\Controllers\ProductionController@storeProducedProduct')->name('storeProduced.Product');
-
+        Route::get('showinventory' ,'App\Http\Controllers\ProductionController@showInventory' )->name('inventory');
 
     Auth::routes();
 
         Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index');
+
+
+        ///test
+     Route::get('sidebar', function (){
+         return view('index');
+     });

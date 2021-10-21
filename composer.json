@@ -16,6 +16,7 @@
         "laravelcollective/html": "^6.2",
         "owen-it/laravel-auditing": "^12.0",
         "yajra/laravel-datatables-oracle": "~9.0",
+        "olifolkerd/convertor": "dev-master",
       "ext-json": "*"
     },
     "require-dev": {
@@ -64,5 +65,13 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/olifolkerd/convertor"
+        }
+    ]
+
 }

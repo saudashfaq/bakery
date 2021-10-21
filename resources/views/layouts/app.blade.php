@@ -69,10 +69,12 @@
 
 @show
 
-@include('inc/navbar')
+@include('inc.navbar')
+{{--@include('inc.sidebar')--}}
 <div class="container">
-
-    @include('inc.messages')
+    <div class="main">
+        @include('inc.messages')
+    </div>
     {{--@include('inc/navbar')--}}
     @yield('content')
 </div>

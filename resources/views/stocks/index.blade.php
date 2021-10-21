@@ -2,6 +2,7 @@
 
 @section('content')
     @include('inc.sidebar')
+{{--    @include('inc.sidetemplate')--}}
     <div class="main">
 
     <div class="row">

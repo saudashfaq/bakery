@@ -8,15 +8,21 @@ use App\Models\Product;
 use App\Models\Production;
 use App\Models\Stock;
 use App\Models\Unit;
+use Doctrine\DBAL\Portability\Converter;
+use Facade\FlareClient\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Validator;
+use Olifolkerd\Convertor\ConversionRepository;
+use Olifolkerd\Convertor\Convertor;
+
 
 
 class ProductionController extends Controller
 {
     public function index (){
         $products  = Product::latest()->with('category')->get();
+
 
 //        $products  = Product::where('recipe->item')->get();
 //        dd($products);
@@ -81,7 +87,6 @@ class ProductionController extends Controller
 
         //validations
         $products = new Product();
-//        $stocks = new Stock();
 
         $this->validate($request, [
             'title' => 'required',
@@ -142,262 +147,106 @@ class ProductionController extends Controller
             ]);
 
         $products = Product::find($id);
-        $inventory = new Inventory();
+        $inventories = Inventory::where('product_id' ,"=", $id)->get();
+
+
+//        $inventory = Inventory::find();
 //        $stocks = new Stock();
 
         /**/
+//        dd($products->recipe);
         foreach($products->recipe as $key => $value) {
-//            dd($value['quantity']);
-//            var_dump( $value['quantity']);
-      ;
+
+
             $used_quantity = $value['quantity'] * $request->input('require_quantity');
 
 
-//dd();
 //            var_dump("used".$used_quantity); useto
-//
-//            $stockis = Stock::get('quantity');
-////
-//            dd($stocks);
+
             $stocks = Stock::where('id', $value['item'])->get();
 
+//sr Ad
+          /*  if(!empty($stocks) ) {
+                return'ok';
+                if($stocks->quantity > 0 ) {
+                        }
+            }*/
+
+
+            //$stockNotMatch = Stock::where('id', '=' , $value['item'])->count();
             foreach ($stocks as $stock){
-                $extra_quntiy = $stock->quantity - $used_quantity;
+//                $extra_quntiy = $stock->quantity - $used_quantity;
 
-                /*stock qty kam hai > used qty*/
+                /*stock qty leesthan  > used qty*/
                 $check = $stock->quantity < $used_quantity;
-//                var_dump('extrastock'.$extra_quntiy); useto
-//                var_dump($check);
-//                dd('stop');
-                if ($check){
-//                    return route('show.products')->with('error' ,'quantity is Less that entered');
-                    return redirect()->route('show.products')->with('error', ' quantity is Less that entered, Please Manage your raw material ');
+                if (!empty($stock)) {
+
+                    if ($check) {
+                        return redirect()->route('show.products')->with('error', ' quantity is Less that entered, Please Manage your raw material ');
+
+                    }
+                    else{
+                        foreach ($inventories as $invnt) {
+
+
+                            $inventory = Inventory::updateOrCreate([
+                                'product_id' => $products->id,
+
+                            ], [
+                                'product_id' => $products->id,
+                                'finished_goods' => $request->get('require_quantity') + $invnt->finished_goods
+
+
+                            ]);
+
+                        }
+
+                  /*      $inventory->product_id = $products->id;
+                        $inventory->finished_goods = $request->input('require_quantity');
+
+                        $inventory->save();
+//                    $inventory->save();*/
+
+
+                        return redirect()->route('inventory')->with('success' , 'Produced Successfully');
+                    }
+                }
+
+//                if (empty($stocks)){
+//                   echo 'sorry item not founds';
+//                }
+
+
+
+//                /*item not found in raw material */
+//               elseif ($stockNotMatch){
+//                    return redirect()->route('show.products')->with('error', 'item Not found in Raw Material');
 //
-//                    break;
-                }
-                else{
-                    $inventory->product_id = $products->id;
-                    $inventory->finished_goods = $request->input('require_quantity');
-                    $inventory->save();
-                    return "produce Succesfully ";
-                }
-
-                var_dump('extrastock'.$extra_quntiy);
-
-                /*stock qty zyda hai > used qty*/
-               /* if ($stock->quantity > $used_quantity){
-
-                    echo "ok";
-                }*/
-
-
-//                var_dump($stock->quantity - $used_quantity);
+//                }
+//                else{
+//                    $inventory->product_id = $products->id;
+//                    $inventory->finished_goods = $request->input('require_quantity');
+//                    $inventory->save();
+////                    return "produce Succesfully ";
+//                }
 
         }
-// $stocks->update();
-//            dd( $value['item']);
-//            dd($stocks);
 
 
             /*
                 $inventory->product_id = $products->id;
                 $inventory->finished_goods = $request->input('require_quantity');
                 $inventory->save();*/
-
-
-
-
-
         }
 
 
     }
 
+    public function showInventory(){
+        $inventories = Inventory::latest()->with('product')->get();
 
+        return view('inventory.showinventory')->with("inventories",$inventories);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        'category_id' => request('category_id'),
-
-//            'quantity' => request('quantity'),
-
-//            'unit' => request('interests'),
-//            $products->image=>$filename,
-//            'item' => json_encode($items),
-//            'hobbies' => json_encode($hobbies),
-//dd($products);
-//        ..........................................................................
-//        $filename = time().'.'.request()->image->getClientOriginalExtension();
-//        request()->image->move(public_path('images'), $filename);
-
-//
-//        $products->title = $request->input('title');
-//        $products->description = $request->input('description');
-//        $products->size = $request->input('size');
-//        $products->category_id = $request->input('category_id');
-////        $products->item = $request->input('item');
-////        $products->quantity = $request->input('quantity');
-////        $products->unit = $request->input('unit');
-//        $item = $request->input('item');
-//        $quantity = $request->input('quantity');
-//        $unit = $request->input('unit');
-//        $insert_data = [];
-//
-//        //Images
-//        $filename = time().'.'.request()->image->getClientOriginalExtension();
-//        request()->image->move(public_path('images'), $filename);
-//
-//
-//
-//
-//
-//        for($count = 0; $count < count($item); $count++) {
-//            $data = array(
-//                'item' => $item[$count],
-//                'quantity' => $quantity[$count],
-//                'unit' => $unit[$count]
-//            );
-////            array_push($insert_data , $data);
-//        }
-//        $products->item = $data['item'];
-//        $products->quantity =$data['quantity'];
-//       $products->unit = $data['unit'];
-//
-//        $products->image=$filename;
-//        $products->save();
-//..................................................................................................
-//        .........................................
-        // image uploads
-//        $image = $request->image;
-////        dd($image);
-//        if ($image){
-//            $imageName = $image->getClientOriginalName();
-//            $image->move('images' , $imageName);
-//            $formInput['image'] = $imageName;
-////            dd($imageName);
-//            Product::create($formInput);
-////            return $formInput;
-//
-//            return 'ok';
-////            return redirect('/products')->with('message' , 'products created Syccessfully');
-//        }
-
-
-
-// /........................................
-
-//        if($request->ajax())
-//        {
-//            $rules = array(
-//                'item.*'  => 'required',
-//                'quantity.*'  => 'required',
-//                'unit.*'  => 'required'
-//            );
-//            $error = Validator::make($request->all(), $rules);
-//            if($error->fails())
-//            {
-//                return response()->json([
-//                    'error'  => $error->errors()->all()
-//                ]);
-//            }
-//            $item = $request->item;
-//            $quantity = $request->quantity;
-//            $unit = $request->unit;
-//            $insert_data = [];
-////            dd($product,$quantity,$unit);
-////            dd($request->all());
-//            for($count = 0; $count < count($item); $count++)
-//            {
-//                $data = array(
-//                    'item' => $item[$count],
-//                    'quantity'  => $quantity[$count],
-//                    'unit'  => $unit[$count]
-//                );
-//                array_push($insert_data , $data);
-//            }
-////dd('formdata',$formInput);
-//             $p = Product::insert( $formInput );
-//            dd($p);
-//
-//            return response()->json([
-//                'success'  => 'Data Added successfully.'
-//            ]);
-//        }
-
-
-
-
-
-
-    /*
-    public   function insert(Request $request)
-    {
-        if($request->ajax())
-        {
-            $rules = array(
-                'product.*'  => 'required',
-                'quantity.*'  => 'required',
-                'unit.*'  => 'required'
-            );
-            $error = Validator::make($request->all(), $rules);
-            if($error->fails())
-            {
-                return response()->json([
-                    'error'  => $error->errors()->all()
-                ]);
-            }
-
-            $product = $request->product;
-            $quantity = $request->quantity;
-            $unit = $request->unit;
-            for($count = 0; $count < count($product); $count++)
-            {
-                $data = array(
-                    'product' => product[$count],
-                    'quantity'  => quantity[$count],
-                    'unite'  => unit[$count]
-                );
-                $insert_data[] = $data;
-            }
-
-            Production::insert($insert_data);
-//            return response()->json([
-//                'success'  => 'Data Added successfully.'
-//            ]);
-            return "ok";
-        }
-
-//
-//
-//            $product = $request->input('product');
-//            $quantity = $request->input('quantity');
-//            $unit = $request->input('unit_id');
-////            'unit_id' => 'required',
-////            'quantity' => 'required'
-//
-//
-//
-            return 'Run ';
-
-    }*/
+    }
 
 }
