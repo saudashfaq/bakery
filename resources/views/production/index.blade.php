@@ -4,36 +4,15 @@
     @include('inc.sidebar')
     <div class="main">
 {{--<h1> this is products index page</h1>--}}
-
+{{--for successs and error messages --}}
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
 
         @foreach($products as $product )
 
-{{--            <pre></pre>--}}
-{{--            {{gettype($product['recipe'])}}--}}
-{{--            {{$count = !empty($product['recipe']) ? count($product['recipe']): 0}}--}}
-{{--            {{dump([123, 34])}}--}}
-{{--            {{dump($product['recipe'])}}--}}
-{{--        <br>--}}
-{{--        <br>--}}
-{{--        <br>--}}
-{{--        @for($i = $count-1; $i > 0; $i--)--}}
-{{--            {{var_dump($product['recipe'][$i]['item'])}}--}}
-{{--            {{$product['recipe'][$i]['item']}}--}}
-{{--            <br>--}}
-{{--            {{$product['recipe'][$i]['quantity']}}--}}
-{{--            <br>--}}
-{{--                {{$product['recipe'][$i]['unit']}}--}}
-
-
-{{--                @endfor--}}
-{{--            {{dump($product['recipe'])}}--}}
-{{--            @foreach($product['recipe'] as $p)--}}
-{{--                {{var_dump($p)}}--}}
-{{--            @endforeach--}}
-{{--                 @continue(1);--}}
-
-{{--            {{dd($product->recipe)}}--}}
-{{--            <div class="container bootdey">--}}
                 <div class="col-md-13">
                     <section class="panel">
                         <div class="panel-body">
@@ -46,15 +25,7 @@
 {{--                                    <a href="#">--}}
 {{--                                        <img src="https://via.placeholder.com/115x100/87CEFA/000000" alt="">--}}
 {{--                                    </a>--}}
-{{--                                    <a href="#">--}}
-{{--                                        <img src="https://via.placeholder.com/115x100/FF7F50/000000" alt="">--}}
-{{--                                    </a>--}}
-{{--                                    <a href="#">--}}
-{{--                                        <img src="https://via.placeholder.com/115x100/20B2AA/000000" alt="">--}}
-{{--                                    </a>--}}
-{{--                                    <a href="#">--}}
-{{--                                        <img src="https://via.placeholder.com/120x100/20B2AA/000000" alt="">--}}
-{{--                                    </a>--}}
+{{--
 {{--                                </div>--}}
                             </div>
                             <div class="col-md-6">
@@ -83,63 +54,7 @@
                                 {{--        <br>--}}
                                 {{--        <br>--}}
                                     <br>
-{{--                                    {{dd($product->recipe)}}--}}
-{{--                                    {{dd($product['recipe'])}}--}}
-                        <!-- ....................................................-->
-{{--                                    @foreach($product->recipe as $key => $value)--}}
-{{--                                        {{$value['quantity']}}--}}
 
-{{--                                    @endforeach--}}
-{{--                                    {{dd('stop')}}--}}
-                        <!--  .................................................... -->
-{{--                                @for($i = $count-1; $i > 0; $i--)--}}
-
-{{--                                    --}}{{--            {{var_dump($product['recipe'][$i]['item'])}}--}}
-{{--                                    <br>--}}
-{{--                                    {{$product['recipe'][$i]['item']}}--}}
-{{--                                    <br>--}}
-{{--                                                {{'Quantity' . $product['recipe'][$i]['quantity']}}--}}
-{{--                                                <br>--}}
-{{--                                                    {{$product['recipe'][$i]['unit']}}--}}
-
-
-{{--                                    @endfor--}}
-                                    {{--            {{dump($product['recipe'])}}--}}
-                                    {{--            @foreach($product['recipe'] as $p)--}}
-                                    {{--                {{var_dump($p)}}--}}
-                                    {{--            @endforeach--}}
-                                    {{--                 @continue(1);--}}
-
-
-
-
-
-                                    {{--                                    {{$product->recipe}}--}}
-
-{{--                                    {{var_dump(json_decode($product->recipe))}}--}}
-
-
-{{--                                    {{$recipe = json_decode($product['recipe'], true)}}--}}
-{{--                                    {{var_dump($product['recipe'])}}--}}
-
-{{--                                        {{dd($recipe  )}}--}}
-{{--                                    {{$recipe = json_decode($product['recipe'], true)}}--}}
-
-{{--                                        <ul>{{gettype($recipe)}}--}}
-{{--                                            {{dump($product['recipe'])}}--}}
-{{--                                            @foreach($recipe as $index => $rs)--}}
-{{--                                                <li> {{$index}}  {{dump($rs)}}</li>--}}
-{{--                                            @endforeach--}}
-{{--                                        </ul>--}}
-
-{{--                                    {{($product->recipe[0]["item"])}}--}}
-{{----}}
-
-{{--                                    @foreach ($product->recipe as $key =>  $w)--}}
-{{--                                        {{ $key }}--}}
-{{--                                    @endforeach--}}
-
-{{--                                    Praesent ac condimentum felis. Nulla at nisl orci, at dignissim dolor, The best product descriptions address your ideal buyer directly and personally. The best product descriptions address your ideal buyer directly and personally.--}}
                                 </p>
 
                     <div class="product_meta">
@@ -147,20 +62,12 @@
                         <span class="posted_in"> <strong>Categories:</strong> {{$product->category->name}}</span>
                         <span class="tagged_as"><strong>Size:</strong> {{$product->size}}.</span>
                     </div>
-{{--                                <div class="m-bot15"> <strong>Price : </strong> <span class="amount-old">$544</span>  <span class="pro-price"> $300.00</span></div>--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label>Quantity</label>--}}
-{{--                                    <input type="quantiy" placeholder="1" class="form-control quantity">--}}
-{{--                                </div>--}}
+{{--
                     <p>
                         {{-- Buttons --}}
             <form action="{{ route('stocks.destroy', $product->id) }}" method="POST">
 
-                            <!-- Button for show Recipe per piece  -->
-{{--                    <a data-toggle="modal" id="smallButton" data-target="#smallModal"--}}
-{{--                       data-attr="{{ route('show.recipe', $product->id) }}" title="show"  class="btn btn-round btn-danger" type="button">--}}
-{{--                        <i class="fas fa-eye text-successn  fa-lg"></i> Show Recipe--}}
-{{--                    </a>--}}
+
 
                 <!-- Button for show Recipe per piece  -->
                     <a class="text-secondary  btn btn-round btn-danger" type="button"  data-toggle="modal" id="mediumButton" data-target="#mediumModal"
@@ -309,12 +216,3 @@
     </div>
 
 @endsection
-{{--...............OLD................--}}
-{{--<div>--}}
-{{--    {{$product->title}}--}}
-{{--    {{$product->description}}--}}
-{{--    {{$product->size}}--}}
-{{--    <img src="{{url('images', $product->image) }}" width="200" height="200">--}}
-{{--    --}}{{--                {{$product->image}}--}}
-{{--    {{$product->recipe}}--}}
-{{--</div>--}}

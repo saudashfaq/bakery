@@ -10,9 +10,6 @@
                 <div class="pull-left">
                     <h1>History </h1>
                 </div>
-
-
-
             </div>
         </div>
 

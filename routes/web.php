@@ -40,15 +40,21 @@ Route::get('/update' , function (){
         Route::get('/history' ,'App\Http\Controllers\HistoryController@showHistory' );
 
         //route for product create.....
-        Route::get('/showproduct' ,'App\Http\Controllers\ProductionController@index');
+        Route::get('/showproduct' ,'App\Http\Controllers\ProductionController@index')->name('show.products');
         Route::get('/createproduct' ,'App\Http\Controllers\ProductionController@createProduct');
         Route::post('/storeProduct' ,'App\Http\Controllers\ProductionController@storeProduct')->name('storeProduct.product');
         Route::get('/showrecipe/{id}' ,'App\Http\Controllers\ProductionController@show')->name('show.recipe');
         /*rout for inventory*/
         Route::get('produceproduct/{id}' ,'App\Http\Controllers\ProductionController@produce' )->name('produce.product');
         Route::post('/storeProducedProduct/{id}' ,'App\Http\Controllers\ProductionController@storeProducedProduct')->name('storeProduced.Product');
-
+        Route::get('showinventory' ,'App\Http\Controllers\ProductionController@showInventory' )->name('inventory');
 
     Auth::routes();
 
         Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index');
+
+
+        ///test
+     Route::get('sidebar', function (){
+         return view('index');
+     });
