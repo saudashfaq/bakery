@@ -31,7 +31,7 @@
         <thead class="thead-dark">
         <tr>
             <th>sr#</th>
-            <th>Products</th>
+            <th>Items</th>
             <th>Price</th>
             <th>Unit</th>
             <th>Quantity</th>
@@ -44,7 +44,7 @@
             <tr>
 {{--                {{dd($stock)}}--}}
                 <td>{{ ++$i }}</td>
-                <td>{{$stock->product}}</td>
+                <td>{{$stock->items}}</td>
                 <td>{{$stock->price}}</td>
                 <td>{{$stock->unit->name}}</td>
 {{--                <td>{{$stock->unit_id}}</td>--}}
@@ -64,9 +64,10 @@
                             <i class="fas fa-edit text-gray-300"></i>
                         </a>
 
+
                         @csrf
                         @method('DELETE')
-{{--{{$name= $stock->product}}--}}
+
                         <button type="submit" onclick="return deleteAlert()" title="delete" style="border: none; background-color:transparent;">
                             <i class="fas fa-trash fa-lg text-danger"></i>
                         </button>
@@ -75,6 +76,12 @@
                         <a class="text-secondary" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
                            data-attr="{{ route('stock-add-page', $stock->id) }} " title=" upadte stock">
                             <i class="fa fa-plus" style="font-size:24px"></i>
+                        </a>
+            <!-- for show history by items id   -->
+                        <a class="text-secondary"
+
+                           href="{{ route('history.byid', $stock->id) }}"  title="History">
+                            <i class="fa fa-history text-success " style="font-size:22px;"></i>
                         </a>
 
                     </form>

@@ -36,19 +36,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($inventories as $inventory)
-                    <tr>
-{{--                        <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>--}}
-                        <td><img src="{{url('images', $inventory->product->image) }}" alt="cake image"  width="130" height="75" ></td>
-                        <td>{{$inventory->product->title}}</td>
-{{--                        <td> In Stock</td>--}}
-{{--                        <td> In Stock</td>--}}
+                    @foreach ($inventories as $inventory)
+
+                        <td><img src="{{url('images', $inventory->products->parent_product->image) }}" alt="cake image"  width="130" height="75" ></td>
+                        <td>{{$inventory->products->parent_product->title}}</td>
+
                         @if($inventory->finished_goods > 0)
                             <td> In Stock</td>
-{{--                        @else--}}
-{{--                            <td> out Stock</td>--}}
+                        @else <td> Out of Stock</td>
+
                         @endif
 
+
+                        <span class="badge badge-primary badge-pill"></span>
 
                         <td class="text-center">{{$inventory->finished_goods}}</td>
 
@@ -97,6 +97,7 @@
 {{--            </div>--}}
 {{--        </div>--}}
     </div>
+
 </div>
 
 <!-- Footer -->

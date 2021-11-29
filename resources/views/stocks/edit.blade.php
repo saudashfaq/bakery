@@ -27,8 +27,8 @@
 
 
             <div class="form-group">
-                {{Form::label('product', 'Product')}}
-                {{Form::text('product', $stock->product , ['class' =>  'form-control' , 'placeholder' => 'Product' ]) }}
+                {{Form::label('items', 'Items')}}
+                {{Form::text('items', $stock->items , ['class' =>  'form-control' , 'placeholder' => 'Items' ]) }}
 
             </div>
 {{--..........................--}}
@@ -57,50 +57,3 @@
 {!! Form::close() !!}
 
 
-
-
-{{--............................................................................--}}
-
-{{--//////////////////////////////--}}
-{{--            <h1> Edit Post </h1>--}}
-{{--<form action="{{ route('stocks.update', $stock->id) }}" method="POST">--}}
-{{--    @csrf--}}
-{{--    @method('PUT')--}}
-
-{{--    <div class="row">--}}
-{{--        <div class="col-xs-12 col-sm-12 col-md-12">--}}
-{{--            <div class="form-group">--}}
-{{--                <strong>Name:</strong>--}}
-{{--                <input type="text" name="name" value="{{ $project->name }}" class="form-control" placeholder="Name">--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="col-xs-12 col-sm-12 col-md-12">--}}
-{{--            <div class="form-group">--}}
-{{--                <strong>Introduction:</strong>--}}
-{{--                <textarea class="form-control" style="height:50px" name="introduction"--}}
-{{--                          placeholder="Introduction">{{ $project->introduction }}</textarea>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="col-xs-12 col-sm-12 col-md-12">--}}
-{{--            <div class="form-group">--}}
-{{--                <strong>Location:</strong>--}}
-{{--                <input type="text" name="location" class="form-control" placeholder="{{ $project->location }}"--}}
-{{--                       value="{{ $project->location }}">--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="col-xs-12 col-sm-12 col-md-12">--}}
-{{--            <div class="form-group">--}}
-{{--                <strong>Cost:</strong>--}}
-{{--                <input type="number" name="cost" class="form-control" placeholder="{{ $project->cost }}"--}}
-{{--                       value="{{ $project->cost }}">--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="col-xs-12 col-sm-12 col-md-12 text-center">--}}
-{{--            <a class="btn btn-primary" href="" data-dismiss="modal"> Cancel</a>--}}
-
-
-{{--            <button type="submit" class="btn btn-primary">Submit</button>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
-{{--</form>--}}

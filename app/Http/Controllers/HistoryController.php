@@ -21,15 +21,17 @@ class HistoryController extends Controller
 
         $histories = Stock_history::latest()->with('stocks')->get();
 
+          return view('history.stockhistory' , compact('histories'));
 
-//        $histories =  Stock_history::all()->orderBy('id', 'DESC');;
-//        dd($histories);
-//        var_dump($histories);
-          return view('history.rawmaterialhistory' , compact('histories'));
-//              ->with('histories', $histories);
 
-//        $audits =  Stock::find(1)->audits;
-//        $audits =  Stock::find(1)->audits;
-//        return view('history.rawmaterialhistory' , compact('audits'));
+
+    }
+    public  function showHistoryById($id)
+    {
+        $histories = Stock_history::with('stocks')->where('stock_id', $id)->get();
+
+        return view('history.stockhistorybyid' , compact('histories'));
+
+
     }
 }

@@ -25,7 +25,7 @@ class StocksAddRequest extends FormRequest
     {
         return [
 
-                'product' => 'required',
+                'items' => 'required',
                 'price' => 'required',
                 'unit_id' => 'required',
                 'quantity' => 'required',
