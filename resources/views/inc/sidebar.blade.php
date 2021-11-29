@@ -30,16 +30,16 @@
                 <a href="/createproduct">Product Recipe</a>
             </li>
             <li>
+{{--                <a href="#">Products</a>--}}
                 <a href="/showproduct">Products</a>
+
             </li>
         </ul>
     </li></ul>
 
     <a href="/showinventory">Inventory</a>
 
+
+
 </div>
 
-<!-- Page content -->
-{{--<div class="main">--}}
-{{--    ...--}}
-{{--</div>--}}

@@ -34,30 +34,24 @@ class StocksController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {    $unit = Unit::pluck('name','id');
-        return view('stocks.create')->with('unit' ,$unit);
+    {
+        $unit = Unit::pluck('name', 'id');
+        return view('stocks.create')->with('unit', $unit);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StocksAddRequest  $request
+     * @param \App\Http\Requests\StocksAddRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StocksAddRequest $request)
     {
-//        //validation
-//        $this->validate($request ,[
-//        'product' => 'required',
-//        'price' => 'required',
-//        'unit_id' => 'required',
-//        'quantity' => 'required',
-//
-//    ]);
+
 //
         //Add raw material ..
         $stock = new Stock();
-        $stock->product = $request->input('product');
+        $stock->items = $request->input('items');
         $stock->price = $request->input('price');
         $stock->unit_id = $request->input('unit_id');
         $stock->quantity = $request->input('quantity');
@@ -73,7 +67,7 @@ class StocksController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Stock  $stock
+     * @param \App\Models\Stock $stock
      * @return \Illuminate\Http\Response
      */
 
@@ -85,59 +79,46 @@ class StocksController extends Controller
     }
 
     ///edit stockss
+
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Stock  $stock
+     * @param \App\Models\Stock $stock
      * @return \Illuminate\Http\Response
      */
     public function edit(Stock $stock)
     {
-        $unit = Unit::pluck('name','id');
+        $unit = Unit::pluck('name', 'id');
 //        return view('stocks.edit', compact('stock'));
-        return view('stocks.edit')->with('stock' , $stock)->with( 'unit', $unit);
+        return view('stocks.edit')->with('stock', $stock)->with('unit', $unit);
     }
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\StocksAddRequest  $request
-     * @param  \App\Models\Stock  $stock
+     * @param \App\Http\Requests\StocksAddRequest $request
+     * @param \App\Models\Stock $stock
      * @return \Illuminate\Http\Response
      */
     public function update(StocksAddRequest $request, Stock $stock)
     {
 
-//        $request->validate([
-//            'product' => 'required',
-//            'price' => 'required',
-//            'unit_id' => 'required',
-//            'quantity' => 'required',
-//
-//        ]);
-
         $stock->update($request->all());
 
-        return redirect()->route('stocks.index')
-            ->with('success', ' updated successfully');
-//
+        return redirect()->route('stocks.index')->with('success', ' updated successfully');
+
 
         $stock->save();
 
-
-
-//        $stock->update($request->all());
-
-        return redirect()->route('stocks.index')
-            ->with('success', ' updated successfully');
+        return redirect()->route('stocks.index')->with('success', ' updated successfully');
 
     }
-
 
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Stock  $stock
+     * @param \App\Models\Stock $stock
      * @return \Illuminate\Http\Response
      */
     public function destroy(Stock $stock)
@@ -145,9 +126,8 @@ class StocksController extends Controller
 
         $stock->delete();
 
-        return redirect()->route('stocks.index')
-            ->with('success', 'Product deleted successfully');
+        return redirect()->route('stocks.index')->with('success', 'Product deleted successfully');
     }
 
 }
-///........................................................
+

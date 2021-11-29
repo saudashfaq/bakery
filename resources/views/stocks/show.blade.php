@@ -22,7 +22,7 @@
         <tbody>
             <tr>
 
-                <td>{{$stock->product}}</td>
+                <td>{{$stock->items}}</td>
                 <td>{{$stock->price}}</td>
                 <td>{{$stock->unit->name}}</td>
                 <td>{{$stock->quantity}}</td>
@@ -30,4 +30,4 @@
         </tbody>
     </table>
 </div>
-{{--    .......................................................--}}
+

@@ -20,7 +20,7 @@ class  CreateProductsTable extends Migration
             $table->string('size');
             $table->string('image');
             $table->integer('category_id');
-//            $table->json('recipe');
+            $table->json('recipe');
             $table->timestamps();
         });
     }

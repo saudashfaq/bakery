@@ -24,8 +24,8 @@
 
     {!! Form::open(['action' => 'App\Http\Controllers\StocksController@store' , 'method' => 'POST']) !!}
     <div class="form-group">
-        {{Form::label('product', 'Product')}}
-        {{Form::text('product', '' , ['class' =>  'form-control' , 'placeholder' => 'Product' ]) }}
+        {{Form::label('items', 'Items')}}
+        {{Form::text('items', '' , ['class' =>  'form-control' , 'placeholder' => 'Items' ]) }}
 
     </div>
     <div class="form-group">
