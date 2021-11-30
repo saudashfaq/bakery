@@ -152,34 +152,40 @@ class ProductionController extends Controller
             'require_quantity' => 'required',
             'size' => 'required'
         ]);
-      $products = Product::find($id);
-//        $products = Product::with('stocks.unit')->where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
-        $products = Product::where('parent_product_id', $id)->where('size_id', '=', $request->size)->get();
-
+//      $products = Product::find($id);
+//        $products = Product::with('stocks.unit')->where('parent_product_id', $id)->where('size_id', '=', $request->size)->get();
+//        $products = Product::where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
         //todo unit conversion code commented
-//        $products = Product::with('stocks.unit')->where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
-//        foreach ($products->pivot as $product) {
-//            $unit = $product->pivot->unit->name;
-//            dump($unit);
-//            dump($product->pivot->quantity);
+        $products = Product::with('stocks.unit')->where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
+
+ dump($products);
+        dd('stop');
+
+        foreach ($products->stocks as $product){
+
+            $unit = $product->unit->name;
+            dump($unit);
+            dump($product->pivot->quantity);
+            dump($product->pivot->u);
+
+            $simpleConvertor = new Convertor($product->pivot->quantity, "g");
+            return $simpleConvertor->to("kg");
 //
-//            $simpleConvertor = new Convertor($product->pivot->quantity, "g");
-//            return $simpleConvertor->to("kg");
-////
-//            if ($product->quantity < $product->pivot->quantity * $request->require_quantity) {
-//                return 'quantity is less ';
-//            }
-//
-//        }
-        foreach ($products as $product) {
-            $product_id = $product->id;
+            if ($product->quantity < $product->pivot->quantity * $request->require_quantity){
+                return 'quantity is less ';
+            }
+
         }
 
+//        foreach ($products as $product) {
+//            $product_id = $product->id;
+//        }
+
         $inventory = Inventory::updateOrCreate([
-            'product_id' => $product_id,
+            'product_id' => $products->id,
 
         ], [
-            'product_id' => $product_id,
+            'product_id' => $products->id,
             'finished_goods' => $request->get('require_quantity'),
 
         ]);

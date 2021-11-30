@@ -16,7 +16,6 @@ class CreateStockHistoriesTable extends Migration
             $table->increments('id');
             $table->double('old_price');
             $table->double('new_price');
-            $table->double('increment');
             $table->timestamps();
         });
     }
