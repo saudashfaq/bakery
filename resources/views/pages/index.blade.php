@@ -48,7 +48,7 @@
     <div class="hero-text">
         <h1 style="font-size:50px">{{$title}}</h1>
         <h3>Maximize your Production efficiency</h3>
-        <p> <a class="btn btn-primary btn-lg" href="/login" role="button">Login</a> <a class="btn btn-success btn-lg" href="/register" role="button">Register</a></p>
+        <p> <a class="btn btn-primary btn-lg" href="/dashboard" role="button">Login</a> <a class="btn btn-success btn-lg" href="/register" role="button">Register</a></p>
         {{--            <button>Hire me</button>--}}
     </div>
 </div>

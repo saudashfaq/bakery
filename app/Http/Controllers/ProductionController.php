@@ -53,7 +53,7 @@ class ProductionController extends Controller
     /* Method for store product todo */
     public function storeProduct(ProductRecipeRequest $request)
     {
-
+//        dd($request->all());
         $product = $request->product;
         // for image..
         $filename = time() . '.' . request()->image->getClientOriginalExtension();

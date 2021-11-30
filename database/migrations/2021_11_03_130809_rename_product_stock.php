@@ -13,7 +13,7 @@ class RenameProductStock extends Migration
      */
     public function up()
     {
-        Schema::rename('product_stock', 'product_stocks');
+        //Schema::rename('product_stock', 'product_stocks');
     }
 
     /**
