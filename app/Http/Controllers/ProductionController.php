@@ -53,7 +53,7 @@ class ProductionController extends Controller
     /* Method for store product todo */
     public function storeProduct(ProductRecipeRequest $request)
     {
-
+//        dd($request->all());
         $product = $request->product;
         // for image..
         $filename = time() . '.' . request()->image->getClientOriginalExtension();
@@ -155,31 +155,70 @@ class ProductionController extends Controller
 //      $products = Product::find($id);
 //        $products = Product::with('stocks.unit')->where('parent_product_id', $id)->where('size_id', '=', $request->size)->get();
 //        $products = Product::where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
-        //todo unit conversion code commented
-        $products = Product::with('stocks.unit')->where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
 
- dump($products);
-        dd('stop');
+        //todo unit conversion code
+        $products = Product::with(['stocks', 'units'])->where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
 
-        foreach ($products->stocks as $product){
+        $unitName = [];
 
-            $unit = $product->unit->name;
-            dump($unit);
-            dump($product->pivot->quantity);
-            dump($product->pivot->u);
+        foreach ($products->units as $unit_id) {
 
-            $simpleConvertor = new Convertor($product->pivot->quantity, "g");
-            return $simpleConvertor->to("kg");
-//
-            if ($product->quantity < $product->pivot->quantity * $request->require_quantity){
-                return 'quantity is less ';
-            }
+            $units = $unit_id->name;
+            array_push($unitName, $units);
 
         }
 
-//        foreach ($products as $product) {
-//            $product_id = $product->id;
-//        }
+//    $units =Unit::all();
+//    dd($units);
+//        $units = Unit::where('id', $unit_of_pivot)->get();
+
+        foreach ($products->stocks as $key => $stock) {
+//            dump($stock->quantity);
+            $stock_units = $stock->unit->name;
+//            $unit_of_pivot = $stock->pivot->unit_id;
+
+            $simpleConvertor = new Convertor($stock->pivot->quantity * $request->require_quantity, "$unitName[$key]");
+            $convrted = $simpleConvertor->to("$stock_units");
+            if ($stock->quantity < $convrted) {
+                return 'less quantity';
+            }
+            echo "$convrted<hr> ";
+
+        }
+
+        dd('stop');
+        $unit = $stock->unit;
+        $recipe->pivot->quantity;
+        $recipe->pivot->unit_id;
+
+        if (in_array("g", $unitName)) {
+            $simpleConvertor = new Convertor($product->pivot->quantity, "g");
+            return $simpleConvertor->to("kg");
+
+        }
+        if (in_array("kg", $unitName)) {
+
+            $simpleConvertor = new Convertor($product->pivot->quantity, "kg");
+            return $simpleConvertor->to("kg");
+        }
+        if (in_array("ml", $unitName)) {
+
+            $simpleConvertor = new Convertor($product->pivot->quantity, "ml");
+            $simpleConvertor->to("l");
+        }
+        if (in_array("liter", $unitName)) {
+
+            $simpleConvertor = new Convertor($product->pivot->quantity, "l");
+            $simpleConvertor->to("l");
+        }
+
+//
+//            $simpleConvertor = new Convertor($product->pivot->quantity, "g");
+//            return $simpleConvertor->to("kg");
+////
+
+
+        dd('stop');
 
         $inventory = Inventory::updateOrCreate([
             'product_id' => $products->id,

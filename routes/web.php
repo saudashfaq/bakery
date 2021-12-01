@@ -35,7 +35,7 @@ Route::put('/edit-stock/{id}/', 'App\Http\Controllers\PriceUpdateRM@updatePrice'
 // route for show raw material history
 //Route::get('/history', 'App\Http\Controllers\HistoryController@showHistory');
 Route::get('/history', 'App\Http\Controllers\HistoryController@showHistory');
-Route::get('/historybyid{id}', 'App\Http\Controllers\HistoryController@showHistoryById')->name('history.byid');;
+Route::get('/historybyid{id}', 'App\Http\Controllers\HistoryController@showHistoryById')->name('history.byid');
 
 //route for product create.....
 Route::get('/showproduct', 'App\Http\Controllers\ProductionController@index')->name('show.products');

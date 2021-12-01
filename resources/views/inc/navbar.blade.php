@@ -11,7 +11,7 @@
             </button>
 
             <!-- Branding Image -->
-            <a class="navbar-brand" href="{{ url('/') }}">
+            <a style="margin-left:30px;" class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', "Baker'sBites") }}
             </a>
         </div>
