@@ -246,12 +246,14 @@ class ProductionController extends Controller
         ]);
 
         $products = Product::with(['stocks', 'units'])->where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
-        //dd($products);
+
+
         $unitInPivot = [];
 
         foreach ($products->units as $unit_id) {
             $units = $unit_id->name;
             array_push($unitInPivot, $units);
+
         }
 
         $calculate = 0;
@@ -297,12 +299,38 @@ class ProductionController extends Controller
            // dump($calculate);
 
 
+
         }
         // dump('Total', $calculate);
 
         //dd('st');
 
+
         // save produced product into Inventery table
+        $inventory = Inventory::updateOrCreate([
+            'product_id' => $products->id,
+        ]);
+        foreach ($products->stocks as $key => $stock) {
+
+            $stock_units = $stock->unit->name;
+//            $unit_of_pivot = $stock->pivot->unit_id;
+            //pivot unit conversion into actual unit
+            $simpleConvertor = new Convertor($stock->pivot->quantity * $request->require_quantity, "$unitInPivot[$key]");
+            $convertedValues = $simpleConvertor->to("$stock_units");
+
+            //check if produced quantity is greater than actual stock quantity
+            if ($stock->quantity < $convertedValues) {
+                return redirect()->route('show.products')->with( 'error','Sory your quantity is less than stock quantitity ');
+
+            }
+            //deducte produced quantity into stocks table ,
+            $stockTable = Stock::where('id', $stock->id)->first();
+            $stock->update([
+                'quantity' => $stockTable->quantity - $convertedValues, // quantity of produced  product
+            ]);
+
+        }
+            // save produced product into Inventery table
         $inventory = Inventory::updateOrCreate([
             'product_id' => $products->id,
 
