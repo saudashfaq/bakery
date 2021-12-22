@@ -615,11 +615,11 @@ var i,
 	// http://www.w3.org/TR/CSS21/syndata.html#value-def-identifier
 	identifier = "(?:\\\\.|[\\w-]|[^\0-\\xa0])+",
 
-	// Attribute selectors: http://www.w3.org/TR/selectors/#attribute-selectors
+	// hAttribute selectors: http://www.w3.org/TR/selectors/#attribute-selectors
 	attributes = "\\[" + whitespace + "*(" + identifier + ")(?:" + whitespace +
 		// Operator (capture 2)
 		"*([*^$|!~]?=)" + whitespace +
-		// "Attribute values must be CSS identifiers [capture 5] or strings [capture 3 or capture 4]"
+		// "hAttribute values must be CSS identifiers [capture 5] or strings [capture 3 or capture 4]"
 		"*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|(" + identifier + "))|)" + whitespace +
 		"*\\]",
 
@@ -7510,7 +7510,7 @@ jQuery.extend( {
 			return jQuery.prop( elem, name, value );
 		}
 
-		// Attribute hooks are determined by the lowercase version
+		// hAttribute hooks are determined by the lowercase version
 		// Grab necessary hook if one is defined
 		if ( nType !== 1 || !jQuery.isXMLDoc( elem ) ) {
 			hooks = jQuery.attrHooks[ name.toLowerCase() ] ||
@@ -7562,7 +7562,7 @@ jQuery.extend( {
 		var name,
 			i = 0,
 
-			// Attribute names can contain non-HTML whitespace characters
+			// hAttribute names can contain non-HTML whitespace characters
 			// https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
 			attrNames = value && value.match( rnothtmlwhite );
 

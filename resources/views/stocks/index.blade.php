@@ -30,7 +30,7 @@
     <table id="datatableid"  class="table table-bordered table-responsive-lg table-hover myTable ">
         <thead class="thead-dark">
         <tr>
-            <th>sr#</th>
+{{--            <th>sr#</th>--}}
             <th>Items</th>
             <th>Price</th>
             <th>Unit</th>
@@ -43,7 +43,7 @@
         @foreach ($stocks as $stock)
             <tr>
 {{--                {{dd($stock)}}--}}
-                <td>{{ ++$i }}</td>
+{{--                <td>{{ ++$i }}</td>--}}
                 <td>{{$stock->items}}</td>
                 <td>{{$stock->price}}</td>
                 <td>{{$stock->unit->name}}</td>
@@ -74,7 +74,7 @@
 
 {{--                        for price  update--}}{{--//onclick="return confirm('Are you sure?')"--}}
                         <a class="text-secondary" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
-                           data-attr="{{ route('stock-add-page', $stock->id) }} " title=" upadte stock">
+                           data-attr="{{ route('stock-add-page', $stock->id) }} " title="update stock">
                             <i class="fa fa-plus" style="font-size:24px"></i>
                         </a>
             <!-- for show history by items id   -->
@@ -91,7 +91,7 @@
         </tbody>
     </table>
 
-    {!! $stocks->links() !!}
+{{--    {!! $stocks->links() !!}--}}
 
     </div>
 

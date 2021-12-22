@@ -29,6 +29,8 @@
                     <tr>
                         <th scope="col">Product </th>
                         <th scope="col">Name</th>
+                        <th scope="col" style="width: 90px ">Brand Name</th>
+                        <th scope="col" style="width: 160px ">Attributes</th>
                         <th scope="col">Available</th>
                         <th scope="col" class="text-center">Quantity</th>
                         <th scope="col" >Cost per Piece</th>
@@ -40,6 +42,17 @@
 
                         <td><img src="{{url('images', $inventory->products->parent_product->image) }}" alt="cake image"  width="130" height="75" ></td>
                         <td>{{$inventory->products->parent_product->title}}</td>
+                        <td>{{$inventory->products->parent_product->brand_name}}</td>
+
+                        <td>   @foreach ($inventory->products->attributes as $attribute)
+
+                        {{$attribute->attributeHeads->name}}
+                           : {{$attribute->name}}
+{{--                        dump($attribute->name);--}}
+                        @endforeach</td>
+{{--                        <td>{{$inventory->products->size->name}}</td>--}}
+{{--                        <td>not define</td>--}}
+
 
                         @if($inventory->finished_goods > 0)
                             <td> In Stock</td>
@@ -97,6 +110,8 @@
 {{--            </div>--}}
 {{--        </div>--}}
     </div>
+
+
 
 </div>
 

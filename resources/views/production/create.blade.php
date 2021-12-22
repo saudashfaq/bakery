@@ -3,9 +3,11 @@
 @section('content')
     @include('inc.sidebar')
 
+
+
     <div class="main">
 
-        <h2>Product Recipe </h2>
+        <h2> Create Product Recipe </h2>
         <br/>
         <form method="post" action="{{ route('storeProduct.product') }}" enctype="multipart/form-data">
 
@@ -16,7 +18,6 @@
                     <div class="col-md-13">
                         <label for="title">Title:</label>
                         <input type="text" class="form-control" id="title_id" name="title" placeholder="Title">
-
                     </div>
                 </div>
                 <div class="form-group">
@@ -38,7 +39,7 @@
                         </select>
                     </div>
                 </div>
-
+                        {{-- todo for image --}}
                 <div class="form-group">
                     <div class="col-md-13">
                         <label for="image">Select image</label>
@@ -50,46 +51,47 @@
                 {{--                <h2>Create recipe </h2>--}}
                 {{--                </div>--}}
                 {{--                <div class="groove">--}}
+{{--                <div style="border: groove">--}}
                 <div id="product_section">
-                    <div class="form-group">
-                        <div class="col-md-13">
-                            <label for="size">Size: </label>
-                            {{--                            <select class="form-control" id="size_id" name="size_id[0][]">--}}
-                            <select class="form-control" id="size_id" name="product[0][size]">
-                                <option disabled selected>Select Size</option>
-                                @foreach($sizes as $size)
-                                    <option value="{{$size_value = $size->id }}">{{$size->name}}</option>
-                                @endforeach
+                    <div  style="border:groove  ;border-radius: 10px 15px;">
+                    {{--for Attributes head --}}
+                    <div id="attribute_section0">
+                        <div class=" form-inline">
+                            <div class="form-group">
+                                <div class="col-md-13">
+                                    <label for="size">Attributes Head </label>
+                                    <select class="form-control input-sm" name="product[0][attribute][0][attributeHead_id]" id="attributeHead"
+                                            style="width:160px;">
+                                        <option disabled selected>Select_Attribute Head</option>
+                                        @foreach($attributeHeads as $attributeHead)
+                                            <option value="{{$attributeHead->id}}">{{$attributeHead->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
-                            </select>
+                            {{-- for attributes --}}
+                            <div class="form-group">
+                                <div class="col-md-13">
+                                    <label for="size">Attributes </label>
+                                    <select class="form-control input-sm" name="product[0][attribute][0][attribute_id]" id="attribute0" style="width:160px;">
+                                        <option disabled selected>Select_Attributes</option>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            {{-- add attribute section button --}}
+                            <button type="button" id="add_attribute_button" class="btn btn-success mb-2"  onclick="attributeSection(0)"  style="width:80px;"> Add</button>
+
                         </div>
                     </div>
+
 
                     {{--                    {{var_export($size_value)}}--}}
                     <div class="border border-dark">
                         <div id="recipe_section0" class="border border-white">
+                            <h2 class="text-center"> Add Recipe Here</h2>
                             <div class=" form-inline">
-
-                                {{--                                    <label for="Item">Item: </label>--}}
-                                {{--                                    --}}{{--                                    <select class="form-control" id="item_id" name="product[0][recipe][0][item]">--}}
-                                {{--                                    <select class="form-control" id="item" name="item">--}}
-                                {{--                                        <option value="">Select item</option>--}}
-                                {{--                                        @foreach($stocks as  $stock)--}}
-
-
-                                {{--                                            @if (Input::old('item') == $stock->id)--}}
-                                {{--                                                <option value="{{ $stock->id }}" selected>{{ $stock->items }}</option>--}}
-                                {{--                                            @else--}}
-                                {{--                                                <option value="{{ $stock->id  }}">{{ $stock->items }}</option>--}}
-                                {{--                                            @endif--}}
-
-                                {{--                                            --}}{{--               <option value="{{ $key }}" {{ (Input::old("item") == $key ? "selected":"") }}>{{ $stock }}</option>--}}
-                                {{--                                            --}}{{--                                            <option value="{{$stock->id}}">{{$stock->items}}</option>--}}
-                                {{--                                        @endforeach--}}
-                                {{--                                    </select>--}}
-                                {{--                                    --}}{{--.....--}}
-
-
                                 <div class="form-group mb-2">
                                     <label for="Item">Item: </label>
                                     <select class="form-control" id="item_id2" name="product[0][recipe][0][item]">
@@ -101,7 +103,7 @@
                                 </div>
                                 <div class="form-group mb-2">
                                     <label for="Item">Quantity: </label>
-                                    <input type="number" class="form-control"  name="product[0][recipe][0][quantity]">
+                                    <input type="number" class="form-control" name="product[0][recipe][0][quantity]">
                                 </div>
                                 <div class="form-group mb-2">
                                     <label for="Item">Unit: </label>
@@ -117,7 +119,9 @@
                                 </button>
                             </div>
 
-                        </div> {{--recipe_section .../div --}}
+                        </div>
+                    </div>{{--recipe_section .../div --}}
+                        <br>
                     </div>
                 </div> {{--product_section .../div --}}
 
@@ -133,18 +137,81 @@
                     </button>
                 </div>
             </div>
+
             @csrf
         </form>
     </div>
 
 
-
     <script>
 
         var count = 1;
-        var increment = 1;
+        var increment = 0;
         var increment2 = 0;
 
+        $('#attributeHead').on('change', function (e) {
+            console.log(e);
+            var attributeHead_id = e.target.value;
+            //ajax
+            $.get('/ajax-attribute?attributeHead_id=' + attributeHead_id, function (data) {
+                var index = count;
+                //success data
+                console.log(data);
+
+                $('#attribute0').empty();
+                $.each(data, function (index, attributeObj) {
+                    $('#attribute0').append('<option value="' + attributeObj.id + '">' + attributeObj.name + '</option>');
+
+                });
+            });
+        });
+
+        //add attribute section script
+        function attributeSection(index){
+console.log(index);
+            increment++
+                // var idIncrement  = count ;
+            $('#attribute_section' + index ).append('<div class=" form-inline"> <label ' +
+                'for="size">Attributes Head</label><select class="form-control input-sm" name="product[' + index + '][attribute]['+ increment +'][attributeHead_id]"' +
+                ' onchange="dynamicAttribute(value,'+ increment +')" id="attributeHead" ' +
+                'style="width:160px;"><option disabled selected>Select_Attribute Head' +
+                '   @foreach($attributeHeads as $attributeHead)
+                    <option value="{{$attributeHead->id}}">{{$attributeHead->name}}</option>@endforeach</option></select>' +
+                '    <label for="size">Attributes </label> ' +
+                ' <select class="form-control input-sm" name="product[' + index + '][attribute]['+ increment +'][attribute_id]" id="attribute' + increment + '" style="width:160px;">'+
+                '   <option disabled selected>Select_Attributes</option> <option value=""></option>' +
+                ' </select> ' +
+                ' <button type="button"  class="btn btn-danger" id="remove_recipe_row">remove</button></div> ');
+
+            // increment++
+
+
+        }
+        function dynamicAttribute( value,idIncrement  ){
+            // var idynamic_d = count;
+
+            console.log('inside');
+            console.log(value);
+            console.log(idIncrement);
+            var attributeHead_id = value;
+
+            // console.log(attributeHead_id);
+
+            //ajax
+            $.get('/ajax-attribute?attributeHead_id=' + attributeHead_id, function (data){
+                //success data
+                console.log(data);
+
+                $('#attribute' + idIncrement ).empty();
+                $.each(data, function (index, attributeObj) {
+                    $('#attribute'+ idIncrement ).append('<option value="' + attributeObj.id + '">' + attributeObj.name + '</option>');
+
+                });
+            });
+
+
+            count++
+        }
 
         /*for add new Row*/
         function addRow(index) {
@@ -154,7 +221,7 @@
                 ' <label for="quantity">Quantity:</label><input type="number" class="form-control" name="product[' + index + '][recipe][' + increment + '][quantity]" placeholder="Quantity">' +
                 ' <label for="unit">Unit:</label>  <select class="form-control" name="product[' + index + '][recipe][' + increment + '][unit_id]"> @foreach($units as $unit)<option value="{{$unit->id}}">{{$unit->name}}</option>@endforeach
                     </select> <button type="button"  class="btn btn-danger" id="remove_recipe_row">remove</button> </div>');
-            // number++;
+
 
             increment++
             // count++
@@ -175,20 +242,31 @@
 
         /*for add new product section*/
         function addProduct_section(product_section) {
-            // var add = index;
+
             var index = count;
 
-            var increment = 0;
+             increment++
 
             // console.log(index)
             // console.log(increment++)
-            $(product_section).append('<br><div id="recipe_section' + count + '"> <label for="size">Size: </label><select class="form-control" id="select_append" name="product[' + count + '][size]">  ' +
-                '<option disabled selected>Select Size</option>@foreach($sizes as $size)<option value="{{$size->id}}">{{$size->name}}</option>@endforeach</select> ' +
-                '<div class=" form-inline"><label for="Item">Item:</label><select class="form-control" name="product[' + index + '][recipe][' + count + '][item]"> <option disabled selected>Select item</option>@foreach($stocks as $stock)<option value="{{$stock->id}}">{{$stock->items}}</option>@endforeach</select>' +
+            $(product_section).append('<br><div><div  style="border:groove  ;border-radius: 10px 15px;">' +
+                '<div id="attribute_section' + count + '"> '+
+                ' <div class=" form-inline"><label>Attributeshead</label><select class="form-control input-sm" name="product['+ index +'][attribute][' + count + '][attributeHead_id]"' +
+                ' onchange="dynamicAttribute(value,'+ increment +')" id="attributeHead" ' +
+                'style="width:160px;"><option disabled selected>Select_Attribute Head' +
+                '   @foreach($attributeHeads as $attributeHead)
+                    <option value="{{$attributeHead->id}}">{{$attributeHead->name}}</option>@endforeach</option></select>' +
+                '   <label >Attributes </label> ' +
+                ' <select class="form-control input-sm" name="product['+ index +'][attribute][' + count + '][attribute_id]" id="attribute' + increment + '" style="width:160px;">'+
+                '   <option disabled selected>Select_Attributes</option> <option value=""></option> </select> '+
+                '<button type="button" id="add_attribute_button" class="btn btn-success mb-2 " onclick = "attributeSection(' + index + ')"  style="width:80px;"> Add</button></div></div>'+
+                '  <h2 class="text-center"> Add Recipe Here</h2>'+
+                '<div id="recipe_section' + count + '"> '+
+                ' <div class=" form-inline"><label for="Item">Item:</label><select class="form-control" name="product[' + index + '][recipe][' + count + '][item]"> <option disabled selected>Select item</option>@foreach($stocks as $stock)<option value="{{$stock->id}}">{{$stock->items}}</option>@endforeach</select>' +
                 '<label for="quantity">Quantity:</label><input type="number" class="form-control" name="product[' + index + '][recipe][' + count + '][quantity]"  placeholder="Quantity">' +
                 '<label for="unit">Unit:</label>   <select class="form-control" name="product[' + index + '][recipe][' + count + '][unit_id]"> @foreach($units as $unit)<option value="{{$unit->id}}">{{$unit->name}}</option>@endforeach</select>  <button type="button"  ' +
                 'onclick="addRow(' + index + ')" id="add_recipe_row_button" class="btn btn-success mb-2"   style="width:70px;"> Add</button></div></div>' +
-                '<button type="button" class="btn btn-danger" onclick="removeProductSection(' + this + ')" id="remove_product_sections ">remove Product</button>');
+                '<button type="button" class="btn btn-danger" id="remove_product_sectionAll">Remove Product</button><br><br></div></div>');
 
 
             count++;
@@ -210,40 +288,14 @@
                 number--;
             });
 
-            /*/////////////////////////////////////////////////*/
-            // $('select').on('change', function() {
-            //
-            //     // enable all options
-            //     $('option[disabled]').prop('disabled', false);
-            //
-            //     $('select').each(function() {
-            //         $('select').not(this).find('option[value="' + this.value + '"]').prop('disabled', true);
-            //     });
-            //
-            //
-            // });
-            /*/////////////////////////////////////////////////*/
-
-
-            /*... fields validation for avoid same inputs...*/
-            //
-            // $("#item_id").change(function () {
-            //     var value = $(this).val();
-            //     if (value === '') return;
-            //     var theDiv = $(".is" + value);
-            //
-            //     var option = $("option[value='" + value + "']", this);
-            //     option.attr("disabled", "disabled");
-            //
-            //     theDiv.slideDown().removeClass("hidden");
-            //     theDiv.find('a').data("option", option);
-            //
-            // });
-
-            /*..................*/
-
             /*for remove button*/
             $(product_section).on("click", "#remove_recipe_row", function (e) {
+                e.preventDefault();
+                $(this).parent('div').remove();
+                // number--;
+            });
+            /*for remove product secction */
+            $(product_section).on("click", "#remove_product_sectionAll", function (e) {
                 e.preventDefault();
                 $(this).parent('div').remove();
                 // number--;
@@ -256,3 +308,4 @@
     </script>
 
 @endsection
+

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attribute;
+use App\Models\Attribute_head;
 use App\Models\Category;
 use App\Models\Inventory;
 use App\Models\Product;
@@ -23,6 +25,7 @@ use Olifolkerd\Convertor\Convertor;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use function Sodium\increment;
 use App\Http\Requests\ProductRecipeRequest;
+use App\Http\Requests\CreateReadyMadeProductRequest;
 
 
 class ProductionController extends Controller
@@ -31,7 +34,9 @@ class ProductionController extends Controller
     {
 
         $parent_products = Parent_product::latest()->with('category')->get();
+
         return view('production.index')->with('parent_products', $parent_products);
+//        return view('sample')->with('parent_products', $parent_products);
 
     }
 
@@ -41,19 +46,22 @@ class ProductionController extends Controller
 
         $units = Unit::all();
         $stocks = Stock::all();
-        $sizes = Size::all();
+//        $sizes = Size::all();
         $categories = Category::all();
 
-        return view('production.create')->with('units', $units)->with('stocks', $stocks)->with('categories', $categories)->with('sizes', $sizes);
+        $attributeHeads = Attribute_head::with('attributes')->get();
+
+
+        return view('production.create', compact('attributeHeads'))->with('units', $units)->with('stocks', $stocks)->with('categories', $categories);
 
 
     }
 
 
-    /* Method for store product todo */
-    public function storeProduct(ProductRecipeRequest $request)
+    /* Method for store product todo request class name ProductRecipeRequest */
+    public function storeProduct(Request $request)
     {
-//        dd($request->all());
+
         $product = $request->product;
         // for image..
         $filename = time() . '.' . request()->image->getClientOriginalExtension();
@@ -64,40 +72,44 @@ class ProductionController extends Controller
             'description' => request('description'),
             'category_id' => request('category_id'),
             'image' => $filename,
+            'brand_name' => 'local'
 
         ]);
+
         /*product_size and parent_product_id save in product Table*/
-        $size = [];
+
         $stock_ids = [];
         $quantities = [];
         $unit_ids = [];
 
         foreach ($product as $key => $value) {
 
-            $product_size = $value['size'];
+//            $product_size = $value['size'];
 
             $products = new Product();
-            $products->parent_product_id = $parent_product->id;
-            $products->size_id = $product_size;
+            $products->parent_product_id = $perent_product->id;
             $products->save();
 
+            /*for attributs save in product_attributes table */
+            foreach ($product[$key]['attribute'] as $key2 => $value2) {
 
-//            array_push($size, $product_size);
+                $attributeHead_id = $product[$key]['attribute'][$key2]['attributeHead_id'];
+                $attribute_id = $product[$key]['attribute'][$key2]['attribute_id'];
 
+                $product_recipe = Product::find($products->id);
+                $product_recipe->attributes()->attach($attribute_id);
+
+            }
+
+            /*for recipe in product_stocks table */
             foreach ($product[$key]['recipe'] as $key2 => $value2) {
 
                 $stock_id = $product[$key]['recipe'][$key2]['item'];
                 $quantity = $product[$key]['recipe'][$key2]['quantity'];
                 $unit_id = $product[$key]['recipe'][$key2]['unit_id'];
 
-//                array_push($stock_ids, $stock_id);
-//                array_push($quantities, $quantity);
-//                array_push($unit_ids, $unit_id);
-//                array_push($unit_ids[$value['size']], $unit_id);
-//                $product_recipe->product_stocks()->attach($stock_id  ,['quantity'=>$quantity , 'unit_id'=>$unit_id]);
                 //Todo $product_recipe
                 $product_recipe = Product::find($products->id);
-
                 $product_recipe->stocks()->attach($stock_id, ['quantity' => $quantity, 'unit_id' => $unit_id]);
 
 
@@ -114,34 +126,34 @@ class ProductionController extends Controller
 
 //
 //    /*show recipe method*/
-//        public function show($id)
-//        {
-//
-//
-//            $products = Product::with(['stock', 'stock.unit'])->where('id', $id)->get();
-//
-//            $products = Product::with(['stocks', 'units'])->where('id', $id)->first();
-//
-//
+    public function show($id)
+    {
+        $parent_product = Parent_product::find($id);
+        $product_attributes = Product::with(['stocks', 'attributes.attributeHeads', 'parent_product.category'])->where('parent_product_id', $id)->get();
+
+//todo
+
 //            $units = [];
 //            foreach ($products->units as $unit) {
 //                $unit = $unit->name;
 //                array_push($units, $unit);
 //            }
-//
-//
-//            return view('production.show', compact('products'))->with('units', $units);
-//
-//        }
+
+
+        return view('production.show', compact('product_attributes'))->with('parent_product', $parent_product);
+
+    }
 
 
     /* produce product by size vise */
     public function produce($id)
     {
         $parent_product = Parent_product::find($id);
-        $product_sizes = Product::where('parent_product_id', $id)->with('size')->get();
 
-        return view('production.produce')->with('parent_product', $parent_product)->with('product_sizes', $product_sizes);
+        $product_attributes = Product::with(['attributes.attributeHeads'])->where('parent_product_id', $id)->get();
+
+
+        return view('production.produce')->with('parent_product', $parent_product)->with('product_attributes', $product_attributes);
 
     }
 
@@ -240,12 +252,16 @@ class ProductionController extends Controller
     public function storeProducedProduct(Request $request, $id, Stock $stock)
     {
 
+
         $this->validate($request, [
             'require_quantity' => 'required',
-            'size' => 'required'
+            'product_id' => 'required'
         ]);
 
-        $products = Product::with(['stocks', 'units'])->where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
+
+//        $products = Product::with(['stocks', 'units'])->where('parent_product_id', $id)->where('id', '=', $request->product_id)->first();
+        $products = Product::with(['stocks', 'units'])->where('id', '=', $request->product_id)->first();
+
 
 
         $unitInPivot = [];
@@ -267,7 +283,9 @@ class ProductionController extends Controller
 
             //check if produced quantity is greater than actual stock quantity
             if ($stock->quantity < $convertedValues) {
-                return redirect()->route('show.products')->with('error', 'Sorry your quantity is less than stock quantity ');
+
+                return redirect()->route('show.products')->with('error', 'Sory your quantity is less than stock quantitity ');
+
 
             }
             //deducte produced quantity into stocks table ,
@@ -288,7 +306,7 @@ class ProductionController extends Controller
 //                $calculate += $product * $stock->pivot->quantity;
                 // dump($calculate);
             } else {
-                //dd('else',$units);
+
                 $product = $stock->price/1;
                 $calculate += $product * $convertedValues;
 //                $product = $stock->price/1000 ;
@@ -296,15 +314,17 @@ class ProductionController extends Controller
 //                dump($calculate);
             }
 
-           //dump($calculate);
-
-
-
         }
+
+        // save produced product into Inventery table
+        $inventories = Inventory::where('product_id', $request->product_id)->first();
+
+        // if product exist in inventory plus previous quantity of finshed_goods
+        if ($inventories == !null) {
+            $inventory = Inventory::updateOrCreate([
+                'product_id' => $products->id,
+
         // dump('Total', $calculate);
-
-        //dd('st');
-
 
         // save produced product into Inventery table
 //        $inventory = Inventory::updateOrCreate([
@@ -331,25 +351,38 @@ class ProductionController extends Controller
 //
 //        }
             // save produced product into Inventery table
-        $inventory = Inventory::updateOrCreate([
-            'product_id' => $products->id,
 
 
-        ], [
-            'product_id' => $products->id,
-            'finished_goods' => $request->get('require_quantity'),
-            'piece_per_cost' => $calculate,
+            ],[
+                'product_id' => $products->id,
+                'finished_goods' => $request->get('require_quantity') + $inventories->finished_goods,
 
+            ]);
 
-        ]);
+            return redirect()->route('inventory')->with('success', 'Produced Successfully');
 
-        return redirect()->route('inventory')->with('success', 'Produced Successfully');
+        } // if product not exist in inventory / first time produce
+        else {
+
+            $inventory = Inventory::updateOrCreate([
+                'product_id' => $products->id,
+
+            ], [
+                'product_id' => $products->id,
+                'finished_goods' => $request->get('require_quantity'),
+
+            ]);
+
+            return redirect()->route('inventory')->with('success', 'Produced Successfully');
+        }
     }
 
 
     /* TODO method for Edit product '*/
 //    public function editProduct($id)
 //    {
+//
+//
 //        $product = Product::with(['stocks', 'units', 'category'])->where('id', $id)->first();
 //
 ////        $product = Product::with('category')->find($id);
@@ -407,7 +440,110 @@ class ProductionController extends Controller
 //
 //    }
 
+
+    public function editRecipe($id)
+    {
+        $inventory_productIds = [];
+
+        $parent_product = Parent_product::find($id);
+
+        $products = Product::with(['attributes.attributeHeads', 'inventories'])->where('parent_product_id', $id)->get();
+
+        foreach ($products as $key => $product) {
+            foreach ($product->inventories as $inventory) {
+                $inventory_productId = $inventory->product_id;
+                array_push($inventory_productIds, $inventory_productId);
+            }
+
+        }
+
+        return view('production.editrecipe',compact('parent_product'))->with('products', $products)->with('inventory_productIds', $inventory_productIds);
+
+    }
+
+    public function editAbleRecipe(Request $request, $id)
+    {
+
+//        dd($request->product_id);
+
+        $pivotStocks = [];
+        $pivotunit_id = [];
+
+
+//        $parent_product = Parent_product::find($id);
+//        $products = Product::with(['stocks', 'units'])->where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
+        $products = Product::with(['stocks', 'units'])->where('id', $request->product_id)->first();
+
+        foreach ($products->stocks as $stocks) {
+
+            $pivotStock_id = $stocks->pivot->stock_id;
+
+            $units = $stocks->pivot->unit_id;
+            array_push($pivotunit_id, $units);
+            array_push($pivotStocks, $pivotStock_id);
+
+        }
+
+//        $inventory = Inventory::where('product_id', '=', $request->product_id)->first();
+
+//        if ($inventory == !null) {
+//            return redirect()->route('show.products')->with('error', 'Sorry this product recipe not editeable Because this  product is produced ');
+//        } else {
+//            return 'yes';
+//        }
+
+//        else {
+            $unitAll = Unit::all();
+            $stocks = Stock::all();
+
+            return view('production.editablerecipe', compact('products'))->with('stocks', $stocks)->with('unitAll', $unitAll)->with('pivotStocks', $pivotStocks)->with('pivotunit_id', $pivotunit_id);
+
+
+
+    }
+
+    public function updateRecipe(Request $request, $id)
+    {
+//        dd($request->all());
+
+        $product = $request->product;
+
+        /*product_size and parent_product_id save in product Table*/
+        $size = [];
+        $stock_ids = [];
+        $quantities = [];
+        $unit_ids = [];
+
+        foreach ($product as $key => $value) {
+
+//            $product_size = $value['size'];
+//
+//            $products = new Product();
+//            $products->parent_product_id = $perent_product->id;
+//            $products->size_id = $product_size;
+//            $products->save();
+
+            foreach ($product[$key]['recipe'] as $key2 => $value2) {
+
+                $stock_id = $product[$key]['recipe'][$key2]['item'];
+                $quantity = $product[$key]['recipe'][$key2]['quantity'];
+                $unit_id = $product[$key]['recipe'][$key2]['unit_id'];
+
+
+                $product_recipe = Product::find($id);
+
+                $product_recipe->stocks()->detach($stock_id, ['quantity' => $quantity, 'unit_id' => $unit_id]);
+
+                $product_recipe->stocks()->attach($stock_id, ['quantity' => $quantity, 'unit_id' => $unit_id]);
+
+            }
+        }
+        return redirect()->route('show.products')->with('success', 'Edit successfully');
+    }
+
+
     /* Todo Mehtod for delete products*/
+
 //    public function deleteProduct($id)
 //    {
 //
@@ -420,9 +556,89 @@ class ProductionController extends Controller
 
     public function showInventory()
     {
-        $inventories = Inventory::latest()->with(['products.parent_product'])->get();
+//        $product_attributes = Product::with(['attributes.attributeHeads'])->where('parent_product_id', $id)->get();
 
+//        $inventories = Inventory::latest()->with(['products.parent_product,attributes'])->get();
+        $inventories = Inventory::latest()->with(['products.parent_product', 'products.attributes.attributeHeads'])->get();
+//        dd($inventories);
+//        foreach ($inventories as $inventory){
+//
+//            dump($inventory->products->parent_product->title);
+//            foreach ($inventory->products->attributes as $attribute){
+//                dump($attribute->attributeHeads->name);
+//                dump($attribute->name);
+//            }
+////            dump($inventory->products->attributes as $attributes);
+////            foreach ($inventory)
+////            dump($inventory->products->attributes->name);
+//
+//        }
+//
+//dd('stop');
         return view('inventory.showinventory')->with("inventories", $inventories);
 
     }
+
+    public function createReadyMadeProduct()
+    {
+//        $sizes = Size::all();
+        $attributeHeads = Attribute_head::with('attributes')->get();
+        $categories = Category::all();
+
+        return view('production.createreadymadeproduct')->with('categories', $categories)->with('attributeHeads', $attributeHeads);
+
+    }
+
+    //CreateReadyMadeProductRequest request class
+
+    public function storeReadyMadeProduct(Request $request)
+    {
+
+        $attributes = $request->attribute;
+
+        foreach ($attributes as $attribute) {
+            dump($attribute['attribute_id']);
+
+
+        }
+
+
+        /*save parent Product */
+        /*image*/
+        $filename = time() . '.' . request()->image->getClientOriginalExtension();
+        request()->image->move(public_path('images'), $filename);
+        $perent_product = Parent_product::create([
+
+            'title' => request('title'),
+            'description' => request('description'),
+            'category_id' => request('category_id'),
+            'image' => $filename,
+            'brand_name' => request('brand_name')
+
+        ]);
+
+        $products = new Product();
+        $products->parent_product_id = $perent_product->id;
+        $products->save();
+
+        foreach ($attributes as $attribute) {
+            $attribute_id = $attribute['attribute_id'];
+            $product_attributes = Product::find($products->id);
+            $product_attributes->attributes()->attach($attribute_id);
+
+        }
+
+
+        return redirect()->route('show.products')->with('success', 'Ready Made Product Created Successfully ');
+    }
+
+    public function search()
+    {
+        $search_text = $_GET['search'];
+
+        $parent_products = Parent_product::where('title', 'LIKE', '%' . $search_text . '%')->with('category')->get();
+        return view('production.searchproduct')->with('parent_products', $parent_products);
+
+    }
+
 }

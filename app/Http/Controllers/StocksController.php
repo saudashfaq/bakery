@@ -20,11 +20,13 @@ class StocksController extends Controller
 
     public function index()
     {
-        $stocks = Stock::latest()->with('unit')->paginate(5);
+//        $stocks = Stock::latest()->with('unit')->paginate(5);
+        $stocks = Stock::latest()->with('unit')->get();
 
 //dd($stocks);
-        return view('stocks.index', compact('stocks'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+//        return view('stocks.index', compact('stocks'))
+//            ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('stocks.index', compact('stocks'));
 
     }
 
@@ -110,7 +112,7 @@ class StocksController extends Controller
 
         $stock->save();
 
-        return redirect()->route('stocks.index')->with('success', ' updated successfully');
+//        return redirect()->route('stocks.index')->with('success', ' updated successfully');
 
     }
 

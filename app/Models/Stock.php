@@ -18,9 +18,6 @@ class Stock extends Model
 
 //    use SoftDeletes;
 //    use \OwenIt\Auditing\Auditable;
-    protected $casts = [
-        'recipe' => 'json',
-    ];
     protected $table = 'stocks';
     protected $fillable = ['items', 'price', 'unit_id', 'user_id', 'quantity'];//, 'user_id'
 
