@@ -15,11 +15,14 @@ class Product extends Model
 
 //    protected $primaryKey  = 'recipe.stock_id';
 //    protected $foreignKey = 'stock_id';
-    protected $fillable = ['parent_product_id', 'size_id']; //'price'
+    protected $fillable = ['parent_product_id']; //'price'
 
     public function stocks()
     {
         return $this->belongsToMany(Stock::class, 'product_stocks', 'product_id', 'stock_id' )->withPivot('quantity' , 'unit_id');
+    }
+    public function attributes (){
+        return $this->belongsToMany(Attribute::class , 'product_attributes' , 'product_id' , 'attribute_id');
     }
 
     public function units()
@@ -47,10 +50,10 @@ class Product extends Model
     }
 
     /*product table has many relation with inventory table*/
-//    public function inventory()
-//    {
-//        return $this->hasMany(Inventory::class);
-//    }
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class);
+    }
 
     //todo
     public function unit()

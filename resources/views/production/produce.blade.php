@@ -59,15 +59,32 @@
         {!! Form::open(['action' => ['App\Http\Controllers\ProductionController@storeProducedProduct' , $parent_product->id ] , 'method' => 'POST']) !!}
 
         <div class="form-group">
+{{--            @foreach($product_attributes as $product_attribute)--}}
+
+{{--                @foreach($product_attribute->attributes as $key => $value)--}}
+{{--                    {{$value->attributeHeads->name}}--}}
+{{--                    {{$value->name}}--}}
+
+
+{{--                @endforeach--}}
+{{--                --}}{{--                {{dd('stop')}}--}}
+{{--            @endforeach--}}
 
             <div class="col-md-13">
-                <label for="size">Select the Size: </label><br>
-                <select  class="form-control" name="size">
-                    <option value="">Select size</option>
-                    @foreach($product_sizes as $product_size )
-                        <option  value="{{$product_size->size->id}}">{{$product_size->size->name}}</option>
+                <label for="size">Select the Product: </label><br>
+                <select class="form-control" name="product_id">
+                    <option value="">Select product</option>
+
+                    @foreach($product_attributes as $product_attribute)
+                        <option value="{{$product_attribute->id}}"> @foreach($product_attribute->attributes as $key => $value)
+                                {{$value->attributeHeads->name}}
+                                : {{$value->name}}
+                            @endforeach
+                        </option>
+
                     @endforeach
                 </select>
+                {{--                {{$product_attribute->name}}--}}
                 {{--        {{Form::label('size', 'Select the Size')}}<br>--}}
                 {{--        {{Form::select('size' , ['class' =>  'form-control' , 'placeholder' => 'Size' ]) }}--}}
             </div>
@@ -83,5 +100,13 @@
         {{Form::submit('submit', ['class' =>  'btn btn-primary'])}}
         {{--        {{Form::hidden('_method' , 'PUT')}}--}}
         {!! Form::close() !!}
+
 {{--    </div>--}}
 {{--@endsection--}}
+
+
+{{--attributes select for produce --}}
+
+{{--<option value="">Select product</option>--}}
+{{--<option  value=""> @foreach($product_attributes->attributes as $product_attribute ){{$product_attribute->attributeHeads->name }} : {{$product_attribute->name .','}}  @endforeach</option>--}}
+{{--<option value="">abc xyz</option>--}}

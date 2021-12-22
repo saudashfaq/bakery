@@ -2,43 +2,24 @@
 
 @section('content')
     @include('inc.sidebar')
-    <div class="main">
 
+    <div class="main">
+        <a href="/showproduct" class=" btn btn-primary"> <i class="fa fa-chevron-circle-left"
+                                                            style="font-size:14px;"></i>
+            Go Back</a>
         {{--        <a href="/stocks" class=" btn btn-primary">Go Back</a>--}}
 
         <div class="row">
-            <div class="col-lg-7 margin-tb">
+            <div class="col-lg-12 margin-tb">
                 <div class="pull-left">
                     <h1>Product page </h1>
                 </div>
-            </div>
-            {{--        </div>--}}
 
-            {{--Search inputs--}}
-            <div class="col-lg-5 margin-tb">
-                <form type="get" action="{{ route('search.product') }}">
-                    <div class="table-responsive " style="width:650px;">
-                        <div class="form-group">
-
-
-                            <div class="col-md-5  text-align: right">
-                                <label for="search">Search:</label>
-                                <input type="search" class="form-control" name="search" placeholder="Search">
-                                <br>
-                            </div>
-                        </div>
-
-                        {{--                    <div class=" mrg ">--}}
-
-                        <button type="submit" style="margin-top: 9px;" class=" btn btn-success"> search</button>
-                        {{--                    </div>--}}
-
-                    </div>
-
-
-                </form>
             </div>
         </div>
+        {{--        <form method="post" action="{{ route('storeProduct.product') }}" enctype="multipart/form-data">--}}
+        {{--Search inputs--}}
+
         {{--for successs and error messages --}}
         @if ($message = Session::get('success'))
             <div class="alert alert-success">
@@ -78,8 +59,8 @@
                                 </p>
                                 <div class="product_meta">
                                     {{--                                    <span class="posted_in"> <strong>Categories:</strong> <a rel="tag" href="#">Jackets</a>, <a rel="tag" href="#">Men</a>, <a rel="tag" href="#">Shirts</a>, <a rel="tag" href="#">T-shirt</a>.</span>--}}
-                                    <span class="posted_in"> <strong>Categories:</strong> {{$parent_product->category->name}}</span>
-                                    <span class="posted_in"> <strong>Brand Name:</strong> {{$parent_product->brand_name}}</span>
+                                    <span
+                                        class="posted_in"> <strong>Categories:</strong> {{$parent_product->category->name}}</span>
                                     {{--                                    <span class="tagged_as"><strong>Size:</strong> {{$product->size}}.</span>--}}
                                     {{--                                    <span class="tagged_as"><strong>Per Piece Cost:</strong> Rs. {{$product->per_piece_price}}</span>--}}
                                 </div>
@@ -89,11 +70,11 @@
                                 <form action="{{ route('product.destroy', $parent_product->id) }}" method="POST">
 
 
-                                    <!-- Button for show Recipe  -->
+                                    <!-- Button for show Recipe per piece  -->
                                     <a class="text-secondary  btn btn-round btn-danger" type="button"
                                        data-toggle="modal" id="mediumButton" data-target="#mediumModal"
                                        data-attr="{{ route('show.recipe', $parent_product->id) }}" title="Show recipe">
-                                        <i class="fas fa-eye  fa-lg"></i> Show Recipe
+                                        <i class="fas fa-eye text-successn  fa-lg"></i> Show Recipe
                                     </a>
                                     <!-- Produce Button  -->
                                     <a class="text-secondary  btn btn-round btn-danger" type="button"
@@ -104,29 +85,28 @@
                                     </a>
 
                                     <!-- Edit Button -->
-{{--                                    <a class="text-secondary  btn btn-round btn-danger" type="button"--}}
-{{--                                       data-toggle="modal" id="mediumButton" data-target="#mediumModal"--}}
-{{--                                       data-attr="{{ route('edit.product', $parent_product->id) }} " title="Edit">--}}
-{{--                                        <i class="fas fa-edit text-gray-300"></i>Edit--}}
-{{--                                       --}}
-{{--                                    </a>--}}
-                                    <!-- Edit_recipe  Button -->
-                                    <a class="text-secondary  btn btn-round btn-danger" type="button"
-                                       data-toggle="modal" id="mediumButton" data-target="#mediumModal"
-                                       data-attr="{{ route('edit.recipe', $parent_product->id) }} " title="Edit">
-                                        <i class="fas fa-edit text-gray-300"></i>Edit Recipe
+                                {{--                                    <a class="text-secondary  btn btn-round btn-danger" type="button"--}}
+                                {{--                                       data-toggle="modal" id="mediumButton" data-target="#mediumModal"--}}
+                                {{--                                       data-attr="{{ route('product.edit', $parent_product->id) }} " title="Edit">--}}
+                                {{--                                        <i class="fas fa-edit text-gray-300"></i>Edit--}}
 
-                                    </a>
+                                {{--                                    </a>--}}
+                                {{--                                    <!--  Button Create recipe -->--}}
+                                {{--                                    <a class="text-secondary  btn btn-round btn-danger" type="button"--}}
+                                {{--                                       href="{{ route('product.createRecipe', $parent_product->id) }}\"--}}
+                                {{--                                    title="Create Recipe">--}}
+                                {{--                                        <i class="fas fa-edit text-gray-300"></i>Create Recipe--}}
+                                {{--                                    </a>--}}
 
 
                                 @csrf
                                 @method('DELETE')
 
                                 <!-- Delete Button -->
-{{--                                    <button class="text-secondary  btn btn-round btn-danger" type="submit"--}}
-{{--                                            onclick="return deleteAlert()">--}}
-{{--                                        <i class="fas fa-trash fa-lg "></i> Delete--}}
-{{--                                    </button>--}}
+                                    <button class="text-secondary  btn btn-round btn-danger" type="submit"
+                                            onclick="return deleteAlert()">
+                                        <i class="fas fa-trash fa-lg "></i> Delete
+                                    </button>
 
                                     {{--                        for price  update--}}{{--//onclick="return confirm('Are you sure?')"--}}
 
@@ -141,11 +121,10 @@
                         </div>
                     </section>
                     <br>
-                    {{--                </div>--}}
-                    @endforeach
-                    {{--                    @endforeach--}}
-                </div>
 
+                    @endforeach
+
+                </div>
 
             {{--.....AJAX Functionality.........--}}
 

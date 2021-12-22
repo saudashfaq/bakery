@@ -10,7 +10,7 @@ class Parent_product extends Model
     use HasFactory;
 
     protected $table = 'parent_products';
-    protected $fillable = ['title', 'description', 'category_id', 'image'];
+    protected $fillable = ['title', 'description', 'category_id','brand_name', 'image']; //, 'image'
 
 
     public function category()
