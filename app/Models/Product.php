@@ -19,6 +19,8 @@ class Product extends Model
 
     public function stocks()
     {
+
+
         return $this->belongsToMany(Stock::class, 'product_stocks', 'product_id', 'stock_id' )->withPivot('quantity' , 'unit_id');
     }
     public function attributes (){

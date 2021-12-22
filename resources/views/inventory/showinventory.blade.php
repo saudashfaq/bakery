@@ -29,11 +29,11 @@
                     <tr>
                         <th scope="col">Product </th>
                         <th scope="col">Name</th>
-                        <th scope="col">Brand Name</th>
-                        <th scope="col">Attributes</th>
+                        <th scope="col" style="width: 90px ">Brand Name</th>
+                        <th scope="col" style="width: 160px ">Attributes</th>
                         <th scope="col">Available</th>
                         <th scope="col" class="text-center">Quantity</th>
-                        <th scope="col" >Price per Piece</th>
+                        <th scope="col" >Cost per Piece</th>
 {{--                        <th> </th>--}}
                     </tr>
                     </thead>
@@ -65,7 +65,7 @@
 
                         <td class="text-center">{{$inventory->finished_goods}}</td>
 
-                        <td  class="text-center">124</td>
+                        <td  class="text-center">{{$inventory->piece_per_cost}}</td>
 {{--                        <td class="text-right">124,90 €</td>--}}
 {{--                        <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>--}}
                     </tr>
