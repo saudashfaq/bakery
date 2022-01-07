@@ -1,7 +1,3 @@
-{{--<h2> this is create page</h2>--}}
-{{-- @extends('layouts.app')
-@section('content') --}}
-
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="text-center">

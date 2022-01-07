@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
+
+    public function theme(){
+
+        return view('index');
+    }
     public function index()
     {
         //return 'INDEX HERE';

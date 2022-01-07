@@ -1,7 +1,12 @@
-@extends('layouts.app')
+{{--@extends('layouts.app')--}}
+@extends('layouts.appss')
 
 @section('content')
-    @include('inc.sidebar')
+{{--    @include('inc.sidebar')--}}
+<div class="right_col" role="main">
+    {{--    <!-- top tiles -->--}}
+    {{--    <div class="row" style="display: inline-block;" >--}}
+    <div class="x_panel tile ">
     <div class="main">
         <a href="/stocks" class=" btn btn-primary">Go Back</a>
 
@@ -57,6 +62,6 @@
 
     </div>
 
-
+    </div></div>
 @endsection
 
