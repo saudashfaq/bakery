@@ -1,10 +1,15 @@
-@extends('layouts.app')
+{{--@extends('layouts.app')--}}
+@extends('layouts.appss')
 
 @section('content')
-    @include('inc.sidebar')
-    <div class="main">
+    <div class="right_col" role="main">
+        {{--    <!-- top tiles -->--}}
+        {{--    <div class="row" style="display: inline-block;" >--}}
+
+        <div class="main">
         <h1> Dashboard </h1>
         <h3>   You are logged in</h3>
+    </div>
     </div>
 
 {{--<h3>Dashboard</h3>--}}

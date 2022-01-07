@@ -1,8 +1,13 @@
-@extends('layouts.app')
+{{--@extends('layouts.app')--}}
+@extends('layouts.appss')
 
 @section('content')
-    @include('inc.sidebar')
+{{--    @include('inc.sidebar')--}}
 {{--    @include('inc.sidetemplate')--}}
+    <div class="right_col" role="main">
+        {{--    <!-- top tiles -->--}}
+        {{--    <div class="row" style="display: inline-block;" >--}}
+        <div class="x_panel tile ">
     <div class="main">
 
     <div class="row">
@@ -50,18 +55,18 @@
 {{--                <td>{{$stock->unit_id}}</td>--}}
                 <td>{{$stock->quantity}}</td>
 {{--                for edit  and delet button--}}
-                <td>
+                <td style="width: 150px;">
                     <form action="{{ route('stocks.destroy', $stock->id) }}" method="POST">
 
                         <a data-toggle="modal" id="smallButton" data-target="#smallModal"
                            data-attr="{{ route('stocks.show', $stock->id) }}" title="show">
-                            <i class="fas fa-eye text-success  fa-lg"></i>
+                            <i class="fa fa-eye text-success  fa-lg" style="font-size:19px"></i>
                         </a>
 
 
                         <a class="text-secondary" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
                            data-attr="{{ route('stocks.edit', $stock->id) }} " title="Edit">
-                            <i class="fas fa-edit text-gray-300"></i>
+                            <i class="fas fa-edit text-gray-300" style="font-size:17px"></i>
                         </a>
 
 
@@ -75,13 +80,13 @@
 {{--                        for price  update--}}{{--//onclick="return confirm('Are you sure?')"--}}
                         <a class="text-secondary" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
                            data-attr="{{ route('stock-add-page', $stock->id) }} " title="update stock">
-                            <i class="fa fa-plus" style="font-size:24px"></i>
+                            <i class="fa fa-plus" style="font-size:19px"></i>
                         </a>
             <!-- for show history by items id   -->
                         <a class="text-secondary"
 
                            href="{{ route('history.byid', $stock->id) }}"  title="History">
-                            <i class="fa fa-history text-success " style="font-size:22px;"></i>
+                            <i class="fa fa-history text-success " style="font-size:20px;"></i>
                         </a>
 
                     </form>
@@ -93,6 +98,8 @@
 
 {{--    {!! $stocks->links() !!}--}}
 
+    </div>
+    </div>
     </div>
 
 {{--..........................modal ......--}}

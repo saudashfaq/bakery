@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Attribute;
 use App\Models\Product;
+//use App\Http\Controllers\Admin\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,7 +31,7 @@ Route::get('/ajax-attribute', function(){
 
     return Response::json($attribute);
 });
-
+Route::get('/index.html','App\Http\Controllers\PagesController@theme');
 
 Route::get('/', 'App\Http\Controllers\PagesController@index');
 
@@ -90,6 +91,21 @@ Route::post('/updateattribute/{id}', 'App\Http\Controllers\Attributecontroller@u
 Route::get('/createcategory', 'App\Http\Controllers\Attributecontroller@createCategory')->name('create.category');
 Route::post('/storecategory', 'App\Http\Controllers\Attributecontroller@storeCategory')->name('store.category');
 
+/*USER */
+Route::get('user/profile' , 'App\Http\Controllers\Admin\UserController@profile')->name('profile');
+Route::get('profile/edit' , 'App\Http\Controllers\Admin\UserController@edit')->name('admin.profileedit');
+Route::post('profileupdate/{id}' , 'App\Http\Controllers\Admin\UserController@update')->name('admin.profileupdate');
+Route::get('companydetail/edit' , 'App\Http\Controllers\Admin\UserController@companyDetailEdit')->name('admin.companyDetailEdit');
+Route::post('companydetailupdate/{id}' , 'App\Http\Controllers\Admin\UserController@companyDetailUpdate')->name('admin.companyDetailUpdate');
+Route::get('admin/users' , 'App\Http\Controllers\Admin\UserController@users')->name('admin.users');
+Route::get('create/newuser' , 'App\Http\Controllers\Admin\UserController@createNewUser')->name('create.newuser');
+Route::post('store/newuser' , 'App\Http\Controllers\Admin\UserController@storeNewUser')->name('store.newuser');
+Route::get('edit/user{id}' , 'App\Http\Controllers\Admin\UserController@editUser')->name('edit.user');
+Route::put('update/user/{id}' , 'App\Http\Controllers\Admin\UserController@updateUser')->name('update.user');
+Route::delete('delete/user/{id}' , 'App\Http\Controllers\Admin\UserController@deleteUser')->name('delete.user');
+/* / USER */
+/*user resource route */
+//Route::resource('/user' ,'App\Http\Controllers\Admin\UserController' );
 
 Auth::routes();
 Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index');

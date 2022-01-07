@@ -1,102 +1,110 @@
-@extends('layouts.app')
-
+{{--@extends('layouts.app')--}}
+@extends('layouts.appss')
 @section('content')
-    @include('inc.sidebar')
+
 
     {{--{{dump($pivotStocks)}}--}}
+    <div class="right_col" role="main">
+        {{--    <!-- top tiles -->--}}
+        {{--    <div class="row" style="display: inline-block;" >--}}
+        <div class="x_panel tile ">
 
-    <div class="main">
-        <div style="margin-left:100px;">
+            <div class="main">
+                <div style="margin-left:100px;">
 
-            <div style="margin-left:200px;"><h2>Edit Recipe  </h2></div>
-            <br>
-
-        <form method="post" action="{{ route('update.recipe' , $products->id) }}">
-            {{ csrf_field() }}
-            <div class="table-responsive " style="width:650px;">
-
-                <div id="product_section">
-
-                    <div class="border border-dark">
-
-                        <table class="table table-bordered" id="item_table">
-                            <tr>
-                                <th>Enter Item Name</th>
-                                <th>Enter Quantity</th>
-                                <th>Select Unit</th>
-                            </tr>
-                            <tbody>
-                            <td>
-                                @for($count = 0  ; $count < count($pivotStocks); $count++)
-                                    <div class="form-group mb-2">
-                                        <select class="form-control" id="item_id2"
-                                                name="product[0][recipe][{{$count}}][item]">
-                                            {{--                                            <option value="">Select item</option>--}}
-                                            @foreach($stocks as $key=> $stock)
-
-                                                <option
-                                                    value="{{ $stock->id }}" {{ ( $stock->id == $pivotStocks[$count]) ? 'selected' : '' }}> {{ $stock->items }} </option>
-
-                                            @endforeach
-                                        </select>
-                                        @endfor
-                                    </div>
-                            </td>
-
-                            <td>
-
-                                <div class="form-group mb-2">
-                                    {{--<label for="Item">Quantity: </label>--}}
-                                    {{--                                        @for($count = 0  ; $count < count($pivotStocks); $count++)--}}
-                                    @foreach($products->stocks  as $key =>$stock)
-
-                                        <input type="number" value="{{$stock->pivot->quantity}}"
-                                               class="form-control" name="product[0][recipe][{{$key}}][quantity] ">
-                                    @endforeach
-                                </div>
-
-                            </td>
-                            <td>
-                                @for($count = 0  ; $count < count($pivotunit_id); $count++)
-                                    <div class="form-group mb-2">
-
-                                        <select class="form-control" name=product[0][recipe][{{$count}}][unit_id]">
-                                            @foreach($unitAll as $key=> $unit)
-                                                <option
-                                                    value="{{ $unit->id }}" {{ ( $unit->id == $pivotunit_id[$count]) ? 'selected' : '' }}> {{ $unit->name }} </option>
-                                            @endforeach
-                                        </select>
-                                        @endfor
-                                    </div>
-
-                            </td>
-                            <td>
-                                {{--                                @for($count = 0  ; $count < count($pivotunit_id); $count++)--}}
-                                <button type="button" id="add_recipe_row_button"
-                                        class="btn btn-success mb-2 "
-                                        onclick="addRow(0)" style="width:70px;"> Add
-                                </button>
-                                {{--@endfor--}}
-                            </td>
-
-
-                            </tbody>
-                        </table>
-                        <div id="recipe_section0" class="border border-white">
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <div align="center">
+                    <div style="margin-left:200px;"><h2>Edit Recipe </h2></div>
                     <br>
-                    <button type="submit" class="btn btn-block btn-success btn-large"> Update
-                    </button>
+
+                    <form method="post" action="{{ route('update.recipe' , $products->id) }}">
+                        {{ csrf_field() }}
+                        <div class="table-responsive " style="width:650px;">
+
+                            <div id="product_section">
+
+                                <div class="border border-dark">
+
+                                    <table class="table table-bordered" id="item_table">
+                                        <tr>
+                                            <th>Enter Item Name</th>
+                                            <th>Enter Quantity</th>
+                                            <th>Select Unit</th>
+                                        </tr>
+                                        <tbody>
+                                        <td>
+                                            @for($count = 0  ; $count < count($pivotStocks); $count++)
+                                                <div class="form-group mb-2">
+                                                    <select class="form-control" id="item_id2"
+                                                            name="product[0][recipe][{{$count}}][item]">
+                                                        {{--                                            <option value="">Select item</option>--}}
+                                                        @foreach($stocks as $key=> $stock)
+
+                                                            <option
+                                                                value="{{ $stock->id }}" {{ ( $stock->id == $pivotStocks[$count]) ? 'selected' : '' }}> {{ $stock->items }} </option>
+
+                                                        @endforeach
+                                                    </select>
+                                                    @endfor
+                                                </div>
+                                        </td>
+
+                                        <td>
+
+                                            <div class="form-group mb-2">
+                                                {{--<label for="Item">Quantity: </label>--}}
+                                                {{--                                        @for($count = 0  ; $count < count($pivotStocks); $count++)--}}
+                                                @foreach($products->stocks  as $key =>$stock)
+
+                                                    <input type="number" value="{{$stock->pivot->quantity}}"
+                                                           class="form-control"
+                                                           name="product[0][recipe][{{$key}}][quantity] ">
+                                                @endforeach
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            @for($count = 0  ; $count < count($pivotunit_id); $count++)
+                                                <div class="form-group mb-2">
+
+                                                    <select class="form-control"
+                                                            name=product[0][recipe][{{$count}}][unit_id]">
+                                                        @foreach($unitAll as $key=> $unit)
+                                                            <option
+                                                                value="{{ $unit->id }}" {{ ( $unit->id == $pivotunit_id[$count]) ? 'selected' : '' }}> {{ $unit->name }} </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @endfor
+                                                </div>
+
+                                        </td>
+                                        <td>
+                                            {{--                                @for($count = 0  ; $count < count($pivotunit_id); $count++)--}}
+                                            <button type="button" id="add_recipe_row_button"
+                                                    class="btn btn-success mb-2 "
+                                                    onclick="addRow(0)" style="width:70px;"> Add
+                                            </button>
+                                            {{--@endfor--}}
+                                        </td>
+
+
+                                        </tbody>
+                                    </table>
+                                    <div id="recipe_section0" class="border border-white">
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div align="center">
+                                <br>
+                                <button type="submit" class="btn btn-block btn-success btn-large"> Update
+                                </button>
+                            </div>
+                        </div>
+                        @csrf
+                    </form>
                 </div>
             </div>
-            @csrf
-        </form>
         </div>
     </div>
 

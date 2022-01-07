@@ -1,9 +1,16 @@
-@extends('layouts.app')
+{{--@extends('layouts.app')--}}
+@extends('layouts.appss')
 
 @section('content')
-    @include('inc.sidebar')
+{{--    @include('inc.sidebar')--}}
+{{--    @include('inc.side')--}}
+{{--    @include('inc.nav')--}}
+<div class="right_col" role="main">
+{{--    <!-- top tiles -->--}}
+{{--    <div class="row" style="display: inline-block;" >--}}
+    <div class="x_panel tile ">
     <div class="main">
-        <a href="/stocks" class=" btn btn-primary">Go Back</a>
+{{--        <a href="/stocks" class=" btn btn-primary">Go Back</a>--}}
 
         <div class="row">
             <div class="col-lg-12 margin-tb">
@@ -61,7 +68,7 @@
 {{--        {!! $histories->links() !!}--}}
 
 
-
+</div></div></div>
 </div>
 
 

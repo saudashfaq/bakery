@@ -9,7 +9,6 @@ use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\Parent_product;
 use App\Models\Production;
-use App\Models\Size;
 use App\Models\Stock;
 use App\Models\Product_stock;
 use App\Models\Unit;
@@ -66,6 +65,7 @@ class ProductionController extends Controller
         // for image..
         $filename = time() . '.' . request()->image->getClientOriginalExtension();
         request()->image->move(public_path('images'), $filename);
+
         $parent_product = Parent_product::create([
 
             'title' => request('title'),
@@ -157,98 +157,6 @@ class ProductionController extends Controller
 
     }
 
-//    public function storeProducedProduct(Request $request, $id, Stock $stock)
-//    {
-//
-//        $this->validate($request, [
-//            'require_quantity' => 'required',
-//            'size' => 'required'
-//        ]);
-//     // $products = Product::find($id);
-////        $products = Product::with('stocks.unit')->where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
-//        $products = Product::where('parent_product_id', $id)->where('size_id', '=', $request->size)->get();
-//
-//        //todo unit conversion code commented
-////        $products = Product::with('stocks.unit')->where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
-////        foreach ($products->pivot as $product) {
-////            $unit = $product->pivot->unit->name;
-////            dump($unit);
-////            dump($product->pivot->quantity);
-////
-////            $simpleConvertor = new Convertor($product->pivot->quantity, "g");
-////            return $simpleConvertor->to("kg");
-//////
-////            if ($product->quantity < $product->pivot->quantity * $request->require_quantity) {
-////                return 'quantity is less ';
-////            }
-////
-////        }
-//      //  $products = Product::find($id);
-////        $products = Product::with('stocks.unit')->where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
-//        //$products = Product::where('parent_product_id', $id)->where('size_id', '=', $request->size)->get();
-//
-//        //todo unit conversion code commented
-//      $products = Product::with('stocks.unit')->where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
-////        foreach ($products->pivot as $product) {
-////            $unit = $product->pivot->unit->name;
-////            dump($unit);
-////            dump($product->pivot->quantity);
-////
-////            $simpleConvertor = new Convertor($product->pivot->quantity, "g");
-////            return $simpleConvertor->to("kg");
-//////
-////            if ($product->quantity < $product->pivot->quantity * $request->require_quantity) {
-////                return 'quantity is less ';
-////            }
-////
-////        }
-//        foreach ($products as $product) {
-//            $product_id = $product->id;
-//
-//            $products = Product::with(['stocks', 'units'])->where('parent_product_id', $id)->where('size_id', '=', $request->size)->first();
-//
-//            $unitInPivot = [];
-//
-//            foreach ($products->units as $unit_id) {
-//                $units = $unit_id->name;
-//                array_push($unitInPivot, $units);
-//            }
-//
-//            foreach ($products->stocks as $key => $stock) {
-//
-//                $stock_units = $stock->unit->name;
-////            $unit_of_pivot = $stock->pivot->unit_id;
-//                //pivot unit conversion into actual unit
-//                $simpleConvertor = new Convertor($stock->pivot->quantity * $request->require_quantity, "$unitInPivot[$key]");
-//                $convertedValues = $simpleConvertor->to("$stock_units");
-//
-//                //check if produced quantity is greater than actual stock quantity
-//                if ($stock->quantity < $convertedValues) {
-//                    return redirect()->route('show.products')->with('error', 'Sorry your quantity is less than stock quantity ');
-//
-//                }
-//                //deducte produced quantity into stocks table ,
-//                $stockTable = Stock::where('id', $stock->id)->first();
-//                $stock->update([
-//                    'quantity' => $stockTable->quantity - $convertedValues, // quantity of produced  product
-//                ]);
-//
-//            }
-//            // save produced product into Inventery table
-//            $inventory = Inventory::updateOrCreate([
-//                'product_id' => $product_id,
-//                'product_id' => $products->id,
-//
-//            ], [
-//                'product_id' => $product_id,
-//                'product_id' => $products->id,
-//                'finished_goods' => $request->get('require_quantity'),
-//
-//            ]);
-//        }
-//
-//        return redirect()->route('inventory')->with('success', 'Produced Successfully');
-//    }
     public function storeProducedProduct(Request $request, $id, Stock $stock)
     {
 
@@ -272,7 +180,7 @@ class ProductionController extends Controller
 
         }
 
-        $calculate = 0;
+        $costPerPiece = 0;
         foreach ($products->stocks as $key => $stock) {
 
             $stock_units = $stock->unit->name;
@@ -301,14 +209,14 @@ class ProductionController extends Controller
             if ($units == 'kg' || $units == 'l') {
                 //dd('if',$units);
                 $product = $stock->price;
-                $calculate += $product * $convertedValues;
+                $costPerPiece += $product * $convertedValues;
 //                $product = $stock->price;
 //                $calculate += $product * $stock->pivot->quantity;
                 // dump($calculate);
             } else {
 
                 $product = $stock->price/1;
-                $calculate += $product * $convertedValues;
+                $costPerPiece += $product * $convertedValues;
 //                $product = $stock->price/1000 ;
 //                $calculate += $product * $stock->pivot->quantity;
 //                dump($calculate);
@@ -326,36 +234,11 @@ class ProductionController extends Controller
 
         // dump('Total', $calculate);
 
-        // save produced product into Inventery table
-//        $inventory = Inventory::updateOrCreate([
-//            'product_id' => $products->id,
-//        ]);
-//        foreach ($products->stocks as $key => $stock) {
-//
-//            $stock_units = $stock->unit->name;
-////            $unit_of_pivot = $stock->pivot->unit_id;
-//            //pivot unit conversion into actual unit
-//            $simpleConvertor = new Convertor($stock->pivot->quantity * $request->require_quantity, "$unitInPivot[$key]");
-//            $convertedValues = $simpleConvertor->to("$stock_units");
-//
-//            //check if produced quantity is greater than actual stock quantity
-//            if ($stock->quantity < $convertedValues) {
-//                return redirect()->route('show.products')->with( 'error','Sory your quantity is less than stock quantitity ');
-//
-//            }
-//            //deducte produced quantity into stocks table ,
-//            $stockTable = Stock::where('id', $stock->id)->first();
-//            $stock->update([
-//                'quantity' => $stockTable->quantity - $convertedValues, // quantity of produced  product
-//            ]);
-//
-//        }
-            // save produced product into Inventery table
-
 
             ],[
                 'product_id' => $products->id,
                 'finished_goods' => $request->get('require_quantity') + $inventories->finished_goods,
+                'piece_per_cost'=>$costPerPiece
 
             ]);
 
@@ -370,6 +253,7 @@ class ProductionController extends Controller
             ], [
                 'product_id' => $products->id,
                 'finished_goods' => $request->get('require_quantity'),
+                'piece_per_cost'=>$costPerPiece
 
             ]);
 
@@ -464,8 +348,11 @@ class ProductionController extends Controller
     public function editAbleRecipe(Request $request, $id)
     {
 
-//        dd($request->product_id);
+        $this->validate($request, [
+            'product_id' => 'required',
 
+        ]);
+        
         $pivotStocks = [];
         $pivotunit_id = [];
 
@@ -509,7 +396,6 @@ class ProductionController extends Controller
         $product = $request->product;
 
         /*product_size and parent_product_id save in product Table*/
-        $size = [];
         $stock_ids = [];
         $quantities = [];
         $unit_ids = [];
@@ -556,25 +442,9 @@ class ProductionController extends Controller
 
     public function showInventory()
     {
-//        $product_attributes = Product::with(['attributes.attributeHeads'])->where('parent_product_id', $id)->get();
 
-//        $inventories = Inventory::latest()->with(['products.parent_product,attributes'])->get();
         $inventories = Inventory::latest()->with(['products.parent_product', 'products.attributes.attributeHeads'])->get();
-//        dd($inventories);
-//        foreach ($inventories as $inventory){
-//
-//            dump($inventory->products->parent_product->title);
-//            foreach ($inventory->products->attributes as $attribute){
-//                dump($attribute->attributeHeads->name);
-//                dump($attribute->name);
-//            }
-////            dump($inventory->products->attributes as $attributes);
-////            foreach ($inventory)
-////            dump($inventory->products->attributes->name);
-//
-//        }
-//
-//dd('stop');
+
         return view('inventory.showinventory')->with("inventories", $inventories);
 
     }
@@ -590,8 +460,7 @@ class ProductionController extends Controller
     }
 
     //CreateReadyMadeProductRequest request class
-
-    public function storeReadyMadeProduct(Request $request)
+    public function storeReadyMadeProduct(CreateReadyMadeProductRequest $request)
     {
 
         $attributes = $request->attribute;

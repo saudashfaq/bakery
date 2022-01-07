@@ -9272,16 +9272,16 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'barney',  'active': true },
-                     *   { 'user': 'fred',    'active': false },
-                     *   { 'user': 'pebbles', 'active': false }
+                     *   { 'admin': 'barney',  'active': true },
+                     *   { 'admin': 'fred',    'active': false },
+                     *   { 'admin': 'pebbles', 'active': false }
                      * ];
                      *
                      * _.dropRightWhile(users, function(o) { return !o.active; });
                      * // => objects for ['barney']
                      *
                      * // The `_.matches` iteratee shorthand.
-                     * _.dropRightWhile(users, { 'user': 'pebbles', 'active': false });
+                     * _.dropRightWhile(users, { 'admin': 'pebbles', 'active': false });
                      * // => objects for ['barney', 'fred']
                      *
                      * // The `_.matchesProperty` iteratee shorthand.
@@ -9313,16 +9313,16 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'barney',  'active': false },
-                     *   { 'user': 'fred',    'active': false },
-                     *   { 'user': 'pebbles', 'active': true }
+                     *   { 'admin': 'barney',  'active': false },
+                     *   { 'admin': 'fred',    'active': false },
+                     *   { 'admin': 'pebbles', 'active': true }
                      * ];
                      *
                      * _.dropWhile(users, function(o) { return !o.active; });
                      * // => objects for ['pebbles']
                      *
                      * // The `_.matches` iteratee shorthand.
-                     * _.dropWhile(users, { 'user': 'barney', 'active': false });
+                     * _.dropWhile(users, { 'admin': 'barney', 'active': false });
                      * // => objects for ['fred', 'pebbles']
                      *
                      * // The `_.matchesProperty` iteratee shorthand.
@@ -9395,16 +9395,16 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'barney',  'active': false },
-                     *   { 'user': 'fred',    'active': false },
-                     *   { 'user': 'pebbles', 'active': true }
+                     *   { 'admin': 'barney',  'active': false },
+                     *   { 'admin': 'fred',    'active': false },
+                     *   { 'admin': 'pebbles', 'active': true }
                      * ];
                      *
-                     * _.findIndex(users, function(o) { return o.user == 'barney'; });
+                     * _.findIndex(users, function(o) { return o.admin == 'barney'; });
                      * // => 0
                      *
                      * // The `_.matches` iteratee shorthand.
-                     * _.findIndex(users, { 'user': 'fred', 'active': false });
+                     * _.findIndex(users, { 'admin': 'fred', 'active': false });
                      * // => 1
                      *
                      * // The `_.matchesProperty` iteratee shorthand.
@@ -9442,16 +9442,16 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'barney',  'active': true },
-                     *   { 'user': 'fred',    'active': false },
-                     *   { 'user': 'pebbles', 'active': false }
+                     *   { 'admin': 'barney',  'active': true },
+                     *   { 'admin': 'fred',    'active': false },
+                     *   { 'admin': 'pebbles', 'active': false }
                      * ];
                      *
-                     * _.findLastIndex(users, function(o) { return o.user == 'pebbles'; });
+                     * _.findLastIndex(users, function(o) { return o.admin == 'pebbles'; });
                      * // => 2
                      *
                      * // The `_.matches` iteratee shorthand.
-                     * _.findLastIndex(users, { 'user': 'barney', 'active': true });
+                     * _.findLastIndex(users, { 'admin': 'barney', 'active': true });
                      * // => 0
                      *
                      * // The `_.matchesProperty` iteratee shorthand.
@@ -10393,16 +10393,16 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'barney',  'active': true },
-                     *   { 'user': 'fred',    'active': false },
-                     *   { 'user': 'pebbles', 'active': false }
+                     *   { 'admin': 'barney',  'active': true },
+                     *   { 'admin': 'fred',    'active': false },
+                     *   { 'admin': 'pebbles', 'active': false }
                      * ];
                      *
                      * _.takeRightWhile(users, function(o) { return !o.active; });
                      * // => objects for ['fred', 'pebbles']
                      *
                      * // The `_.matches` iteratee shorthand.
-                     * _.takeRightWhile(users, { 'user': 'pebbles', 'active': false });
+                     * _.takeRightWhile(users, { 'admin': 'pebbles', 'active': false });
                      * // => objects for ['pebbles']
                      *
                      * // The `_.matchesProperty` iteratee shorthand.
@@ -10434,16 +10434,16 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'barney',  'active': false },
-                     *   { 'user': 'fred',    'active': false },
-                     *   { 'user': 'pebbles', 'active': true }
+                     *   { 'admin': 'barney',  'active': false },
+                     *   { 'admin': 'fred',    'active': false },
+                     *   { 'admin': 'pebbles', 'active': true }
                      * ];
                      *
                      * _.takeWhile(users, function(o) { return !o.active; });
                      * // => objects for ['barney', 'fred']
                      *
                      * // The `_.matches` iteratee shorthand.
-                     * _.takeWhile(users, { 'user': 'barney', 'active': false });
+                     * _.takeWhile(users, { 'admin': 'barney', 'active': false });
                      * // => objects for ['barney']
                      *
                      * // The `_.matchesProperty` iteratee shorthand.
@@ -10888,16 +10888,16 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'barney',  'age': 36 },
-                     *   { 'user': 'fred',    'age': 40 },
-                     *   { 'user': 'pebbles', 'age': 1 }
+                     *   { 'admin': 'barney',  'age': 36 },
+                     *   { 'admin': 'fred',    'age': 40 },
+                     *   { 'admin': 'pebbles', 'age': 1 }
                      * ];
                      *
                      * var youngest = _
                      *   .chain(users)
                      *   .sortBy('age')
                      *   .map(function(o) {
-                     *     return o.user + ' is ' + o.age;
+                     *     return o.admin + ' is ' + o.age;
                      *   })
                      *   .head()
                      *   .value();
@@ -11015,21 +11015,21 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'barney', 'age': 36 },
-                     *   { 'user': 'fred',   'age': 40 }
+                     *   { 'admin': 'barney', 'age': 36 },
+                     *   { 'admin': 'fred',   'age': 40 }
                      * ];
                      *
                      * // A sequence without explicit chaining.
                      * _(users).head();
-                     * // => { 'user': 'barney', 'age': 36 }
+                     * // => { 'admin': 'barney', 'age': 36 }
                      *
                      * // A sequence with explicit chaining.
                      * _(users)
                      *   .chain()
                      *   .head()
-                     *   .pick('user')
+                     *   .pick('admin')
                      *   .value();
-                     * // => { 'user': 'barney' }
+                     * // => { 'admin': 'barney' }
                      */
                     function wrapperChain() {
                         return chain(this);
@@ -11276,12 +11276,12 @@ require('./bootstrap');
                      * // => false
                      *
                      * var users = [
-                     *   { 'user': 'barney', 'age': 36, 'active': false },
-                     *   { 'user': 'fred',   'age': 40, 'active': false }
+                     *   { 'admin': 'barney', 'age': 36, 'active': false },
+                     *   { 'admin': 'fred',   'age': 40, 'active': false }
                      * ];
                      *
                      * // The `_.matches` iteratee shorthand.
-                     * _.every(users, { 'user': 'barney', 'active': false });
+                     * _.every(users, { 'admin': 'barney', 'active': false });
                      * // => false
                      *
                      * // The `_.matchesProperty` iteratee shorthand.
@@ -11318,8 +11318,8 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'barney', 'age': 36, 'active': true },
-                     *   { 'user': 'fred',   'age': 40, 'active': false }
+                     *   { 'admin': 'barney', 'age': 36, 'active': true },
+                     *   { 'admin': 'fred',   'age': 40, 'active': false }
                      * ];
                      *
                      * _.filter(users, function(o) { return !o.active; });
@@ -11362,9 +11362,9 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'barney',  'age': 36, 'active': true },
-                     *   { 'user': 'fred',    'age': 40, 'active': false },
-                     *   { 'user': 'pebbles', 'age': 1,  'active': true }
+                     *   { 'admin': 'barney',  'age': 36, 'active': true },
+                     *   { 'admin': 'fred',    'age': 40, 'active': false },
+                     *   { 'admin': 'pebbles', 'age': 1,  'active': true }
                      * ];
                      *
                      * _.find(users, function(o) { return o.age < 40; });
@@ -11714,12 +11714,12 @@ require('./bootstrap');
                      * // => [16, 64] (iteration order is not guaranteed)
                      *
                      * var users = [
-                     *   { 'user': 'barney' },
-                     *   { 'user': 'fred' }
+                     *   { 'admin': 'barney' },
+                     *   { 'admin': 'fred' }
                      * ];
                      *
                      * // The `_.property` iteratee shorthand.
-                     * _.map(users, 'user');
+                     * _.map(users, 'admin');
                      * // => ['barney', 'fred']
                      */
                     function map(collection, iteratee) {
@@ -11746,14 +11746,14 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'fred',   'age': 48 },
-                     *   { 'user': 'barney', 'age': 34 },
-                     *   { 'user': 'fred',   'age': 40 },
-                     *   { 'user': 'barney', 'age': 36 }
+                     *   { 'admin': 'fred',   'age': 48 },
+                     *   { 'admin': 'barney', 'age': 34 },
+                     *   { 'admin': 'fred',   'age': 40 },
+                     *   { 'admin': 'barney', 'age': 36 }
                      * ];
                      *
-                     * // Sort by `user` in ascending order and by `age` in descending order.
-                     * _.orderBy(users, ['user', 'age'], ['asc', 'desc']);
+                     * // Sort by `admin` in ascending order and by `age` in descending order.
+                     * _.orderBy(users, ['admin', 'age'], ['asc', 'desc']);
                      * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
                      */
                     function orderBy(collection, iteratees, orders, guard) {
@@ -11786,9 +11786,9 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'barney',  'age': 36, 'active': false },
-                     *   { 'user': 'fred',    'age': 40, 'active': true },
-                     *   { 'user': 'pebbles', 'age': 1,  'active': false }
+                     *   { 'admin': 'barney',  'age': 36, 'active': false },
+                     *   { 'admin': 'fred',    'age': 40, 'active': true },
+                     *   { 'admin': 'pebbles', 'age': 1,  'active': false }
                      * ];
                      *
                      * _.partition(users, function(o) { return o.active; });
@@ -11898,8 +11898,8 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'barney', 'age': 36, 'active': false },
-                     *   { 'user': 'fred',   'age': 40, 'active': true }
+                     *   { 'admin': 'barney', 'age': 36, 'active': false },
+                     *   { 'admin': 'fred',   'age': 40, 'active': true }
                      * ];
                      *
                      * _.reject(users, function(o) { return !o.active; });
@@ -12046,12 +12046,12 @@ require('./bootstrap');
                      * // => true
                      *
                      * var users = [
-                     *   { 'user': 'barney', 'active': true },
-                     *   { 'user': 'fred',   'active': false }
+                     *   { 'admin': 'barney', 'active': true },
+                     *   { 'admin': 'fred',   'active': false }
                      * ];
                      *
                      * // The `_.matches` iteratee shorthand.
-                     * _.some(users, { 'user': 'barney', 'active': false });
+                     * _.some(users, { 'admin': 'barney', 'active': false });
                      * // => false
                      *
                      * // The `_.matchesProperty` iteratee shorthand.
@@ -12087,16 +12087,16 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'fred',   'age': 48 },
-                     *   { 'user': 'barney', 'age': 36 },
-                     *   { 'user': 'fred',   'age': 30 },
-                     *   { 'user': 'barney', 'age': 34 }
+                     *   { 'admin': 'fred',   'age': 48 },
+                     *   { 'admin': 'barney', 'age': 36 },
+                     *   { 'admin': 'fred',   'age': 30 },
+                     *   { 'admin': 'barney', 'age': 34 }
                      * ];
                      *
-                     * _.sortBy(users, [function(o) { return o.user; }]);
+                     * _.sortBy(users, [function(o) { return o.admin; }]);
                      * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 30]]
                      *
-                     * _.sortBy(users, ['user', 'age']);
+                     * _.sortBy(users, ['admin', 'age']);
                      * // => objects for [['barney', 34], ['barney', 36], ['fred', 30], ['fred', 48]]
                      */
                     var sortBy = baseRest(function(collection, iteratees) {
@@ -12250,10 +12250,10 @@ require('./bootstrap');
                      * @example
                      *
                      * function greet(greeting, punctuation) {
-                     *   return greeting + ' ' + this.user + punctuation;
+                     *   return greeting + ' ' + this.admin + punctuation;
                      * }
                      *
-                     * var object = { 'user': 'fred' };
+                     * var object = { 'admin': 'fred' };
                      *
                      * var bound = _.bind(greet, object, 'hi');
                      * bound('!');
@@ -12296,9 +12296,9 @@ require('./bootstrap');
                      * @example
                      *
                      * var object = {
-                     *   'user': 'fred',
+                     *   'admin': 'fred',
                      *   'greet': function(greeting, punctuation) {
-                     *     return greeting + ' ' + this.user + punctuation;
+                     *     return greeting + ' ' + this.admin + punctuation;
                      *   }
                      * };
                      *
@@ -12307,7 +12307,7 @@ require('./bootstrap');
                      * // => 'hi fred!'
                      *
                      * object.greet = function(greeting, punctuation) {
-                     *   return greeting + 'ya ' + this.user + punctuation;
+                     *   return greeting + 'ya ' + this.admin + punctuation;
                      * };
                      *
                      * bound('!');
@@ -15555,8 +15555,8 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = {
-                     *   'fred':    { 'user': 'fred',    'age': 40 },
-                     *   'pebbles': { 'user': 'pebbles', 'age': 1 }
+                     *   'fred':    { 'admin': 'fred',    'age': 40 },
+                     *   'pebbles': { 'admin': 'pebbles', 'age': 1 }
                      * };
                      *
                      * _.mapValues(users, function(o) { return o.age; });
@@ -16876,8 +16876,8 @@ require('./bootstrap');
                      * @example
                      *
                      * // Use the "interpolate" delimiter to create a compiled template.
-                     * var compiled = _.template('hello <%= user %>!');
-                     * compiled({ 'user': 'fred' });
+                     * var compiled = _.template('hello <%= admin %>!');
+                     * compiled({ 'admin': 'fred' });
                      * // => 'hello fred!'
                      *
                      * // Use the HTML "escape" delimiter to escape data property values.
@@ -16886,19 +16886,19 @@ require('./bootstrap');
                      * // => '<b>&lt;script&gt;</b>'
                      *
                      * // Use the "evaluate" delimiter to execute JavaScript and generate HTML.
-                     * var compiled = _.template('<% _.forEach(users, function(user) { %><li><%- user %></li><% }); %>');
+                     * var compiled = _.template('<% _.forEach(users, function(admin) { %><li><%- admin %></li><% }); %>');
                      * compiled({ 'users': ['fred', 'barney'] });
                      * // => '<li>fred</li><li>barney</li>'
                      *
                      * // Use the internal `print` function in "evaluate" delimiters.
-                     * var compiled = _.template('<% print("hello " + user); %>!');
-                     * compiled({ 'user': 'barney' });
+                     * var compiled = _.template('<% print("hello " + admin); %>!');
+                     * compiled({ 'admin': 'barney' });
                      * // => 'hello barney!'
                      *
                      * // Use the ES template literal delimiter as an "interpolate" delimiter.
                      * // Disable support by replacing the "interpolate" delimiter.
-                     * var compiled = _.template('hello ${ user }!');
-                     * compiled({ 'user': 'pebbles' });
+                     * var compiled = _.template('hello ${ admin }!');
+                     * compiled({ 'admin': 'pebbles' });
                      * // => 'hello pebbles!'
                      *
                      * // Use backslashes to treat delimiters as plain text.
@@ -16907,29 +16907,29 @@ require('./bootstrap');
                      * // => '<%- value %>'
                      *
                      * // Use the `imports` option to import `jQuery` as `jq`.
-                     * var text = '<% jq.each(users, function(user) { %><li><%- user %></li><% }); %>';
+                     * var text = '<% jq.each(users, function(admin) { %><li><%- admin %></li><% }); %>';
                      * var compiled = _.template(text, { 'imports': { 'jq': jQuery } });
                      * compiled({ 'users': ['fred', 'barney'] });
                      * // => '<li>fred</li><li>barney</li>'
                      *
                      * // Use the `sourceURL` option to specify a custom sourceURL for the template.
-                     * var compiled = _.template('hello <%= user %>!', { 'sourceURL': '/basic/greeting.jst' });
+                     * var compiled = _.template('hello <%= admin %>!', { 'sourceURL': '/basic/greeting.jst' });
                      * compiled(data);
                      * // => Find the source of "greeting.jst" under the Sources tab or Resources panel of the web inspector.
                      *
                      * // Use the `variable` option to ensure a with-statement isn't used in the compiled template.
-                     * var compiled = _.template('hi <%= data.user %>!', { 'variable': 'data' });
+                     * var compiled = _.template('hi <%= data.admin %>!', { 'variable': 'data' });
                      * compiled.source;
                      * // => function(data) {
                      * //   var __t, __p = '';
-                     * //   __p += 'hi ' + ((__t = ( data.user )) == null ? '' : __t) + '!';
+                     * //   __p += 'hi ' + ((__t = ( data.admin )) == null ? '' : __t) + '!';
                      * //   return __p;
                      * // }
                      *
                      * // Use custom template delimiters.
                      * _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
-                     * var compiled = _.template('hello {{ user }}!');
-                     * compiled({ 'user': 'mustache' });
+                     * var compiled = _.template('hello {{ admin }}!');
+                     * compiled({ 'admin': 'mustache' });
                      * // => 'hello mustache!'
                      *
                      * // Use the `source` property to inline compiled templates for meaningful
@@ -17679,20 +17679,20 @@ require('./bootstrap');
                      * @example
                      *
                      * var users = [
-                     *   { 'user': 'barney', 'age': 36, 'active': true },
-                     *   { 'user': 'fred',   'age': 40, 'active': false }
+                     *   { 'admin': 'barney', 'age': 36, 'active': true },
+                     *   { 'admin': 'fred',   'age': 40, 'active': false }
                      * ];
                      *
                      * // The `_.matches` iteratee shorthand.
-                     * _.filter(users, _.iteratee({ 'user': 'barney', 'active': true }));
-                     * // => [{ 'user': 'barney', 'age': 36, 'active': true }]
+                     * _.filter(users, _.iteratee({ 'admin': 'barney', 'active': true }));
+                     * // => [{ 'admin': 'barney', 'age': 36, 'active': true }]
                      *
                      * // The `_.matchesProperty` iteratee shorthand.
-                     * _.filter(users, _.iteratee(['user', 'fred']));
-                     * // => [{ 'user': 'fred', 'age': 40 }]
+                     * _.filter(users, _.iteratee(['admin', 'fred']));
+                     * // => [{ 'admin': 'fred', 'age': 40 }]
                      *
                      * // The `_.property` iteratee shorthand.
-                     * _.map(users, _.iteratee('user'));
+                     * _.map(users, _.iteratee('admin'));
                      * // => ['barney', 'fred']
                      *
                      * // Create custom iteratee shorthands.

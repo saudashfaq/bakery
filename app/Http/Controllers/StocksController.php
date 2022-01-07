@@ -59,7 +59,7 @@ class StocksController extends Controller
         $stock->quantity = $request->input('quantity');
         //
         $stock->user_id = auth()->user()->id;
-//        $stock->user_email = auth()->user()->email;
+//        $stock->user_email = auth()->admin()->email;
 
         $stock->save();
         return redirect()->route('stocks.index')->with('success', 'Add successfully');

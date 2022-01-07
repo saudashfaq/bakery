@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User_account;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -53,21 +54,35 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'image'=>['required' ]
         ]);
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Create a new admin instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\Models\User
      */
     protected function create(array $data)
     {
+//        dd( $data);
+        $user_account = new User_account();
+        $user_account->company_name =  $data['companyName'];
+        $user_account->save();
+
+// for image..
+        $filename = time() . '.' . request()->image->getClientOriginalExtension();
+        $data['image']->move(public_path('images/admin'), $filename);
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'image'=> $filename,
+            'parent_user_id'=> 0,
+            'user_account_id'=> $user_account->id,
             'password' => Hash::make($data['password']),
+
         ]);
     }
 }
