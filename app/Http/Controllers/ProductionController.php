@@ -32,7 +32,7 @@ class ProductionController extends Controller
     public function index()
     {
 
-        $parent_products = Parent_product::latest()->with('category')->get();
+        $parent_products = Parent_product::latest()->where('user_account_id' , auth()->user()->user_account_id)->with('category')->get();
 
         return view('production.index')->with('parent_products', $parent_products);
 //        return view('sample')->with('parent_products', $parent_products);
@@ -44,12 +44,10 @@ class ProductionController extends Controller
     {
 
         $units = Unit::all();
-        $stocks = Stock::all();
-//        $sizes = Size::all();
-        $categories = Category::all();
-
-        $attributeHeads = Attribute_head::with('attributes')->get();
-
+        $stocks = Stock::where('user_account_id' , auth()->user()->user_account_id)->get();
+        $categories = Category::where('user_account_id' , auth()->user()->user_account_id)->get();
+        $attributeHeads = Attribute_head::with('attributes')
+            ->where('user_account_id' , auth()->user()->user_account_id)->get();
 
         return view('production.create', compact('attributeHeads'))->with('units', $units)->with('stocks', $stocks)->with('categories', $categories);
 
@@ -72,7 +70,9 @@ class ProductionController extends Controller
             'description' => request('description'),
             'category_id' => request('category_id'),
             'image' => $filename,
-            'brand_name' => 'local'
+            'brand_name' => 'local',
+            'user_account_id' => auth()->user()->user_account_id,
+            'user_id' => auth()->user()->id,
 
         ]);
 
@@ -87,7 +87,7 @@ class ProductionController extends Controller
 //            $product_size = $value['size'];
 
             $products = new Product();
-            $products->parent_product_id = $perent_product->id;
+            $products->parent_product_id = $parent_product->id;
             $products->save();
 
             /*for attributs save in product_attributes table */
@@ -253,7 +253,9 @@ class ProductionController extends Controller
             ], [
                 'product_id' => $products->id,
                 'finished_goods' => $request->get('require_quantity'),
-                'piece_per_cost'=>$costPerPiece
+                'piece_per_cost'=>$costPerPiece,
+                'user_account_id' =>  auth()->user()->user_account_id,
+                'user_id' => auth()->user()->id
 
             ]);
 
@@ -352,7 +354,7 @@ class ProductionController extends Controller
             'product_id' => 'required',
 
         ]);
-        
+
         $pivotStocks = [];
         $pivotunit_id = [];
 
@@ -442,8 +444,7 @@ class ProductionController extends Controller
 
     public function showInventory()
     {
-
-        $inventories = Inventory::latest()->with(['products.parent_product', 'products.attributes.attributeHeads'])->get();
+        $inventories = Inventory::latest()->where('user_account_id' , auth()->user()->user_account_id)->with(['products.parent_product', 'products.attributes.attributeHeads'])->get();
 
         return view('inventory.showinventory')->with("inventories", $inventories);
 
@@ -452,8 +453,8 @@ class ProductionController extends Controller
     public function createReadyMadeProduct()
     {
 //        $sizes = Size::all();
-        $attributeHeads = Attribute_head::with('attributes')->get();
-        $categories = Category::all();
+        $attributeHeads = Attribute_head::with('attributes')->where('user_account_id' , auth()->user()->user_account_id)->get();
+        $categories = Category::where('user_account_id' , auth()->user()->user_account_id)->get();
 
         return view('production.createreadymadeproduct')->with('categories', $categories)->with('attributeHeads', $attributeHeads);
 

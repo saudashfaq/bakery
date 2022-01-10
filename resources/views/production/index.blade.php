@@ -59,7 +59,7 @@
                                     <div class="col-md-6">
                                         {{--                                <div class="pro-img-details" >--}}
                                         <div>
-                                            <!-- product image -->z
+                                            <!-- product image -->
                                             <img src="{{url('images', $parent_product->image) }}" alt="cake image"
                                                  class="" width="380" height="260">
                                         </div>
@@ -96,15 +96,15 @@
                                                 <i class="fa fa-eye  fa-lg" style="color: whitesmoke"></i> Show Recipe
                                             </a>
 {{--                                            @if(auth()->user()->can('Producer'))--}}
-                                        @can('producer')
+{{--                                        @can('producer')--}}
                                             <!-- Produce Button  -->
                                             <a class=" btn btn-round btn-danger" type="button"
                                                data-toggle="modal" id="mediumButton" data-target="#mediumModal"
                                                data-attr="{{ route('produce.product', $parent_product->id) }}"
                                                title="Produce product" style="color: whitesmoke">
                                                 <i class="fa fa-plus"></i> Produce
-                                            </a
-                                        @endcan
+                                            </a>
+{{--                                        @endcan--}}
 {{--                                            @endif--}}
 
                                             <!-- Edit Button -->

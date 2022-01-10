@@ -33,11 +33,19 @@ class Attributecontroller extends Controller
     public function createAttribute()
     {
 
+
         return view('attribute.createattribute');
     }
 
     public function storeAttribute(Request $request)
     {
+//        dd(auth()->user()->user_account_id , auth()->user()->id);
+        $this->validate($request , [
+
+            'AttributeHead'=> 'required',
+            'attribute'=> 'required'
+        ]);
+
         $attributeHeads = Attribute_head::where('name', '=', $request->AttributeHead)->first();
 
         if ($attributeHeads == !null) {
@@ -46,6 +54,8 @@ class Attributecontroller extends Controller
 
             $attributeHead = Attribute_head::create([
                 'name' => request('AttributeHead'),
+                'user_account_id'=> auth()->user()->user_account_id,
+                'user_id' => auth()->user()->id,
             ]);
 
 
@@ -112,6 +122,8 @@ class Attributecontroller extends Controller
         } else {
             $category = new Category();
             $category->name = $request->input('name');
+            $category->user_id = auth()->user()->id;
+            $category->user_account_id = auth()->user()->user_account_id;
             $category->save();
             return redirect()->route('create.category')->with('success', 'Category Created Successfully ');
         }
