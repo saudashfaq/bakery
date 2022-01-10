@@ -21,7 +21,7 @@ class StocksController extends Controller
     public function index()
     {
 //        $stocks = Stock::latest()->with('unit')->paginate(5);
-        $stocks = Stock::latest()->with('unit')->get();
+        $stocks = Stock:: where('user_account_id' , auth()->user()->user_account_id)->latest()->with('unit')->get();
 
 //dd($stocks);
 //        return view('stocks.index', compact('stocks'))
@@ -57,9 +57,8 @@ class StocksController extends Controller
         $stock->price = $request->input('price');
         $stock->unit_id = $request->input('unit_id');
         $stock->quantity = $request->input('quantity');
-        //
         $stock->user_id = auth()->user()->id;
-//        $stock->user_email = auth()->admin()->email;
+        $stock->user_account_id = auth()->user()->user_account_id;
 
         $stock->save();
         return redirect()->route('stocks.index')->with('success', 'Add successfully');
@@ -108,11 +107,6 @@ class StocksController extends Controller
         $stock->update($request->all());
 
         return redirect()->route('stocks.index')->with('success', ' updated successfully');
-
-
-        $stock->save();
-
-//        return redirect()->route('stocks.index')->with('success', ' updated successfully');
 
     }
 

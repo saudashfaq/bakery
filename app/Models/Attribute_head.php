@@ -11,7 +11,7 @@ class Attribute_head extends Model
 
 
     protected $table = 'attribute_heads';
-    protected $fillable = ['name'];
+    protected $fillable = ['name' , 'user_account_id' , 'user_id'];
 
     public function attributes()
     {
