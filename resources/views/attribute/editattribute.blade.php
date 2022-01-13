@@ -10,7 +10,7 @@
         <div class="x_panel tile ">
             <div class="main">
                 {{--        {{dd($attributeHeads)}}--}}
-
+                @include('inc.messages')
                 <div style="margin-left:100px;">
 
                     <div style="margin-left:70px;"><h1>Edit Attribute Here </h1></div>

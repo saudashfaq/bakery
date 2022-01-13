@@ -8,7 +8,7 @@
         {{--    <div class="row" style="display: inline-block;" >--}}
         <div class="x_panel tile ">
             <div class="main">
-
+                @include('inc.messages')
                 <div class="row">
                     <div class="col-lg-12 margin-tb">
                         <div class="pull-left">

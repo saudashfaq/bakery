@@ -14,6 +14,10 @@ use phpDocumentor\Reflection\Utils;
 
 class Attributecontroller extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function index()
     {

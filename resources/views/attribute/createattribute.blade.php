@@ -7,7 +7,7 @@
         {{--    <div class="row" style="display: inline-block;" >--}}
         <div class="x_panel tile ">
             <div class="main">
-
+                @include('inc.messages')
                 <div style="margin-left:100px;">
 
                     <div style="margin-left:70px;"><h2>Create Attribute Here </h2></div>

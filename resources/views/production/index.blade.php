@@ -95,7 +95,7 @@
                                                title="Show recipe">
                                                 <i class="fa fa-eye  fa-lg" style="color: whitesmoke"></i> Show Recipe
                                             </a>
-{{--                                            @if(auth()->user()->can('Producer'))--}}
+                                            @if(auth()->user()->can('Producer'))
 {{--                                        @can('producer')--}}
                                             <!-- Produce Button  -->
                                             <a class=" btn btn-round btn-danger" type="button"
@@ -105,7 +105,7 @@
                                                 <i class="fa fa-plus"></i> Produce
                                             </a>
 {{--                                        @endcan--}}
-{{--                                            @endif--}}
+                                            @endif
 
                                             <!-- Edit Button -->
                                         {{--                                    <a class="text-secondary  btn btn-round btn-danger" type="button"--}}

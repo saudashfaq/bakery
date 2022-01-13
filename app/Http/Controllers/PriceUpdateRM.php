@@ -12,6 +12,10 @@ use App\Http\Requests\StocksAddRequest;
 
 class PriceUpdateRM extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     ///edit stockss
     /**

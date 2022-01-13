@@ -31,7 +31,7 @@ Route::get('/ajax-attribute', function(){
 
     return Response::json($attribute);
 });
-Route::get('/index.html','App\Http\Controllers\PagesController@theme');
+//Route::get('/index.html','App\Http\Controllers\PagesController@theme');
 
 Route::get('/', 'App\Http\Controllers\PagesController@index');
 
