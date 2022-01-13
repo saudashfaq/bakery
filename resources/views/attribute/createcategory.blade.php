@@ -1,20 +1,16 @@
 {{--@extends('layouts.app')--}}
 @extends('layouts.appss')
-
 @section('content')
-
+{{--    @include('inc.side')--}}
     <div class="right_col" role="main">
-        {{--    <!-- top tiles -->--}}
-        {{--    <div class="row" style="display: inline-block;" >--}}
         <div class="x_panel tile ">
             <div class="main">
-
+                @include('inc.messages')
                 <div style="margin-left:100px;">
 
                     <div style="margin-left:70px;"><h2>Create Attribute Here </h2></div>
                     <br/>
                     <form method="post" action="{{ route('store.category') }}">
-
 
                         {{--        <form id="product_form" name="product_form" method="post" action="#" enctype="multipart/form-data">--}}
                         <div class="table-responsive " style="width:500px;">

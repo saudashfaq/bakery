@@ -52,7 +52,8 @@
 
                     </ul>
                 </li>
-                <li><a><i class="fa fa-edit"></i> Products <span class="fa fa-chevron-down"></span></a>
+{{--                <li><a><i class="fa fa-edit"></i> Products <span class="fa fa-chevron-down"></span></a>--}}
+                <li><a><i class="fa fa-align-left " ></i>  Products <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a  href="/createproduct">Product Recipe</a></li>
                         <li> <a href="/createreadymadeproduct">Ready_Made </a></li>
@@ -61,7 +62,8 @@
                     </ul>
                 </li>
 
-                <li><a><i class="fa fa-edit"></i> Attribute <span class="fa fa-chevron-down"></span></a>
+{{--                <li><a><i class="fa fa-edit"></i> Attribute <span class="fa fa-chevron-down"></span></a>--}}
+                <li><a><i class= 'fa fa-cubes'></i> Attribute <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a href="/attribute/index">Show Attributes</a></li>
                         <li>  <a href="/createattribute">Create Attribute</a></li>

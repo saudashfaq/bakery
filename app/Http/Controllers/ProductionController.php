@@ -29,6 +29,12 @@ use App\Http\Requests\CreateReadyMadeProductRequest;
 
 class ProductionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function index()
     {
 
@@ -467,7 +473,7 @@ class ProductionController extends Controller
         $attributes = $request->attribute;
 
         foreach ($attributes as $attribute) {
-            dump($attribute['attribute_id']);
+//            dump($attribute['attribute_id']);
 
 
         }
@@ -483,7 +489,9 @@ class ProductionController extends Controller
             'description' => request('description'),
             'category_id' => request('category_id'),
             'image' => $filename,
-            'brand_name' => request('brand_name')
+            'brand_name' => request('brand_name'),
+            'user_account_id' => auth()->user()->user_account_id,
+            'user_id' => auth()->user()->id
 
         ]);
 

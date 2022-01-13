@@ -1,7 +1,7 @@
 
 {{-- about file--}}
 
-@extends('layouts.app')
+@extends('layouts.appss')
 @section('content')
     <h1> {{$title}} </h1>
     <p> This is about page </p>

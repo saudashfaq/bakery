@@ -16,6 +16,10 @@ use App\Http\Requests\StocksAddRequest;
 
 class HistoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function showHistory(){
 
