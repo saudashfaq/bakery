@@ -75,7 +75,7 @@ class RegisterController extends Controller
         $filename = time() . '.' . request()->image->getClientOriginalExtension();
         $data['image']->move(public_path('images/admin'), $filename);
 
-        return User::create([
+        return $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'image'=> $filename,
@@ -83,6 +83,8 @@ class RegisterController extends Controller
             'user_account_id'=> $user_account->id,
             'password' => Hash::make($data['password']),
 
-        ]);
+        ])
+
+            ;
     }
 }

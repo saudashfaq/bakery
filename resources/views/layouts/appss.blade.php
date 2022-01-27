@@ -168,8 +168,23 @@
     $(document).ready(function () {
         var table = $('#table_id').DataTable();
     });
+
+
+        function deleteAlert() {
+        if(!confirm("Are You Sure to delete this"))
+        event.preventDefault();
+    }
+        function cancelAlert() {
+        if(!confirm("Are You Sure to cancel this"))
+        event.preventDefault();
+    }
 </script>
 <!--/endfor without theme script -->
+
+<!-- sales page script -->
+<script src="../vendors/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+<!-- /end sales page script -->
+
 
 </body>
 </html>

@@ -21,7 +21,7 @@ class Attributecontroller extends Controller
 
     public function index()
     {
-        $attributeHeads = Attribute_head::with('attributes')->latest()->get();
+        $attributeHeads = Attribute_head::with('attributes')->where('user_account_id' , auth()->user()->user_account_id)->latest()->get();
 //        dd($attributeHeads);
 //        foreach ($attributeHeads as $attributeHead){
 //                dump($attributeHead->name);

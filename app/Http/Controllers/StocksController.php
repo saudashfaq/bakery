@@ -123,6 +123,7 @@ class StocksController extends Controller
      */
     public function destroy(Stock $stock)
     {
+        dd('stop');
 
         $stock->delete();
 

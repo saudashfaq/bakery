@@ -2,179 +2,300 @@
 @extends('layouts.appss')
 
 @section('content')
-    {{--    @include('inc.sidebar')--}}
-    {{--<div class="main">--}}
-    <!--<section class="jumbotron text-center">
-    <div class="main">
-        <h1 class="jumbotron-heading">Inventory</h1>
-    </div>
-</section>-->
+    <!-- Button trigger modal -->
+{{--    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">--}}
+{{--        Launch demo modal--}}
+{{--    </button>--}}
+
+    <!-- Modal -->
+
     <div class="right_col" role="main">
-        {{--    <!-- top tiles -->--}}
-        {{--    <div class="row" style="display: inline-block;" >--}}
+
         <div class="x_panel tile ">
 
             <div class="main">
-
-{{--                <div class="row">--}}
-                    <div class="col-12">
-
-                            {{--                <div class="row">--}}
-                            <div class="col-lg-12 margin-tb">
-                                <div class="pull-left">
-                                    <h1>Inventory </h1>
-                                </div>
+            @include('inc.messages')
+                <div class="col-12">
 
 
-                                {{--                    </div>--}}
-                            </div>
-                            <table id="datatableid"
-                                   class="table table-striped  table table-bordered table-responsive-lg table-hover myTable">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col" style="width: 90px ">Brand Name</th>
-                                    <th scope="col" style="width: 160px ">Attributes</th>
-                                    <th scope="col">Available</th>
-                                    <th scope="col" class="text-center">Quantity</th>
-                                    <th scope="col">Cost per Piece</th>
-                                    {{--                        <th> </th>--}}
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach ($inventories as $inventory)
-
-                                    <td><img src="{{url('images', $inventory->products->parent_product->image) }}"
-                                             alt="cake image" width="130" height="75"></td>
-                                    <td>{{$inventory->products->parent_product->title}}</td>
-                                    <td>{{$inventory->products->parent_product->brand_name}}</td>
-
-                                    <td>   @foreach ($inventory->products->attributes as $attribute)
-
-                                            {{$attribute->attributeHeads->name}}
-                                            : {{$attribute->name}}
-                                            {{--                        dump($attribute->name);--}}
-                                        @endforeach</td>
-                                    {{--                        <td>{{$inventory->products->size->name}}</td>--}}
-                                    {{--                        <td>not define</td>--}}
-
-
-                                    @if($inventory->finished_goods > 0)
-                                        <td> In Stock</td>
-                                    @else
-                                        <td> Out of Stock</td>
-
-                                    @endif
-
-
-                                    <span class="badge badge-primary badge-pill"></span>
-
-                                    <td class="text-center">{{$inventory->finished_goods}}</td>
-
-                                    <td class="text-center">{{$inventory->piece_per_cost}}</td>
-                                    {{--                        <td class="text-right">124,90 €</td>--}}
-                                    {{--                        <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>--}}
-                                    </tr>
-                                @endforeach
-
-                                {{--                    <tr>--}}
-                                {{--                        <td></td>--}}
-                                {{--                        <td></td>--}}
-                                {{--                        <td></td>--}}
-                                {{--                        <td></td>--}}
-                                {{--                        <td>Sub-Total</td>--}}
-                                {{--                        <td class="text-right">255,90 €</td>--}}
-                                {{--                    </tr>--}}
-                                {{--                    <tr>--}}
-                                {{--                        <td></td>--}}
-                                {{--                        <td></td>--}}
-                                {{--                        <td></td>--}}
-                                {{--                        <td></td>--}}
-                                {{--                        <td>Shipping</td>--}}
-                                {{--                        <td class="text-right">6,90 €</td>--}}
-                                {{--                    </tr>--}}
-                                {{--                    <tr>--}}
-                                {{--                        <td></td>--}}
-                                {{--                        <td></td>--}}
-                                {{--                        <td></td>--}}
-                                {{--                        <td></td>--}}
-                                {{--                        <td><strong>Total</strong></td>--}}
-                                {{--                        <td class="text-right"><strong>346,90 €</strong></td>--}}
-                                {{--                    </tr>--}}
-                                </tbody>
-                            </table>
+                    <div class="col-lg-12 margin-tb">
+                        <div class="pull-left">
+                            <h4>Inventory </h4>
                         </div>
-{{--                    </div>--}}
-                    {{--        <div class="col mb-2">--}}
-                    {{--            <div class="row">--}}
-                    {{--                <div class="col-sm-12  col-md-6">--}}
-                    {{--                    <button class="btn btn-block btn-light">Continue Shopping</button>--}}
-                    {{--                </div>--}}
-                    {{--                <div class="col-sm-12 col-md-6 text-right">--}}
-                    {{--                    <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>--}}
-                    {{--                </div>--}}
-                    {{--            </div>--}}
-                    {{--        </div>--}}
-{{--                </div>--}}
 
+
+                        {{--                    </div>--}}
+                    </div>
+                    <table id="datatableid"
+                           class="table table-striped  table table-bordered table-responsive-lg table-hover myTable">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Name</th>
+                            <th scope="col" style="width: 90px ">Brand Name</th>
+                            <th scope="col" style="width: 160px ">Attributes</th>
+                            <th scope="col">Available</th>
+                            <th scope="col" class="text-center">Quantity</th>
+                            <th scope="col">Cost per piece</th>
+                            <th scope="col">Selling Price</th>
+                            <th scope="col">Action</th>
+                            {{--                        <th> </th>--}}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($inventories as $inventory)
+                            <td><img src="{{url('images', $inventory->products->parent_product->image) }}"
+                                     alt="cake image" width="130" height="75"></td>
+                            <td>{{$inventory->products->parent_product->title}}</td>
+                            <td>{{$inventory->products->parent_product->brand_name}}</td>
+
+                            <td>   @foreach ($inventory->products->attributes as $attribute)
+
+                                    {{$attribute->attributeHeads->name}}
+                                    : {{$attribute->name}}
+
+                                @endforeach</td>
+
+                            @if($inventory->product_quantity > 0)
+                                <td> In Stock</td>
+                            @else
+                                <td> Out of Stock</td>
+                            @endif
+
+
+                            <span class="badge badge-primary badge-pill"></span>
+
+                            <td class="text-center">{{$inventory->product_quantity }} </td>
+
+                            <td class="text-center" style="width:120px">{{$inventory->cost_per_piece}}</td>
+
+{{--                            @if($inventory->selling_price_per_piece == !null)--}}
+
+                                <td class="text-center" style="width:120px" title="Click to change ">
+                                    @if($inventory->selling_price_per_piece == !null)
+
+                                    <a   type="button"  data-toggle="modal" data-target="#exampleModal2">
+                                        {{$inventory->selling_price_per_piece }}
+                                    </a>
+
+                                                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                                                     <div class="modal-dialog" role="document">
+
+                                                         <div class="modal-content">
+                                                             <div class="modal-header">
+                                                                 <h5 class="modal-title text-lg-center bold" id="exampleModalLabel" style="margin-left: 70px; color: #495057"><strong> Reset the Selling Price of Product </strong></h5>
+                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                     <span aria-hidden="true">&times;</span>
+                                                                 </button>
+                                                             </div>
+                                                             <div class="modal-body">
+                                                                 <form id="reset_price_form" method = "POST" action="{{route('storeProduced.Product' , $inventory->id)}}">
+{{--                                                        <input type="hidden" >--}}
+                                                        <div class="form-group">
+                                                            <div class="col-md-12" style=" color: #495057">
+                                                                <label><h2 >Reset Selling Price </h2></label>
+                                                                <input type="text" class="form-control @error('selling_price_per_piece') is-invalid @enderror " name="reset_price_per_piece"
+                                                                       id="email" placeholder="Rset Selling Price" required autocomplete="reset_price_per_piece">
+                                                                @error('reset_price_per_piece')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                 <strong>{{ $message }}</strong> </span>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" id="reset_price_form" class="btn btn-primary">Reset </button>
+                                                </div>
+                                                @csrf
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @php
+                                    //calculate profit
+                                        $profit  = $inventory->selling_price_per_piece - $inventory->cost_per_piece ;
+                                        $profit_percentage = $profit/$inventory->cost_per_piece * 100;
+                                    @endphp
+
+                                    {{--for toolip display--}}
+                                    <a   data-toggle="tooltip" title="{{"Your profit is ".$profit."rs and you gain ".round($profit_percentage, 2)  ." %"}}" style=":60px; color: #17a2b8;   vertical-align: 0.55em;" > <i class="fas fa-info-circle  "></i></a>
+                                        {{$inventory->id}}
+
+                            @else
+                                    <a  type="button"  data-toggle="modal" data-target="#exampleModal" title="add selling price"> <i class="fas fa-plus-circle text-success " style="font-size:19px"></i>
+                                    </a>
+                                        {{$inventory->id}}
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-lg-center bold" id="exampleModalLabel" style="margin-left: 70px; color: #495057"><strong> Set the Selling Price of Product </strong></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="selling_price_form" method = "POST" action="{{route('storeProduced.Product' , $inventory->id)}}">
+                                                        <input type="hidden" >
+                                                        <div class="form-group">
+                                                            <div class="col-md-12" style=" color: #495057">
+                                                                <label><h2 >Enter Selling Price </h2></label>
+                                                                <input type="text" class="form-control @error('selling_price_per_piece') is-invalid @enderror " name="selling_price_per_piece"
+                                                                       id="email" placeholder="Enter Selling Price" required autocomplete="selling_price_per_piece">
+                                                                @error('selling_price_per_piece')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                 <strong>{{ $message }}</strong> </span>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" id="selling_price_form" class="btn btn-primary">Save </button>
+                                                </div>
+
+                                            </div>       @csrf
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+
+                                @endif
+
+                                </td>
+                                                        <td style="width:100px">
+
+                                <!-- Edit Button -->
+                                {{--                                        <a class="btn btn-round btn-danger" type="button"--}}
+                                {{--                                           href="#" title="Edit">--}}
+                                {{--                                            <i class="fas fa-edit text-gray-300"></i>Assign--}}
+                                {{--                                        </a>--}}
+                                <a class=" btn btn-round btn-danger"
+                                   style="width: 100px; height: 34px; color: whitesmoke" type="button"
+                                   data-toggle="modal" id="mediumButton" data-target="#mediumModal"
+                                   data-attr="{{ route('assign.product' ,$inventory->products->id) }}"
+                                   title="Assign product">
+                                    <i class="fa fa-minus"></i> Assign
+                                </a>
+
+                                {{--                        </form>--}}
+                            </td>
+                            {{--                        <td class="text-right">124,90 €</td>--}}
+                            {{--                        <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>--}}
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
         </div>
     </div>
+    <!--    -->
 
-    <!-- Footer -->
-    <!--<footer class="text-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-lg-4 col-xl-3">
-                    <h5>About</h5>
-                    <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
-                    <p class="mb-0">
-                        Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression.
-                    </p>
-                </div>
 
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
-                    <h5>Informations</h5>
-                    <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
-                    <ul class="list-unstyled">
-                        <li><a href="">Link 1</a></li>
-                        <li><a href="">Link 2</a></li>
-                        <li><a href="">Link 3</a></li>
-                        <li><a href="">Link 4</a></li>
-                    </ul>
+    <!-- small modal -->
+    <div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto">
-                    <h5>Others links</h5>
-                    <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
-                    <ul class="list-unstyled">
-                        <li><a href="">Link 1</a></li>
-                        <li><a href="">Link 2</a></li>
-                        <li><a href="">Link 3</a></li>
-                        <li><a href="">Link 4</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-md-4 col-lg-3 col-xl-3">
-                    <h5>Contact</h5>
-                    <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
-                    <ul class="list-unstyled">
-                        <li><i class="fa fa-home mr-2"></i> My company</li>
-                        <li><i class="fa fa-envelope mr-2"></i> email@example.com</li>
-                        <li><i class="fa fa-phone mr-2"></i> + 33 12 14 15 16</li>
-                        <li><i class="fa fa-print mr-2"></i> + 33 12 14 15 16</li>
-                    </ul>
-                </div>
-                <div class="col-12 copyright mt-3">
-                    <p class="float-left">
-                        <a href="#">Back to top</a>
-                    </p>
-                    <p class="text-right text-muted">created with <i class="fa fa-heart"></i> by <a href="https://t-php.fr/43-theme-ecommerce-bootstrap-4.html"><i>t-php</i></a> | <span>v. 1.0</span></p>
+                <div class="modal-body" id="smallBody">
+                    <div>
+                    {{--                        @include('stocks.show')--}}
+                    <!-- the result to be displayed apply here -->
+                        {{--   .................--}}
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>-->
-    {{--</div>--}}
+    </div>
+
+
+    <!-- medium modal -->
+    <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="mediumBody">
+                    <div>
+                        <!-- the result to be displayed apply here -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // display a modal (small modal)
+        $(document).on('click', '#smallButton', function (event) {
+            event.preventDefault();
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href,
+                beforeSend: function () {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function (result) {
+                    $('#smallModal').modal("show");
+                    $('#smallBody').html(result).show();
+                },
+                complete: function () {
+                    $('#loader').hide();
+                },
+                error: function (jqXHR, testStatus, error) {
+                    console.log(error);
+                    alert("Page " + href + " cannot open. Error:" + error);
+                    $('#loader').hide();
+                },
+                timeout: 8000
+            })
+        });
+        // display a modal (medium modal)
+        $(document).on('click', '#mediumButton', function (event) {
+            event.preventDefault();
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href,
+                beforeSend: function () {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function (result) {
+                    $('#mediumModal').modal("show");
+                    $('#mediumBody').html(result).show();
+                },
+                complete: function () {
+                    $('#loader').hide();
+                },
+                error: function (jqXHR, testStatus, error) {
+                    console.log(error);
+                    alert("Page " + href + " cannot open. Error:" + error);
+                    $('#loader').hide();
+                },
+                timeout: 8000
+            })
+        });
+    </script>
+
 @endsection

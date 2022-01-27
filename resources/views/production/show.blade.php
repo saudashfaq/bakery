@@ -46,25 +46,16 @@
             <h2 class="font-weight-bold">Produce Detail </h2>
         </div>
 
-        {{-- <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('projects.index') }}" title="Go back"> <i
-                    class="fas fa-backward "></i> </a>
-        </div> --}}
     </div>
 </div>
-{{--{{dd('produce page')}}--}}
-{{--.................................................--}}
-{{--    {{$products}}--}}
-{{--.................................--}}
+
 @if ($message = Session::get('success'))
     <div class="alert alert-success">
         <p>{{ $message }}</p>
     </div>
 @endif
-{{--...............--}}
-<div>
-    {{--        {{$products->title}}--}}
-</div>
+
+
 <table class="table table-bordered table-responsive-lg table-hover">
     <thead class="thead-dark">
     {{--            <div class="align-content-center"><h2>  Product recipe </h2></div>--}}
@@ -78,13 +69,8 @@
     <tbody>
 
     <tr>
-
         <td>{{$parent_product->title}}</td>
         <td>{{$parent_product->category->name}}</td>
-        {{--            <td>{{$products->size}}</td>--}}
-        {{--            <td>{{$value['unit']}}</td>--}}
-
-
     </tr>
 
     </tbody>
@@ -92,10 +78,6 @@
 <div class="text-center font-weight-bolder">
     <h3 class="font-weight-bold">Select Product Attribute to show Recipe </h3>
 </div>
-<!-- Input for required quantity of product produce -->
-
-{{--{!! Form::open(['action' => ['App\Http\Controllers\ProductionController@storeProducedProduct' , $parent_product->id ] , 'method' => 'POST']) !!}--}}
-{{--<form>--}}
 <div class="form-group">
 <div id="showRecipe">
     <div class="col-md-13">
@@ -112,19 +94,9 @@
 
             @endforeach
         </select>
-        {{--                {{$product_attribute->name}}--}}
-        {{--        {{Form::label('size', 'Select the Size')}}<br>--}}
-        {{--        {{Form::select('size' , ['class' =>  'form-control' , 'placeholder' => 'Size' ]) }}--}}
     </div>
 </div>
 </div>
-{{--    <div align="center">--}}
-
-{{--    <button  class="btn btn-block btn-success " style="width:450px; " onclick="check()"> Show Recipe</button>--}}
-{{--</div>--}}
-{{--{{Form::submit('submit', ['class' =>  'btn btn-primary'])}}--}}
-{{--        {{Form::hidden('_method' , 'PUT')}}--}}
-{{--{!! Form::close() !!}--}}
 
 <script>
 
