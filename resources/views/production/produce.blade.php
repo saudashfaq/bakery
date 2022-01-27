@@ -54,21 +54,10 @@
         <div class="text-center font-weight-bolder">
             <h3 class="font-weight-bold">Require Product Quantity</h3>
         </div>
-        <!-- Input for required quantity of product produce -->
-        {{--{!! Form::open(['action' => 'App\Http\Controllers\ProductsController@store' , 'method' => 'POST', 'files'=> true]) !!}--}}
+
         {!! Form::open(['action' => ['App\Http\Controllers\ProductionController@storeProducedProduct' , $parent_product->id ] , 'method' => 'POST']) !!}
 
         <div class="form-group">
-{{--            @foreach($product_attributes as $product_attribute)--}}
-
-{{--                @foreach($product_attribute->attributes as $key => $value)--}}
-{{--                    {{$value->attributeHeads->name}}--}}
-{{--                    {{$value->name}}--}}
-
-
-{{--                @endforeach--}}
-{{--                --}}{{--                {{dd('stop')}}--}}
-{{--            @endforeach--}}
 
             <div class="col-md-13">
                 <label for="size">Select the Product: </label><br>
@@ -101,12 +90,3 @@
         {{--        {{Form::hidden('_method' , 'PUT')}}--}}
         {!! Form::close() !!}
 
-{{--    </div>--}}
-{{--@endsection--}}
-
-
-{{--attributes select for produce --}}
-
-{{--<option value="">Select product</option>--}}
-{{--<option  value=""> @foreach($product_attributes->attributes as $product_attribute ){{$product_attribute->attributeHeads->name }} : {{$product_attribute->name .','}}  @endforeach</option>--}}
-{{--<option value="">abc xyz</option>--}}

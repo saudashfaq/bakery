@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Attribute;
 use App\Models\Attribute_head;
+use App\Models\Brand_outlet;
 use App\Models\Category;
 use App\Models\Inventory;
+use App\Models\Outlet;
 use App\Models\Product;
 use App\Models\Parent_product;
+use App\Models\Product_outlet;
 use App\Models\Production;
 use App\Models\Stock;
 use App\Models\Product_stock;
 use App\Models\Unit;
+use App\Models\User;
 use Doctrine\DBAL\Portability\Converter;
 use Facade\FlareClient\View;
 use Faker\Core\File;
@@ -29,6 +33,7 @@ use App\Http\Requests\CreateReadyMadeProductRequest;
 
 class ProductionController extends Controller
 {
+    public $total_orders = 0;
     public function __construct()
     {
         $this->middleware('auth');
@@ -38,7 +43,7 @@ class ProductionController extends Controller
     public function index()
     {
 
-        $parent_products = Parent_product::latest()->where('user_account_id' , auth()->user()->user_account_id)->with('category')->get();
+        $parent_products = Parent_product::latest()->where('user_account_id', auth()->user()->user_account_id)->with('category')->get();
 
         return view('production.index')->with('parent_products', $parent_products);
 //        return view('sample')->with('parent_products', $parent_products);
@@ -50,10 +55,10 @@ class ProductionController extends Controller
     {
 
         $units = Unit::all();
-        $stocks = Stock::where('user_account_id' , auth()->user()->user_account_id)->get();
-        $categories = Category::where('user_account_id' , auth()->user()->user_account_id)->get();
+        $stocks = Stock::where('user_account_id', auth()->user()->user_account_id)->get();
+        $categories = Category::where('user_account_id', auth()->user()->user_account_id)->get();
         $attributeHeads = Attribute_head::with('attributes')
-            ->where('user_account_id' , auth()->user()->user_account_id)->get();
+            ->where('user_account_id', auth()->user()->user_account_id)->get();
 
         return view('production.create', compact('attributeHeads'))->with('units', $units)->with('stocks', $stocks)->with('categories', $categories);
 
@@ -94,6 +99,8 @@ class ProductionController extends Controller
 
             $products = new Product();
             $products->parent_product_id = $parent_product->id;
+            $products->user_id = auth()->user()->id;
+            $products->user_account_id = auth()->user()->user_account_id;
             $products->save();
 
             /*for attributs save in product_attributes table */
@@ -139,13 +146,6 @@ class ProductionController extends Controller
 
 //todo
 
-//            $units = [];
-//            foreach ($products->units as $unit) {
-//                $unit = $unit->name;
-//                array_push($units, $unit);
-//            }
-
-
         return view('production.show', compact('product_attributes'))->with('parent_product', $parent_product);
 
     }
@@ -165,6 +165,25 @@ class ProductionController extends Controller
 
     public function storeProducedProduct(Request $request, $id, Stock $stock)
     {
+        /*for set selling price or reset selling  price of inventory products */
+//dd($id);
+//        if ($request->selling_price_per_piece || $request->reset_price_per_piece ){
+        if ($request->selling_price_per_piece) {
+            $inventory = Inventory::find($id);
+            $inventory->selling_price_per_piece = $request->selling_price_per_piece;
+            $inventory->update();
+
+            return redirect()->back()->with('success', 'Price set successfully');
+        }
+        if ($request->reset_price_per_piece) {
+//                dd('reset');
+            $inventory = Inventory::find($id);
+            $inventory->selling_price_per_piece = $request->reset_price_per_piece;
+            $inventory->update();
+
+            return redirect()->back()->with('success', 'Price Reset successfully');
+        }
+//        }
 
 
         $this->validate($request, [
@@ -177,7 +196,6 @@ class ProductionController extends Controller
         $products = Product::with(['stocks', 'units'])->where('id', '=', $request->product_id)->first();
 
 
-
         $unitInPivot = [];
 
         foreach ($products->units as $unit_id) {
@@ -188,7 +206,7 @@ class ProductionController extends Controller
 
         $costPerPiece = 0;
         foreach ($products->stocks as $key => $stock) {
-
+//dd($products->stocks);
             $stock_units = $stock->unit->name;
 //            $unit_of_pivot = $stock->pivot->unit_id;
             //pivot unit conversion into actual unit
@@ -221,7 +239,7 @@ class ProductionController extends Controller
                 // dump($calculate);
             } else {
 
-                $product = $stock->price/1;
+                $product = $stock->price / 1;
                 $costPerPiece += $product * $convertedValues;
 //                $product = $stock->price/1000 ;
 //                $calculate += $product * $stock->pivot->quantity;
@@ -238,13 +256,10 @@ class ProductionController extends Controller
             $inventory = Inventory::updateOrCreate([
                 'product_id' => $products->id,
 
-        // dump('Total', $calculate);
-
-
-            ],[
+            ], [
                 'product_id' => $products->id,
-                'finished_goods' => $request->get('require_quantity') + $inventories->finished_goods,
-                'piece_per_cost'=>$costPerPiece
+                'product_quantity' => $request->get('require_quantity') + $inventories->product_quantity,
+                'cost_per_piece' => $costPerPiece
 
             ]);
 
@@ -258,9 +273,9 @@ class ProductionController extends Controller
 
             ], [
                 'product_id' => $products->id,
-                'finished_goods' => $request->get('require_quantity'),
-                'piece_per_cost'=>$costPerPiece,
-                'user_account_id' =>  auth()->user()->user_account_id,
+                'product_quantity' => $request->get('require_quantity'),
+                'cost_per_piece' => $costPerPiece,
+                'user_account_id' => auth()->user()->user_account_id,
                 'user_id' => auth()->user()->id
 
             ]);
@@ -268,6 +283,7 @@ class ProductionController extends Controller
             return redirect()->route('inventory')->with('success', 'Produced Successfully');
         }
     }
+
 
 
     /* TODO method for Edit product '*/
@@ -349,7 +365,7 @@ class ProductionController extends Controller
 
         }
 
-        return view('production.editrecipe',compact('parent_product'))->with('products', $products)->with('inventory_productIds', $inventory_productIds);
+        return view('production.editrecipe', compact('parent_product'))->with('products', $products)->with('inventory_productIds', $inventory_productIds);
 
     }
 
@@ -388,11 +404,10 @@ class ProductionController extends Controller
 //        }
 
 //        else {
-            $unitAll = Unit::all();
-            $stocks = Stock::all();
+        $unitAll = Unit::all();
+        $stocks = Stock::all();
 
-            return view('production.editablerecipe', compact('products'))->with('stocks', $stocks)->with('unitAll', $unitAll)->with('pivotStocks', $pivotStocks)->with('pivotunit_id', $pivotunit_id);
-
+        return view('production.editablerecipe', compact('products'))->with('stocks', $stocks)->with('unitAll', $unitAll)->with('pivotStocks', $pivotStocks)->with('pivotunit_id', $pivotunit_id);
 
 
     }
@@ -450,7 +465,7 @@ class ProductionController extends Controller
 
     public function showInventory()
     {
-        $inventories = Inventory::latest()->where('user_account_id' , auth()->user()->user_account_id)->with(['products.parent_product', 'products.attributes.attributeHeads'])->get();
+        $inventories = Inventory::latest()->where('user_account_id', auth()->user()->user_account_id)->with(['products.parent_product', 'products.attributes.attributeHeads'])->get();
 
         return view('inventory.showinventory')->with("inventories", $inventories);
 
@@ -459,8 +474,8 @@ class ProductionController extends Controller
     public function createReadyMadeProduct()
     {
 //        $sizes = Size::all();
-        $attributeHeads = Attribute_head::with('attributes')->where('user_account_id' , auth()->user()->user_account_id)->get();
-        $categories = Category::where('user_account_id' , auth()->user()->user_account_id)->get();
+        $attributeHeads = Attribute_head::with('attributes')->where('user_account_id', auth()->user()->user_account_id)->get();
+        $categories = Category::where('user_account_id', auth()->user()->user_account_id)->get();
 
         return view('production.createreadymadeproduct')->with('categories', $categories)->with('attributeHeads', $attributeHeads);
 
@@ -518,5 +533,118 @@ class ProductionController extends Controller
         return view('production.searchproduct')->with('parent_products', $parent_products);
 
     }
+
+    public function assignInventory($id)
+    {
+        $product = Product::find($id);
+
+        $outlets = Outlet::where('user_account_id', auth()->user()->user_account_id)->latest()->get();
+        return view('inventory.assigning', compact('outlets'))->with('product', $product);
+
+    }
+
+    public function assigning(Request $request, $id)
+    {
+
+        $product = Product::with('inventories')->find($id);
+//         dd($product->inventories);
+         foreach ($product->inventories as$product_inventory ){
+            $selling_price = $product_inventory->selling_price_per_piece;
+         }
+        $product->outlets()->attach($request->outlet_id, ['product_quantity' => $request->product_quantity, 'status' => '1',
+            'assigned_by_user_id' => auth()->user()->id, 'received_by_user_id' => null,
+            'selling_price' => $selling_price]);
+
+        return redirect()->back()->with('message', 'assigned sucessfully');
+
+    }
+
+    public function showOutgoingProduct()
+    {
+        $all_outgoing_product_to_outlets = [];
+        $all_product_detail = [];
+          $total_orders = 0 ;
+        // fetching outgoing/assigned products from pivot table (relation method is outlets).
+        $products = Product::with(['outlets'])->where('user_account_id', auth()->user()->user_account_id)->get();
+
+        foreach ($products as $product) {
+
+            $outgoing_product_to_outlets = $product->outlets;
+//            dd($outgoing_product_to_outlets);
+
+            foreach ($outgoing_product_to_outlets as $key => $outgoing_product_to_outlet) {
+                $total_orders ++;
+                array_push($all_outgoing_product_to_outlets, $outgoing_product_to_outlet);
+
+                $product_detail = Product::with(['attributes.attributeHeads', 'parent_product.category'])->where('id', $outgoing_product_to_outlet->pivot->product_id)->get();
+                array_push($all_product_detail, $product_detail[0]);
+            }
+        }
+
+
+//        foreach ($all_outgoing_product_to_outlets as $key2 => $all_outgoing_product_to_outlet) {
+//            dump($all_outgoing_product_to_outlet->pivot->id);
+//                dd('stop');
+
+//            dump($all_product_detail[$key2]->attributes[0]->id);
+//            dump($all_product_detail[$key2]->parent_product->title);
+//
+////            dump($all_outgoing_product_to_outlet->id);
+//        }
+
+        return view('inventory.showoutgoingproduct', compact(['all_outgoing_product_to_outlets', 'all_product_detail']));
+
+
+    }
+
+    public function cancelAssignedProduct($id, $pivot_id)
+    {
+        $products = Product::findOrFail($id);
+
+        $products->outlets()->wherePivot('id', $pivot_id)->detach();
+        return redirect()->back()->with('success', 'Canceled Assigned Inventory');
+
+    }
+
+    public function sales()
+    {
+        $all_outgoing_product_to_outlets = [];
+        $all_product_detail = [];
+        $cost_price = [];
+        $total_sale = 0;
+        $total_profit = 0;
+        $success_order = 0;
+        $total_order = 0;
+        // fetching outgoing/assigned products from pivot table (relation method is outlets).
+        $products = Product::with(['outlets'])->where('user_account_id', auth()->user()->user_account_id)->get();
+
+        foreach ($products as $product) {
+            $total_order += $product->outlets->count();
+            $outgoing_product_to_outlets = $product->outlets()->wherePivot('status', 2)->get();
+
+            $success_order += $outgoing_product_to_outlets->count();
+
+            foreach ($outgoing_product_to_outlets as $key => $outgoing_product_to_outlet){
+              $total_sale += $outgoing_product_to_outlet->pivot->total_amount;
+
+                array_push($all_outgoing_product_to_outlets, $outgoing_product_to_outlet);
+
+                $product_detail = Product::with(['inventories','attributes.attributeHeads', 'parent_product.category'])->where('id', $outgoing_product_to_outlet->pivot->product_id)->get();
+                array_push($all_product_detail, $product_detail[0]);
+
+                $profit = $product_detail[0]->inventories[0]->selling_price_per_piece - $product_detail[0]->inventories[0]->cost_per_piece;
+
+                $total_profit += $profit * $outgoing_product_to_outlet->pivot->product_quantity;
+
+//                $success_order ++;
+            }
+        }
+
+
+        return view('sale.sales', compact(['all_outgoing_product_to_outlets' , 'all_product_detail' ,'total_sale','total_profit','success_order','total_order']));
+
+
+    }
+
 
 }

@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Attribute;
 use App\Models\Product;
-//use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\OutletsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,15 +18,15 @@ use App\Models\Product;
 */
 
 //for product show dynamically product recipe
-Route::get('/ajax-productRecipe', function (){
+Route::get('/ajax-productRecipe', function () {
     $product_id = Input::get('product_id');
-    $products = Product::with(['stocks','units'])->where('id' , '=' ,$product_id )->get();
+    $products = Product::with(['stocks', 'units'])->where('id', '=', $product_id)->get();
 
     return Response::json($products);
 
 });
 // for show attributes in fields when select head attributes in create product recipe form .
-Route::get('/ajax-attribute', function(){
+Route::get('/ajax-attribute', function () {
 
     $attributeHead_id = Input::get('attributeHead_id');
     $attribute = Attribute::where('attribute_head_id', '=', $attributeHead_id)->get();
@@ -81,9 +83,20 @@ Route::get('/search', 'App\Http\Controllers\ProductionController@search')->name(
 /*rout for inventory*/
 Route::get('produceproduct/{id}', 'App\Http\Controllers\ProductionController@produce')->name('produce.product');
 Route::post('/storeProducedProduct/{id}', 'App\Http\Controllers\ProductionController@storeProducedProduct')->name('storeProduced.Product');
-Route::get('showinventory', 'App\Http\Controllers\ProductionController@showInventory')->name('inventory');
+Route::get('/showinventory', 'App\Http\Controllers\ProductionController@showInventory')->name('inventory');
+
+/*assign inventory*/
+Route::get('/assignproduct{id}', 'App\Http\Controllers\ProductionController@assignInventory')->name('assign.product');
+Route::post('assigedinventory{id}', 'App\Http\Controllers\ProductionController@assigning')->name('assigned.inventory');
+Route::get('/showoutgoingproduct', 'App\Http\Controllers\ProductionController@showOutgoingProduct')->name('showoutgoing.product');
+Route::post('/cancelassignedproduct/{id}/{pivot_id}', 'App\Http\Controllers\ProductionController@cancelAssignedProduct')->name('cancel.assignedproduct');
+//Route::post('/cancelassignedproduct/{product_id assigned_id}', 'App\Http\Controllers\ProductionController@cancelAssignedProduct')->name('cancel.assignedproduct');
+
+/*for sales */
+Route::get('/sales','App\Http\Controllers\ProductionController@sales')->name('show.sales');
+
 /*Routes For Attributes */
-Route::get('attribute/index' , 'App\Http\Controllers\Attributecontroller@index')->name('attributes.index');
+Route::get('attribute/index', 'App\Http\Controllers\Attributecontroller@index')->name('attributes.index');
 Route::get('/createattribute', 'App\Http\Controllers\Attributecontroller@createAttribute')->name('create.attribute');
 Route::post('/storeattribute', 'App\Http\Controllers\Attributecontroller@storeAttribute')->name('store.attribute');
 Route::get('/editattribute{id}', 'App\Http\Controllers\Attributecontroller@editAttribute')->name('edit.attribute');
@@ -92,18 +105,23 @@ Route::get('/createcategory', 'App\Http\Controllers\Attributecontroller@createCa
 Route::post('/storecategory', 'App\Http\Controllers\Attributecontroller@storeCategory')->name('store.category');
 
 /*USER */
-Route::get('user/profile' , 'App\Http\Controllers\Admin\UserController@profile')->name('profile');
-Route::get('profile/edit' , 'App\Http\Controllers\Admin\UserController@edit')->name('admin.profileedit');
-Route::post('profileupdate/{id}' , 'App\Http\Controllers\Admin\UserController@update')->name('admin.profileupdate');
-Route::get('companydetail/edit' , 'App\Http\Controllers\Admin\UserController@companyDetailEdit')->name('admin.companyDetailEdit');
-Route::post('companydetailupdate/{id}' , 'App\Http\Controllers\Admin\UserController@companyDetailUpdate')->name('admin.companyDetailUpdate');
-Route::get('admin/users' , 'App\Http\Controllers\Admin\UserController@users')->name('admin.users');
-Route::get('create/newuser' , 'App\Http\Controllers\Admin\UserController@createNewUser')->name('create.newuser');
-Route::post('store/newuser' , 'App\Http\Controllers\Admin\UserController@storeNewUser')->name('store.newuser');
-Route::get('edit/user{id}' , 'App\Http\Controllers\Admin\UserController@editUser')->name('edit.user');
-Route::put('update/user/{id}' , 'App\Http\Controllers\Admin\UserController@updateUser')->name('update.user');
-Route::delete('delete/user/{id}' , 'App\Http\Controllers\Admin\UserController@deleteUser')->name('delete.user');
-/* / USER */
+Route::get('user/profile', 'App\Http\Controllers\Admin\UserController@profile')->name('profile');
+Route::get('profile/edit', 'App\Http\Controllers\Admin\UserController@edit')->name('admin.profileedit');
+Route::post('profileupdate/{id}', 'App\Http\Controllers\Admin\UserController@update')->name('admin.profileupdate');
+Route::get('companydetail/edit', 'App\Http\Controllers\Admin\UserController@companyDetailEdit')->name('admin.companyDetailEdit');
+Route::post('companydetailupdate/{id}', 'App\Http\Controllers\Admin\UserController@companyDetailUpdate')->name('admin.companyDetailUpdate');
+Route::get('admin/users', 'App\Http\Controllers\Admin\UserController@users')->name('admin.users');
+Route::get('create/newuser', 'App\Http\Controllers\Admin\UserController@createNewUser')->name('create.newuser');
+Route::post('store/newuser', 'App\Http\Controllers\Admin\UserController@storeNewUser')->name('store.newuser');
+Route::get('edit/user{id}', 'App\Http\Controllers\Admin\UserController@editUser')->name('edit.user');
+Route::put('update/user/{id}', 'App\Http\Controllers\Admin\UserController@updateUser')->name('update.user');
+Route::delete('delete/user/{id}', 'App\Http\Controllers\Admin\UserController@deleteUser')->name('delete.user');
+/* /end USER */
+/*Route For outlet*/
+Route::get('/indexoutlet', 'App\Http\Controllers\OutletsController@index')->name('index.outlet');
+Route::get('/createoutlet', 'App\Http\Controllers\OutletsController@createOutlet')->name('create.outlet');
+Route::post('/storeoutlet', 'App\Http\Controllers\OutletsController@storeOutlet')->name('store.outlet');
+
 /*user resource route */
 //Route::resource('/user' ,'App\Http\Controllers\Admin\UserController' );
 

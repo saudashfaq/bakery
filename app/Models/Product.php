@@ -20,12 +20,28 @@ class Product extends Model
     public function stocks()
     {
 
-
-        return $this->belongsToMany(Stock::class, 'product_stocks', 'product_id', 'stock_id' )->withPivot('quantity' , 'unit_id');
+        return $this->belongsToMany(Stock::class, 'product_stocks', 'product_id', 'stock_id' )->withPivot('quantity' , 'unit_id')->withTimestamps();;
     }
+
     public function attributes (){
+
         return $this->belongsToMany(Attribute::class , 'product_attributes' , 'product_id' , 'attribute_id');
     }
+    public function outlets(){
+
+        return $this->belongsToMany(Outlet::class ,'product_outlets' , 'product_id','outlet_id')->withPivot('id',
+            'product_quantity' ,
+            'status' ,
+            'assigned_by_user_id',
+            'received_by_user_id' ,
+            'rejected_by_user_id',
+            'selling_price',
+            'total_amount',
+            'received_date',
+            'rejected_date')->withTimestamps();
+    }
+//->as('subscription')
+//->withTimestamps();
 
     public function units()
     {
@@ -42,7 +58,6 @@ class Product extends Model
     {
         return $this->belongsToMany(Product_stock::class, 'product_stocks', 'product_id', 'stock_id');
     }
-
 
 
     // create products relationship with category

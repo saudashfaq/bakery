@@ -71,10 +71,29 @@
 
                     </ul>
                 </li>
-                <li><a><i class="fa fa-edit"></i> Inventory <span class="fa fa-chevron-down"></span></a>
+                <li>
+                    <a><i class="fa fa-edit"></i> Inventory <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li>  <a href="/showinventory">Inventory</a></li>
+                        <li>  <a href="/showoutgoingproduct">Outgoing Products</a></li>
 
+
+                    </ul>
+                </li>
+                <li>
+                    <a><i class="fa fa-edit"></i> Sales <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li>  <a href="/sales">Sale</a></li>
+
+
+
+                    </ul>
+                </li>
+                <li>
+                    <a><i class="fa fa-edit"></i> Brands Outlet <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li>  <a href="/indexoutlet">Outlet</a></li>
+{{--                        <li>  <a href="/createoutlet">Create Outlet</a></li>--}}
 
                     </ul>
                 </li>
@@ -162,7 +181,7 @@
 
     <!-- /menu footer buttons -->
     <div class="sidebar-footer hidden-small">
-        <a data-toggle="tooltip" data-placement="top" title="Settings">
+        <a data-toggle="tooltip" data-placement="top" title="Settings" href="/">
             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
         </a>
         <a data-toggle="tooltip" data-placement="top" title="FullScreen">
