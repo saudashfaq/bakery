@@ -4,6 +4,8 @@
 @section('content')
 
 
+
+    {{--    {{dd($all_product_detail , $all_outgoing_product_to_outlets)}}--}}
     <div class="right_col" role="main">
         {{--    <!-- top tiles -->--}}
         {{--            <div class="row" style="display: inline-block;" >--}}
@@ -16,23 +18,20 @@
                 {{--                <div class="row">--}}
                 <div class="col-lg-12 margin-tb">
                     <div class="pull-left">
-                        <h4>Outgoing Products</h4>
+                        <h4>Orders </h4>
                     </div>
                 </div>
-{{--                <div style=" width:1100px; overflow-x: auto;">--}}
+                <div style=" width:1100px; overflow-x: auto;">
                     <table id="datatableid"
-                           class="table table-striped  table table-bordered table-responsive-lg table-hover myTable"
-                    >
+                           class="table table-striped  table table-bordered table-responsive-lg table-hover myTable">
                         <thead class="thead-dark">
                         <tr>
                             <th scope="col">Product</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Outlet</th>
+
                             <th scope="col" class="text-center">Quantity</th>
                             <th scope="col" style="width: 90px ">Status</th>
                             <th scope="col" style="width: 160px ">Assigned_by</th>
-                            <th scope="col">Received_by</th>
-                            <th scope="col">Rejected_by</th>
                             <th scope="col">Assigning Date</th>
                             <th scope="col">Receiving Date</th>
                             <th scope="col">Rejected Date</th>
@@ -53,7 +52,7 @@
                                          alt="cake image" width="80" height="60"></td>
                                 <td><strong> {{ $all_product_detail[$key]->parent_product->title}}</strong></td>
                                 {{--                                <td>{{$assigned_inventory->attributes->name}}</td>--}}
-                                <td>{{$all_outgoing_product_to_outlet->outlet_name}}</td>
+
                                 <td>{{$all_outgoing_product_to_outlet->pivot->product_quantity}}</td>
                                 @if($all_outgoing_product_to_outlet->pivot->status == 1)
                                     <td style="color:blue"> In Process</td>
@@ -64,33 +63,26 @@
                                 @endif
 
                                 <td>{{ App\Models\User::where(['id' => $all_outgoing_product_to_outlet->pivot->assigned_by_user_id])->pluck('name')->first() }}
-                                    </td>
+                                </td>
 
-                                @if($all_outgoing_product_to_outlet->pivot->received_by_user_id == !null)
+{{--                                @if($all_outgoing_product_to_outlet->pivot->received_by_user_id == !null)--}}
 
-                                    <td style="color: green">
-                                        <a data-toggle="tooltip" title="Received ">
-                                            {{ App\Models\User::where(['id' => $all_outgoing_product_to_outlet->pivot->received_by_user_id])->pluck('name')->first() }}
+{{--                                    <td style="color: green">--}}
+{{--                                        <a data-toggle="tooltip" title="Received ">--}}
+{{--                                            {{ App\Models\User::where(['id' => $all_outgoing_product_to_outlet->pivot->received_by_user_id])->pluck('name')->first() }}--}}
 
-                                        </a>
-                                    </td>
-                                @else
-                                    <td>
-                                        <a data-toggle="tooltip" title="Not Received ">
-                                            Not Recived
-                                        </a>
-                                    </td>
+{{--                                        </a>--}}
+{{--                                    </td>--}}
+{{--                                @else--}}
+{{--                                    <td>--}}
+{{--                                        <a data-toggle="tooltip" title="Not Received ">--}}
+{{--                                            Not Recived--}}
+{{--                                        </a>--}}
+{{--                                    </td>--}}
 
-                                @endif
-
-                                @if($all_outgoing_product_to_outlet->pivot->rejected_by_user_id == !null)
-
-                                    <td style="color:red;">{{ App\Models\User::where(['id' => $all_outgoing_product_to_outlet->pivot->rejected_by_user_id])->pluck('name')->first() }}</td>
-
-                                @else
-                                    <td>Not Rejected</td>
-                                @endif
+{{--                                @endif--}}
                                 <td>{{$all_outgoing_product_to_outlet->pivot->created_at->format("m-d-Y ")}}</td>
+
 
                                 @if($all_outgoing_product_to_outlet->pivot->received_date == !null)
                                     <td style="color:green;">{{ date("m-d-Y ", strtotime($all_outgoing_product_to_outlet->pivot->received_date))}}</td>
@@ -117,20 +109,26 @@
 
                                 {{--                                <td class="text-center" style="width:120px">bhxk</td>--}}
 
-                                {{--                                <form action="{{route('cancel.assignedproduct',$all_outgoing_product_to_outlet->pivot->product_id ,$all_outgoing_product_to_outlet->pivot->id/)}}" method="POST" >--}}
+{{--                                <form action="{{route('outlets.receivingOrders')}}" method="POST" >--}}
                                 <form
-                                    action="{{route('cancel.assignedproduct',['id'=>$all_outgoing_product_to_outlet->pivot->product_id ,'pivot_id'=>$all_outgoing_product_to_outlet->pivot->id])}}"
+                                    action="{{route('outlets.receivingOrders',['id'=>$all_outgoing_product_to_outlet->pivot->product_id ,'pivot_id'=>$all_outgoing_product_to_outlet->pivot->id])}}"
                                     method="POST">
-                                    <td>
-                                        @if($all_outgoing_product_to_outlet->pivot->received_by_user_id == !null ||
-                                                $all_outgoing_product_to_outlet->pivot->rejected_by_user_id == !null)
-                                            <button type="submit" class="btn btn-danger" disabled> Cancel</button>
-                                        @else
-                                            <button type="submit" onclick="return cancelAlert()" class="btn btn-danger">
-                                                Cancel
-                                            </button>
-                                        @endif
-                                    </td>
+
+{{--                                        @if($all_outgoing_product_to_outlet->pivot->received_by_user_id == !null ||--}}
+{{--                                                $all_outgoing_product_to_outlet->pivot->rejected_by_user_id == !null)--}}
+{{--                                            <button type="submit" class="btn btn-danger" disabled> Cancel</button>--}}
+{{--                                        @else--}}
+{{--                                            <button type="submit" onclick="return cancelAlert()" class="btn btn-danger">--}}
+{{--                                                Cancel--}}
+{{--                                            </button>--}}
+{{--                                        @endif--}}
+{{--                                    </td>--}}
+                                    <td>     <button type="submit" onclick="return cancelAlert()" class="btn btn-danger" name="cancel" value="cancel">
+                                            Cancel
+                                        </button>
+                                       <button type="submit" class="btn btn-success" name="Received" value="Received">
+                                            Received
+                                        </button></td>
                                     @csrf
                                 </form>
 
@@ -139,7 +137,7 @@
 
                         </tbody>
                     </table>
-{{--                </div>--}}
+                </div>
             </div>
 
         </div>

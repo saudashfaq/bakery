@@ -94,6 +94,9 @@ Route::post('/cancelassignedproduct/{id}/{pivot_id}', 'App\Http\Controllers\Prod
 
 /*for sales */
 Route::get('/sales','App\Http\Controllers\ProductionController@sales')->name('show.sales');
+/*for outlets receivcing products */
+Route::get('/outletsorders','App\Http\Controllers\ProductionController@outletsOrders')->name('outlets.Orders');
+Route::post('/receivinOrder/{id}/{pivot_id}','App\Http\Controllers\ProductionController@receivingOrder')->name('outlets.receivingOrders');
 
 /*Routes For Attributes */
 Route::get('attribute/index', 'App\Http\Controllers\Attributecontroller@index')->name('attributes.index');
