@@ -83,8 +83,6 @@ class RegisterController extends Controller
             'user_account_id'=> $user_account->id,
             'password' => Hash::make($data['password']),
 
-        ])
-
-            ;
+        ]);
     }
 }

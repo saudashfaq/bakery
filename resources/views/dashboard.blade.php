@@ -12,6 +12,29 @@
     </div>
     </div>
 
+
+   <script>
+       var constantVariable = 60;
+
+       console.log(constantVariable);
+        var  person = {
+            fname: 'hassan',
+            lname: 'afzal',
+            hobiees:['chess','cricket','footbal'],
+            address:{street: 'street # 3', house:'house no 621' , twon:'green twon gojra', religion:{hassan: 'islam' , ali: 'islam' , jhon: 'none_muslim'
+                }}
+        }
+        for (let i = 0 ; i<=10 ; i++){
+            console.log();
+        }
+
+        console.log(person.hobiees, person.address.house);
+        console.log(person.fname, person.lname, person.address.religion.hassan);
+
+
+   </script>
+
+
 {{--<h3>Dashboard</h3>--}}
 
 {{--        <a href="stock" class=" btn btn-primary"> Check stock Material  </a>--}}

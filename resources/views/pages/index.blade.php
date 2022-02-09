@@ -34,53 +34,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 {{--    <link rel="icon" href="images/favicon.ico" type="image/ico"/>--}}
 
-    <title>{{config('app.name' , 'Baker’s Bites')}}</title>
+{{--    <title>{{config('app.name' , 'Baker’s Bites')}}</title>--}}
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-{{--    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">--}}
-    <!-- NProgress -->
-{{--    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">--}}
-    <!-- iCheck -->
-{{--    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">--}}
-
-    <!-- bootstrap-progressbar -->
-{{--    <link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">--}}
-    <!-- JQVMap -->
-{{--    <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>--}}
-    <!-- bootstrap-daterangepicker -->
-{{--    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">--}}
-
-    <!-- Custom Theme Style -->
-{{--    <link href="../build/css/custom.min.css" rel="stylesheet">--}}
-
 
     <!-- for without theme header link  -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-{{--    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>--}}
-
-{{--    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>--}}
-
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>--}}
-{{--    <link rel="stylesheet"--}}
-{{--          href=" https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css">--}}
-{{--    <link rel="stylesheet"--}}
-{{--          href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"--}}
-{{--          integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">--}}
-    {{--    <link rel="stylesheet" href="{{asset('/css/app.css')}}">--}}
-{{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">--}}
-    {{--    for datata table link for boostrap 4 --}}
-{{--    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">--}}
 
     <title>{{config('app.name' , 'Baker’s Bites')}}</title>
 
-    {{--    ajax github--}}
-<!-- Script -->
 
-    {{--  Font Awesome JS --}}
-    {{--    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>--}}
-    {{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />--}}
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
     <!--/end for without theme header link  -->

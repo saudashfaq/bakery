@@ -5,7 +5,7 @@ use App\Models\Attribute;
 use App\Models\Product;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\OutletsController;
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -94,6 +94,9 @@ Route::post('/cancelassignedproduct/{id}/{pivot_id}', 'App\Http\Controllers\Prod
 
 /*for sales */
 Route::get('/sales','App\Http\Controllers\ProductionController@sales')->name('show.sales');
+/*for outlets receivcing products */
+Route::get('/outletsorders','App\Http\Controllers\ProductionController@outletsOrders')->name('outlets.Orders');
+Route::post('/receivinOrder/{id}/{pivot_id}','App\Http\Controllers\ProductionController@receivingOrder')->name('outlets.receivingOrders');
 
 /*Routes For Attributes */
 Route::get('attribute/index', 'App\Http\Controllers\Attributecontroller@index')->name('attributes.index');
@@ -121,6 +124,28 @@ Route::delete('delete/user/{id}', 'App\Http\Controllers\Admin\UserController@del
 Route::get('/indexoutlet', 'App\Http\Controllers\OutletsController@index')->name('index.outlet');
 Route::get('/createoutlet', 'App\Http\Controllers\OutletsController@createOutlet')->name('create.outlet');
 Route::post('/storeoutlet', 'App\Http\Controllers\OutletsController@storeOutlet')->name('store.outlet');
+
+/* For E site */
+Route::get('/indexsite{user}{id}/' ,'App\Http\Controllers\Website\WebsiteController@index')->name('product.Detail');
+
+//Route::get('/productdetail' ,'App\Http\Controllers\Website\WebsiteController@productDetail')->name('product.Detail');
+Route::get('/indexsite/productdetail{id}' ,'App\Http\Controllers\Website\WebsiteController@productDetail')->name('product.Detail');
+Route::get('/indexsite/shop' ,'App\Http\Controllers\Website\WebsiteController@shop')->name('shop');
+
+Route::get('indexsite/cart' ,'App\Http\Controllers\Website\WebsiteController@cart')->name('product.addcart');
+Route::post('storecart' ,'App\Http\Controllers\Website\WebsiteController@storeCart')->name('store.cart');
+Route::get('indexsite/checkout' ,'App\Http\Controllers\Website\WebsiteController@checkout')->name('ckeckout.page');
+
+//Route::get('shippingcharges' ,function (){
+//    return view('website.shippingcharges');
+//        })->name('shippingcharges.page');
+
+Route ::post('indexsite/billingdetail','App\Http\Controllers\Website\WebsiteController@billingDetail' )->name('order.billingdetail');
+Route::get('indexsite/orderdetailpage', 'App\Http\Controllers\Website\WebsiteController@orderDetail' )->name('order.details');
+
+//    Route::get('/indexsite',function (){
+//       return view('indexsite');
+//    });
 
 /*user resource route */
 //Route::resource('/user' ,'App\Http\Controllers\Admin\UserController' );

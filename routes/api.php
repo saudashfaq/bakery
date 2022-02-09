@@ -20,5 +20,5 @@ Route::middleware('auth:sanctum')->get('/admin', function (Request $request) {
 });
 
 
-Route::get('firstapi' , [ApiController::class , 'getApi']);
-Route::post('addcategory' , [ApiController::class , 'addCategory']);
+//Route::get('firstapi' , [ApiController::class , 'getApi']);
+//Route::post('addcategory' , [ApiController::class , 'addCategory']);

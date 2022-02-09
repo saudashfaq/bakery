@@ -34,6 +34,7 @@ use App\Http\Requests\CreateReadyMadeProductRequest;
 class ProductionController extends Controller
 {
     public $total_orders = 0;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -548,9 +549,9 @@ class ProductionController extends Controller
 
         $product = Product::with('inventories')->find($id);
 //         dd($product->inventories);
-         foreach ($product->inventories as$product_inventory ){
+        foreach ($product->inventories as $product_inventory) {
             $selling_price = $product_inventory->selling_price_per_piece;
-         }
+        }
         $product->outlets()->attach($request->outlet_id, ['product_quantity' => $request->product_quantity, 'status' => '1',
             'assigned_by_user_id' => auth()->user()->id, 'received_by_user_id' => null,
             'selling_price' => $selling_price]);
@@ -563,7 +564,7 @@ class ProductionController extends Controller
     {
         $all_outgoing_product_to_outlets = [];
         $all_product_detail = [];
-          $total_orders = 0 ;
+        $total_orders = 0;
         // fetching outgoing/assigned products from pivot table (relation method is outlets).
         $products = Product::with(['outlets'])->where('user_account_id', auth()->user()->user_account_id)->get();
 
@@ -573,7 +574,7 @@ class ProductionController extends Controller
 //            dd($outgoing_product_to_outlets);
 
             foreach ($outgoing_product_to_outlets as $key => $outgoing_product_to_outlet) {
-                $total_orders ++;
+                $total_orders++;
                 array_push($all_outgoing_product_to_outlets, $outgoing_product_to_outlet);
 
                 $product_detail = Product::with(['attributes.attributeHeads', 'parent_product.category'])->where('id', $outgoing_product_to_outlet->pivot->product_id)->get();
@@ -624,12 +625,12 @@ class ProductionController extends Controller
 
             $success_order += $outgoing_product_to_outlets->count();
 
-            foreach ($outgoing_product_to_outlets as $key => $outgoing_product_to_outlet){
-              $total_sale += $outgoing_product_to_outlet->pivot->total_amount;
+            foreach ($outgoing_product_to_outlets as $key => $outgoing_product_to_outlet) {
+                $total_sale += $outgoing_product_to_outlet->pivot->total_amount;
 
                 array_push($all_outgoing_product_to_outlets, $outgoing_product_to_outlet);
 
-                $product_detail = Product::with(['inventories','attributes.attributeHeads', 'parent_product.category'])->where('id', $outgoing_product_to_outlet->pivot->product_id)->get();
+                $product_detail = Product::with(['inventories', 'attributes.attributeHeads', 'parent_product.category'])->where('id', $outgoing_product_to_outlet->pivot->product_id)->get();
                 array_push($all_product_detail, $product_detail[0]);
 
                 $profit = $product_detail[0]->inventories[0]->selling_price_per_piece - $product_detail[0]->inventories[0]->cost_per_piece;
@@ -639,12 +640,66 @@ class ProductionController extends Controller
 //                $success_order ++;
             }
         }
-
-
-        return view('sale.sales', compact(['all_outgoing_product_to_outlets' , 'all_product_detail' ,'total_sale','total_profit','success_order','total_order']));
+        return view('sale.sales', compact(['all_outgoing_product_to_outlets', 'all_product_detail', 'total_sale', 'total_profit', 'success_order', 'total_order']));
 
 
     }
+
+    public function outletsOrders()
+    {
+
+        $all_outgoing_product_to_outlets = [];
+        $all_product_detail = [];
+        $total_orders = 0;
+        // fetching outgoing/assigned products from pivot table (relation method is outlets).
+        $products = Product::with(['outlets'])->where('user_account_id', auth()->user()->user_account_id)->get();
+
+        foreach ($products as $product) {
+
+//            $outgoing_product_to_outlets = $product->outlets;
+//            $outgoing_product_to_outlets = $product->outlets()->where('manager_email',auth()->user()->email)->get();
+            $outgoing_product_to_outlets = $product->outlets()->where('manager_email', 'ali123@gmail.com')->get();
+
+
+            foreach ($outgoing_product_to_outlets as $key => $outgoing_product_to_outlet) {
+                array_push($all_outgoing_product_to_outlets, $outgoing_product_to_outlet);
+
+                $product_detail = Product::with(['attributes.attributeHeads', 'parent_product.category'])->where('id', $outgoing_product_to_outlet->pivot->product_id)->get();
+                array_push($all_product_detail, $product_detail[0]);
+            }
+        }
+
+//dd('stop running');
+        return view('inventory.outletorder', compact(['all_outgoing_product_to_outlets', 'all_product_detail']));
+
+
+    }
+
+    public function receivingOrder(Request $request, $id, $pivot_id)
+    {
+
+        //for cancel order
+        if ($request->cancel) {
+
+            $products = Product::findOrFail($id);
+
+            $products->outlets()->wherePivot('id', $pivot_id)->updateExistingPivot($pivot_id, ['rejected_by_user_id' => auth()->user()->id, 'rejected_date' => now(), 'status' => 3]);
+            return redirect()->back()->with('success', 'Order is Canceled ');
+        }
+        //received orders
+        if ($request->Received) {
+
+            $products = Product::findOrFail($id);
+
+            $products->outlets()->wherePivot('id', $pivot_id)->updateExistingPivot($pivot_id, ['received_by_user_id' => auth()->user()->id, 'received_date' => now(), 'status' => 2]);
+            return redirect()->back()->with('success', 'Order is Received  ');
+        }
+
+    }
+//    public function shippingCharges(){
+//
+//
+//    }
 
 
 }

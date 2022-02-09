@@ -4,8 +4,6 @@
 @section('content')
 
 
-
-    {{--    {{dd($all_product_detail , $all_outgoing_product_to_outlets)}}--}}
     <div class="right_col" role="main">
         {{--    <!-- top tiles -->--}}
         {{--            <div class="row" style="display: inline-block;" >--}}
@@ -21,7 +19,7 @@
                         <h4>Outgoing Products</h4>
                     </div>
                 </div>
-                <div style=" width:1100px; overflow-x: auto;">
+{{--                <div style=" width:1100px; overflow-x: auto;">--}}
                     <table id="datatableid"
                            class="table table-striped  table table-bordered table-responsive-lg table-hover myTable"
                     >
@@ -141,7 +139,7 @@
 
                         </tbody>
                     </table>
-                </div>
+{{--                </div>--}}
             </div>
 
         </div>
@@ -149,101 +147,6 @@
 
     {{--..........................modal ......--}}
 
-    <!-- small modal -->
-    <div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="smallBody">
-                    <div>
-                    {{--                        @include('stocks.show')--}}
-                    <!-- the result to be displayed apply here -->
-                        {{--   .................--}}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- medium modal -->
-    <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="mediumBody">
-                    <div>
-                        <!-- the result to be displayed apply here -->
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <script>
-        // display a modal (small modal)
-        $(document).on('click', '#smallButton', function (event) {
-            event.preventDefault();
-            let href = $(this).attr('data-attr');
-            $.ajax({
-                url: href,
-                beforeSend: function () {
-                    $('#loader').show();
-                },
-                // return the result
-                success: function (result) {
-                    $('#smallModal').modal("show");
-                    $('#smallBody').html(result).show();
-                },
-                complete: function () {
-                    $('#loader').hide();
-                },
-                error: function (jqXHR, testStatus, error) {
-                    console.log(error);
-                    alert("Page " + href + " cannot open. Error:" + error);
-                    $('#loader').hide();
-                },
-                timeout: 8000
-            })
-        });
-        // display a modal (medium modal)
-        $(document).on('click', '#mediumButton', function (event) {
-            event.preventDefault();
-            let href = $(this).attr('data-attr');
-            $.ajax({
-                url: href,
-                beforeSend: function () {
-                    $('#loader').show();
-                },
-                // return the result
-                success: function (result) {
-                    $('#mediumModal').modal("show");
-                    $('#mediumBody').html(result).show();
-                },
-                complete: function () {
-                    $('#loader').hide();
-                },
-                error: function (jqXHR, testStatus, error) {
-                    console.log(error);
-                    alert("Page " + href + " cannot open. Error:" + error);
-                    $('#loader').hide();
-                },
-                timeout: 8000
-            })
-        });
-    </script>
 
 
 @endsection
