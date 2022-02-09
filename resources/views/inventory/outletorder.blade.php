@@ -4,11 +4,9 @@
 @section('content')
 
 
-
-    {{--    {{dd($all_product_detail , $all_outgoing_product_to_outlets)}}--}}
     <div class="right_col" role="main">
         {{--    <!-- top tiles -->--}}
-        {{--            <div class="row" style="display: inline-block;" >--}}
+{{--                    <div class="row" style="display: inline-block;" >--}}
         <div class="x_panel tile  ">
 
             {{--            <div class="main">--}}
@@ -143,7 +141,6 @@
         </div>
     </div>
 
-    {{--..........................modal ......--}}
 
 
 

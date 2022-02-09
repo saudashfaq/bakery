@@ -16,10 +16,10 @@ class PagesController extends Controller
 //        $this->middleware('auth');
 //    }
 
-    public function theme(){
-
-        return view('index');
-    }
+//    public function theme(){
+//
+//        return view('index');
+//    }
     public function index()
     {
         //return 'INDEX HERE';

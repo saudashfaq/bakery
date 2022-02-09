@@ -90,9 +90,10 @@
                     </ul>
                 </li>
                 <li>
-                    <a><i class="fa fa-edit"></i> Orders <span class="fa fa-chevron-down"></span></a>
+                    <a><i class="fa fa-edit"></i> Orders Detail <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li>  <a href="/outletsorders">Orders</a></li>
+                        <li>  <a href="/outletsorders">Outlets Orders</a></li>
+                        <li>  <a href="indexsite/orderdetailpage">Website Orders</a></li>
 
 
 
@@ -103,6 +104,15 @@
                     <ul class="nav child_menu">
                         <li>  <a href="/indexoutlet">Outlet</a></li>
 {{--                        <li>  <a href="/createoutlet">Create Outlet</a></li>--}}
+
+                    </ul>
+                </li>
+                <li>
+                    <a><i class="fa fa-edit"></i> Shipping <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+{{--                        <li>  <a href="{{route('shippingcharges.page')}}"> Set Shipping Charges</a></li>--}}
+                        <li>  <a href="#"> Set Shipping Charges</a></li>
+                        {{--                        <li>  <a href="/createoutlet">Create Outlet</a></li>--}}
 
                     </ul>
                 </li>
@@ -181,7 +191,8 @@
                         </li>
                     </ul>
                 </li>
-                <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
+{{--                <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>--}}
+                <li><a href="/indexsiteuser={{auth()->user()->user_account_id}}"><i class="fa fa-laptop"></i> Website </a></li>
             </ul>
         </div>
 

@@ -27,6 +27,7 @@ class CreateProductOutletsTable extends Migration
             $table->string('selling_price');
             $table->string('total_amount')->nullable();
             $table->timestamps();
+
         });
     }
 

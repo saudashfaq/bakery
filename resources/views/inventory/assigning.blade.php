@@ -73,10 +73,6 @@
         <button type="submit" class="btn btn-block btn-success btn-large"> Assign
         </button>
     </div>
-    {{--<div class="text-center">--}}
-    {{--{{Form::submit('Assign', ['class' =>  'btn btn-primary'])}}--}}
-    {{--</div>--}}
-    {{--{!! Form::close() !!}--}}
 
     @csrf
 </form>

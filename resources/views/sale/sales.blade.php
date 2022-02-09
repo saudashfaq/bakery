@@ -2,7 +2,6 @@
 
 @section('content')
 
-
     <!-- page content -->
     <div class="right_col" role="main">
         <div class="row" style="display: inline-block;">
@@ -67,21 +66,6 @@
             </div>
         </div>
 
-
-
-        <!-- /page content -->
-
-        <!-- footer content -->
-{{--        <footer>--}}
-{{--            <div class="pull-right">--}}
-{{--                Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>--}}
-{{--            </div>--}}
-{{--            <div class="clearfix"></div>--}}
-{{--        </footer>--}}
-        <!-- /footer content -->
-
-
-
         <div class="x_panel tile ">
             <div class="main">
 
@@ -93,12 +77,6 @@
 
                     </div>
                 </div>
-
-                @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        <p>{{ $message }}</p>
-                    </div>
-                @endif
 
                 <table id="datatableid"  class="table table-bordered table-responsive-lg table-hover myTable ">
                     <thead class="thead-dark">
@@ -142,15 +120,9 @@
                     </tbody>
                 </table>
 
-                {{--    {!! $stocks->links() !!}--}}
-
             </div>
         </div>
     </div>
 
-    </div>
-{{--@endsection--}}
-
-    <!-- tableee       -->
 
 @endsection
